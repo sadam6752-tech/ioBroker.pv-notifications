@@ -77,6 +77,30 @@
       "md": 6,
       "lg": 6
     },
+    "monthlyProduction": {
+      "type": "text",
+      "label": "Produktion diesen Monat (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Produktion.currentMonth"
+    },
+    "monthlyConsumption": {
+      "type": "text",
+      "label": "Verbrauch diesen Monat (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Verbrauch.currentMonth"
+    },
+    "monthlyFeedIn": {
+      "type": "text",
+      "label": "Einspeisung diesen Monat (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Einspeisung.currentMonth"
+    },
     "_header_battery": {
       "type": "header",
       "text": "Batterie Konfiguration",
@@ -209,6 +233,42 @@
       "lg": 3,
       "default": "10:00",
       "tooltip": "Format: HH:MM (z.B. 10:00)"
+    },
+    "_header_monthly": {
+      "type": "header",
+      "text": "Monatsstatistik (Optional)",
+      "size": 2,
+      "sm": 12,
+      "md": 12,
+      "lg": 12
+    },
+    "monthlyStatsEnabled": {
+      "type": "checkbox",
+      "label": "Monatsstatistik aktivieren",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "default": false
+    },
+    "monthlyStatsDay": {
+      "type": "number",
+      "label": "Tag des Monats",
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
+      "min": 1,
+      "max": 31,
+      "default": 1,
+      "tooltip": "1-31 (z.B. 1 = Erster des Monats)"
+    },
+    "monthlyStatsTime": {
+      "type": "text",
+      "label": "Uhrzeit",
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
+      "default": "09:00",
+      "tooltip": "Format: HH:MM (z.B. 09:00)"
     },
     "_header_weather": {
       "type": "header",

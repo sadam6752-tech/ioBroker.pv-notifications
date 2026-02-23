@@ -68,7 +68,13 @@
     "weatherToday": "",
     "weatherTomorrow": "",
     "highProduction": 5000,
-    "highConsumption": 3000
+    "highConsumption": 3000,
+    "monthlyStatsEnabled": false,
+    "monthlyStatsDay": 1,
+    "monthlyStatsTime": "09:00",
+    "monthlyProduction": "",
+    "monthlyConsumption": "",
+    "monthlyFeedIn": ""
   },
   "objects": [
     {

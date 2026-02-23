@@ -10,8 +10,20 @@ Sendet Telegram-Benachrichtigungen für PV-Batteriestatus (voll, leer, Intermedi
 - 🌙 **Nachtmodus** (00:00-08:00): Nur 0% Benachrichtigungen
 - 📈 **Tagesstatistik** um konfigurierbare Zeit (Standard: 22:00)
 - 📅 **Wochenstatistik** am konfigurierbaren Wochentag
-- 🌤️ **Wetter-Prognose** Integration (optional)
+- 📆 **Monatsstatistik** (optional) am konfigurierbaren Tag
+- 🌤️ **Wetter-Prognose** Integration (benötigt openweathermap Adapter)
 - ⚡ **Empfehlungen** bei hoher Produktion / hohem Verbrauch
+- 📊 **Statistik-Daten** von sourceanalytix Adapter
+
+## Abhängigkeiten
+
+Für volle Funktionalität werden folgende Adapter benötigt:
+
+| Adapter | Beschreibung | Erforderlich |
+|---------|--------------|--------------|
+| **telegram** | Sendet Benachrichtigungen | ✅ Ja |
+| **sourceanalytix** | Statistik-Daten (Verbrauch, Einspeisung, Netzbezug) | ✅ Ja |
+| **openweathermap** | Wetter-Prognose für Empfehlungen | ❌ Optional |
 
 ## Installation
 
@@ -50,6 +62,9 @@ npm install iobroker.pv-notifications
 | Einspeisung | Eingespeist heute in kWh | `sourceanalytix.0...Einspeisung...` |
 | Hausverbrauch | Verbrauch heute in kWh | `sourceanalytix.0...Hausverbrauch...` |
 | Netzbezug | Netzbezug heute in kWh | `sourceanalytix.0...Netzbezug...` |
+| Produktion diesen Monat | Monatsproduktion (kWh) | `sourceanalytix.0...Produktion.currentMonth` |
+| Verbrauch diesen Monat | Monatsverbrauch (kWh) | `sourceanalytix.0...Verbrauch.currentMonth` |
+| Einspeisung diesen Monat | Monatseinspeisung (kWh) | `sourceanalytix.0...Einspeisung.currentMonth` |
 
 ### Batterie
 
@@ -77,6 +92,9 @@ npm install iobroker.pv-notifications
 | Tagesstatistik Uhrzeit | Format HH:MM | `22:00` |
 | Wochentag Wochenstatistik | 0=So, 1=Mo, ..., 6=Sa | `6` (Samstag) |
 | Uhrzeit Wochenstatistik | Format HH:MM | `10:00` |
+| Monatsstatistik aktivieren | Checkbox für Monatsstatistik | `false` |
+| Tag des Monats | 1-31 | `1` (Erster des Monats) |
+| Uhrzeit Monatsstatistik | Format HH:MM | `09:00` |
 
 ## Beispiele
 
@@ -109,6 +127,17 @@ npm install iobroker.pv-notifications
 ☀️ Produktion: 12.5 kWh
 🏠 Eigenverbrauch: 8.2 kWh (65.6%)
 🔌 Einspeisung: 4.3 kWh
+```
+
+### Monatsstatistik (01. des Monats um 09:00)
+```
+09:00 - 📊 *Monatsstatistik PV-Anlage*
+━━━━━━━━━━━━━━━━━━━━━━
+☀️ Produktion: 345.2 kWh
+🏠 Eigenverbrauch: 287.5 kWh (83.3%)
+🔌 Einspeisung: 57.7 kWh
+━━━━━━━━━━━━━━━━━━━━━━
+💡 Danke für einen nachhaltigen Monat!
 ```
 
 ## States

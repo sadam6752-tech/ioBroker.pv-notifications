@@ -119,6 +119,21 @@
             <label for="gridPower">Netzbezug heute (kWh)</label>
             <input type="text" id="gridPower" data-name="native.gridPower" />
         </div>
+        <div class="form-group">
+            <label for="monthlyProduction">Produktion diesen Monat (kWh)</label>
+            <input type="text" id="monthlyProduction" data-name="native.monthlyProduction" />
+            <div class="hint">sourceanalytix...Produktion.currentMonth</div>
+        </div>
+        <div class="form-group">
+            <label for="monthlyConsumption">Verbrauch diesen Monat (kWh)</label>
+            <input type="text" id="monthlyConsumption" data-name="native.monthlyConsumption" />
+            <div class="hint">sourceanalytix...Verbrauch.currentMonth</div>
+        </div>
+        <div class="form-group">
+            <label for="monthlyFeedIn">Einspeisung diesen Monat (kWh)</label>
+            <input type="text" id="monthlyFeedIn" data-name="native.monthlyFeedIn" />
+            <div class="hint">sourceanalytix...Einspeisung.currentMonth</div>
+        </div>
 
         <h2>Batterie Konfiguration</h2>
         <div class="form-group">
@@ -183,6 +198,22 @@
             <label for="statsWeekTime">Uhrzeit für Wochenstatistik</label>
             <input type="text" id="statsWeekTime" data-name="native.statsWeekTime" />
             <div class="hint">Format: HH:MM (z.B. 10:00)</div>
+        </div>
+
+        <h2>Monatsstatistik (Optional)</h2>
+        <div class="form-group">
+            <input type="checkbox" id="monthlyStatsEnabled" data-name="native.monthlyStatsEnabled" />
+            <label for="monthlyStatsEnabled" style="display: inline;">Monatsstatistik aktivieren</label>
+        </div>
+        <div class="form-group">
+            <label for="monthlyStatsDay">Tag des Monats</label>
+            <input type="number" id="monthlyStatsDay" data-name="native.monthlyStatsDay" min="1" max="31" />
+            <div class="hint">1-31 (z.B. 1 = Erster des Monats)</div>
+        </div>
+        <div class="form-group">
+            <label for="monthlyStatsTime">Uhrzeit für Monatsstatistik</label>
+            <input type="text" id="monthlyStatsTime" data-name="native.monthlyStatsTime" />
+            <div class="hint">Format: HH:MM (z.B. 09:00)</div>
         </div>
 
         <h2>Wetter (Optional)</h2>

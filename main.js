@@ -39,7 +39,8 @@ class PvNotifications extends utils.Adapter {
             weekFullCycles: 0,
             weekEmptyCycles: 0,
             lastStatsReset: new Date().getDate(),
-            lastWeekReset: new Date().getDay()
+            lastWeekReset: new Date().getDay(),
+            lastMonthReset: 0
         };
 
         this.onReady = this.onReady.bind(this);
@@ -487,6 +488,29 @@ class PvNotifications extends utils.Adapter {
     }
 
     /**
+     * Baue monatliche Statistik-Nachricht
+     */
+    buildMonthlyStatsMessage() {
+        const monthlyProd = this.getStateValue(this.config.monthlyProduction);
+        const monthlyConsumption = this.getStateValue(this.config.monthlyConsumption);
+        const monthlyFeedIn = this.getStateValue(this.config.monthlyFeedIn);
+        
+        const totalProd = this.round(monthlyProd, 1);
+        const consumption = this.round(monthlyConsumption, 1);
+        const feedIn = this.round(Math.abs(monthlyFeedIn), 1);
+        const selfConsumption = this.round(totalProd - feedIn, 1);
+        const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
+
+        return `📊 *Monatsstatistik PV-Anlage*
+━━━━━━━━━━━━━━━━━━━━━━
+☀️ Produktion: ${totalProd} kWh
+🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
+🔌 Einspeisung: ${feedIn} kWh
+━━━━━━━━━━━━━━━━━━━━━━
+💡 Danke für einen nachhaltigen Monat!`;
+    }
+
+    /**
      * Hole Wetter-Description aus Text
      */
     getWeatherDescription(weatherText) {
@@ -559,6 +583,7 @@ class PvNotifications extends utils.Adapter {
         this.scheduleJob('*/5 * * * *', () => {
             this.resetDailyStats();
             this.resetWeeklyStats();
+            this.resetMonthlyStats();
         });
 
         // Tägliche Statistik zur konfigurierten Zeit
@@ -572,6 +597,15 @@ class PvNotifications extends utils.Adapter {
         this.scheduleJob(`${weekMinutes} ${weekHours} * * ${this.config.statsWeekDay}`, () => {
             this.sendTelegram(this.buildWeeklyStatsMessage());
         });
+
+        // Monatsstatistik am konfigurierten Tag und Zeit (wenn aktiviert)
+        if (this.config.monthlyStatsEnabled) {
+            const [monthHours, monthMinutes] = this.config.monthlyStatsTime.split(':');
+            this.scheduleJob(`${monthMinutes} ${monthHours} ${this.config.monthlyStatsDay} * *`, () => {
+                this.sendTelegram(this.buildMonthlyStatsMessage());
+            });
+            this.log.info(`Monatsstatistik aktiviert: Tag ${this.config.monthlyStatsDay} um ${this.config.monthlyStatsTime}`);
+        }
 
         this.log.info(`Zeitgesteuerte Aufgaben gestartet (Täglich: ${this.config.statsDayTime}, Wöchentlich: Tag ${this.config.statsWeekDay} um ${this.config.statsWeekTime})`);
     }
@@ -607,6 +641,26 @@ class PvNotifications extends utils.Adapter {
             this.stats.weekEmptyCycles = 0;
             this.stats.lastWeekReset = today;
             this.sendTelegram(this.buildWeeklyStatsMessage());
+        }
+    }
+
+    /**
+     * Monatsstatistik zurücksetzen
+     */
+    resetMonthlyStats() {
+        if (!this.config.monthlyStatsEnabled) return;
+        
+        const today = new Date().getDate();
+        const now = new Date();
+        const hours = now.getHours();
+        const [statHours, statMinutes] = this.config.monthlyStatsTime.split(':').map(Number);
+        
+        // Reset am konfigurierten Tag nach der Sendezeit
+        if (today === this.config.monthlyStatsDay && 
+            this.stats.lastMonthReset !== today && 
+            hours >= statHours) {
+            this.log.info('Setze monatliche Statistik zurück');
+            this.stats.lastMonthReset = today;
         }
     }
 
