@@ -24,7 +24,7 @@
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "Z.B. Alex, Elena, User3"
+      "tooltip": "Z.B. User1, User2 oder -123456789 (ID)"
     },
     "_header_datapoints": {
       "type": "header",

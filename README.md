@@ -36,7 +36,9 @@ npm install iobroker.pv-notifications
 | Einstellung | Beschreibung |
 |-------------|--------------|
 | Telegram Instanz | Z.B. `telegram.0` |
-| Telegram Benutzer | Kommagetrennte Liste, z.B. `Alex, Elena, User3` |
+| Telegram Benutzer | Kommagetrennte Liste mit Namen oder IDs, z.B. `User1, User2` oder `-123456789` |
+
+**Hinweis:** Du kannst Telegram-Benutzer sowohl über den **Benutzernamen** (ohne @) als auch über die **Telegram-ID** (negativ bei Gruppen/Channels) hinzufügen.
 
 ### Datenpunkte
 
