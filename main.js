@@ -298,19 +298,32 @@ class PvNotifications extends utils.Adapter {
         const timestamp = this.getTimeString();
         const fullMessage = `${timestamp} - ${message}`;
 
-        if (this.config.telegramInstance && this.config.telegramUsers) {
-            this.sendTo(this.config.telegramInstance, 'send', {
-                text: fullMessage,
-                users: this.config.telegramUsers
-            }, (result) => {
-                if (result && result.error) {
-                    this.log.error(`Telegram Fehler: ${result.error}`);
-                } else {
-                    this.log.info(fullMessage);
-                }
-            });
+        if (this.config.telegramInstance) {
+            // Benutzer zusammenstellen (User1 und/oder User2)
+            const users = [];
+            if (this.config.telegramUser1 && this.config.telegramUser1.trim()) {
+                users.push(this.config.telegramUser1.trim());
+            }
+            if (this.config.telegramUser2 && this.config.telegramUser2.trim()) {
+                users.push(this.config.telegramUser2.trim());
+            }
+
+            if (users.length > 0) {
+                this.sendTo(this.config.telegramInstance, 'send', {
+                    text: fullMessage,
+                    users: users.join(', ')
+                }, (result) => {
+                    if (result && result.error) {
+                        this.log.error(`Telegram Fehler: ${result.error}`);
+                    } else {
+                        this.log.info(fullMessage);
+                    }
+                });
+            } else {
+                this.log.warn('Keine Telegram-Benutzer konfiguriert: ' + fullMessage);
+            }
         } else {
-            this.log.warn('Telegram nicht konfiguriert: ' + fullMessage);
+            this.log.warn('Telegram-Instanz nicht konfiguriert: ' + fullMessage);
         }
     }
 

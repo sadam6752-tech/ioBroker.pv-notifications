@@ -80,7 +80,8 @@
   },
   "native": {
     "telegramInstance": "telegram.0",
-    "telegramUsers": "",
+    "telegramUser1": "",
+    "telegramUser2": "",
     "batterySOC": "",
     "powerProduction": "",
     "totalProduction": "",

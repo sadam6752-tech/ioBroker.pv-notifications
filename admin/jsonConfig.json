@@ -18,9 +18,16 @@
       "md": 6,
       "lg": 6
     },
-    "telegramUsers": {
+    "telegramUser1": {
       "type": "text",
-      "label": "Telegram Empfänger (kommagetrennt)",
+      "label": "Telegram Benutzer 1",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "telegramUser2": {
+      "type": "text",
+      "label": "Telegram Benutzer 2 (optional)",
       "sm": 6,
       "md": 6,
       "lg": 6

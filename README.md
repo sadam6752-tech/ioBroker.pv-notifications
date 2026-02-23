@@ -36,7 +36,8 @@ npm install iobroker.pv-notifications
 | Einstellung | Beschreibung |
 |-------------|--------------|
 | Telegram Instanz | Z.B. `telegram.0` |
-| Telegram Empfänger | Kommagetrennte Liste, z.B. `Alex, Elena` |
+| Telegram Benutzer 1 | Erster Empfänger, z.B. `Alex` |
+| Telegram Benutzer 2 | Zweiter Empfänger (optional), z.B. `Elena` |
 
 ### Datenpunkte
 
