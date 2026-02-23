@@ -75,7 +75,8 @@ npm install iobroker.pv-notifications
 | Einstellung | Beschreibung | Standard |
 |-------------|--------------|----------|
 | Tagesstatistik Uhrzeit | Format HH:MM | `22:00` |
-| Wochentag Wochenstatistik | 0=So, 1=Mo, ..., 6=Sa | `7` (Sonntag) |
+| Wochentag Wochenstatistik | 0=So, 1=Mo, ..., 6=Sa | `6` (Samstag) |
+| Uhrzeit Wochenstatistik | Format HH:MM | `10:00` |
 
 ## Beispiele
 

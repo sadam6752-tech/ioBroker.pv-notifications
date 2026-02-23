@@ -64,6 +64,7 @@
     "minIntervalIntermediate": 30,
     "statsDayTime": "22:00",
     "statsWeekDay": 6,
+    "statsWeekTime": "10:00",
     "weatherToday": "",
     "weatherTomorrow": "",
     "highProduction": 5000,

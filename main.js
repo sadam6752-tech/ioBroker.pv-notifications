@@ -562,12 +562,18 @@ class PvNotifications extends utils.Adapter {
         });
 
         // Tägliche Statistik zur konfigurierten Zeit
-        const [hours, minutes] = this.config.statsDayTime.split(':');
-        this.scheduleJob(`${minutes} ${hours} * * *`, () => {
+        const [dayHours, dayMinutes] = this.config.statsDayTime.split(':');
+        this.scheduleJob(`${dayMinutes} ${dayHours} * * *`, () => {
             this.sendTelegram(this.buildDailyStatsMessage());
         });
 
-        this.log.info(`Zeitgesteuerte Aufgaben gestartet (Stats um ${this.config.statsDayTime})`);
+        // Wöchentliche Statistik am konfigurierten Tag und Zeit
+        const [weekHours, weekMinutes] = this.config.statsWeekTime.split(':');
+        this.scheduleJob(`${weekMinutes} ${weekHours} * * ${this.config.statsWeekDay}`, () => {
+            this.sendTelegram(this.buildWeeklyStatsMessage());
+        });
+
+        this.log.info(`Zeitgesteuerte Aufgaben gestartet (Täglich: ${this.config.statsDayTime}, Wöchentlich: Tag ${this.config.statsWeekDay} um ${this.config.statsWeekTime})`);
     }
 
     /**

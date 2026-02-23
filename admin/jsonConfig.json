@@ -193,13 +193,22 @@
     "statsWeekDay": {
       "type": "number",
       "label": "Wochentag für Wochenstatistik",
-      "sm": 4,
-      "md": 4,
-      "lg": 4,
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
       "min": 0,
       "max": 6,
       "default": 6,
       "tooltip": "0=Sonntag, 1=Montag, ..., 6=Samstag"
+    },
+    "statsWeekTime": {
+      "type": "text",
+      "label": "Uhrzeit für Wochenstatistik",
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
+      "default": "10:00",
+      "tooltip": "Format: HH:MM (z.B. 10:00)"
     },
     "_header_weather": {
       "type": "header",
