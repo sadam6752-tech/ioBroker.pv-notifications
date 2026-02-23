@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "common": {
     "name": "pv-notifications",
+    "version": "1.0.1",
     "title": "PV Notifications",
     "titleLang": {
       "en": "PV Notifications",
