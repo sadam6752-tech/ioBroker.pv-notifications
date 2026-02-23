@@ -1,0 +1,247 @@
+{
+  "i18n": true,
+  "type": "panel",
+  "items": {
+    "_header_telegram": {
+      "type": "header",
+      "text": "Telegram Konfiguration",
+      "size": 2,
+      "sm": 12,
+      "md": 12,
+      "lg": 12
+    },
+    "telegramInstance": {
+      "type": "instance",
+      "label": "Telegram Instanz",
+      "filter": "telegram",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "telegramUsers": {
+      "type": "text",
+      "label": "Telegram Empfänger (kommagetrennt)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "_header_datapoints": {
+      "type": "header",
+      "text": "Datenpunkte Konfiguration",
+      "size": 2,
+      "sm": 12,
+      "md": 12,
+      "lg": 12
+    },
+    "batterySOC": {
+      "type": "text",
+      "label": "Batterie SOC Datenpunkt",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "Z.B. modbus.0.holdingRegisters.40083_Batterie_SOC"
+    },
+    "powerProduction": {
+      "type": "text",
+      "label": "Aktuelle PV-Leistung (W)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "totalProduction": {
+      "type": "text",
+      "label": "Gesamtproduktion heute (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "feedIn": {
+      "type": "text",
+      "label": "Einspeisung heute (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "consumption": {
+      "type": "text",
+      "label": "Hausverbrauch heute (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "gridPower": {
+      "type": "text",
+      "label": "Netzbezug heute (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "_header_battery": {
+      "type": "header",
+      "text": "Batterie Konfiguration",
+      "size": 2,
+      "sm": 12,
+      "md": 12,
+      "lg": 12
+    },
+    "batteryCapacityWh": {
+      "type": "number",
+      "label": "Batterie-Kapazität (Wh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "min": 1000,
+      "max": 100000,
+      "step": 100
+    },
+    "thresholdFull": {
+      "type": "number",
+      "label": "Schwellwert VOLL (%)",
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
+      "min": 0,
+      "max": 100
+    },
+    "thresholdEmpty": {
+      "type": "number",
+      "label": "Schwellwert LEER (%)",
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
+      "min": 0,
+      "max": 100
+    },
+    "thresholdResetFull": {
+      "type": "number",
+      "label": "Reset VOLL unter (%)",
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
+      "min": 0,
+      "max": 100
+    },
+    "thresholdResetEmpty": {
+      "type": "number",
+      "label": "Reset LEER über (%)",
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
+      "min": 0,
+      "max": 100
+    },
+    "_header_intermediate": {
+      "type": "header",
+      "text": "Intermediate-Stufen",
+      "size": 2,
+      "sm": 12,
+      "md": 12,
+      "lg": 12
+    },
+    "intermediateSteps": {
+      "type": "text",
+      "label": "Intermediate-Stufen (kommagetrennt)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "Z.B. 20,40,60,80"
+    },
+    "minIntervalFull": {
+      "type": "number",
+      "label": "Min. Intervall VOLL (Minuten)",
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
+      "min": 1,
+      "max": 120
+    },
+    "minIntervalEmpty": {
+      "type": "number",
+      "label": "Min. Intervall LEER (Minuten)",
+      "sm": 3,
+      "md": 3,
+      "lg": 3,
+      "min": 1,
+      "max": 120
+    },
+    "minIntervalIntermediate": {
+      "type": "number",
+      "label": "Min. Intervall Intermediate (Minuten)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "min": 1,
+      "max": 120
+    },
+    "_header_statistics": {
+      "type": "header",
+      "text": "Statistik & Zeitplanung",
+      "size": 2,
+      "sm": 12,
+      "md": 12,
+      "lg": 12
+    },
+    "statsDayTime": {
+      "type": "text",
+      "label": "Tagesstatistik Uhrzeit",
+      "sm": 4,
+      "md": 4,
+      "lg": 4,
+      "tooltip": "Format: HH:MM (z.B. 22:00)"
+    },
+    "statsWeekDay": {
+      "type": "number",
+      "label": "Wochentag für Wochenstatistik",
+      "sm": 4,
+      "md": 4,
+      "lg": 4,
+      "min": 0,
+      "max": 6,
+      "tooltip": "0=Sonntag, 1=Montag, ..., 6=Samstag"
+    },
+    "_header_weather": {
+      "type": "header",
+      "text": "Wetter (Optional)",
+      "size": 2,
+      "sm": 12,
+      "md": 12,
+      "lg": 12
+    },
+    "weatherToday": {
+      "type": "text",
+      "label": "Wetter heute",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "weatherTomorrow": {
+      "type": "text",
+      "label": "Wetter morgen",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "_header_thresholds": {
+      "type": "header",
+      "text": "Schwellwerte für Empfehlungen",
+      "size": 2,
+      "sm": 12,
+      "md": 12,
+      "lg": 12
+    },
+    "highProduction": {
+      "type": "number",
+      "label": "Hohe Produktion ab (W)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    },
+    "highConsumption": {
+      "type": "number",
+      "label": "Hoher Verbrauch ab (W)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6
+    }
+  }
+}

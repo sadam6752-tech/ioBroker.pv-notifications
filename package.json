@@ -1,0 +1,40 @@
+{
+  "name": "iobroker.pv-notifications",
+  "version": "1.0.0",
+  "description": "PV-Anlage Batterie-Status Telegram Benachrichtigungen",
+  "author": {
+    "name": "Alex",
+    "email": "alex@example.com"
+  },
+  "homepage": "https://github.com/sadam6752-tech/ioBroker.pv-notifications",
+  "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "PV",
+    "Solar",
+    "Batterie",
+    "Telegram",
+    "Smart Home"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sadam6752-tech/ioBroker.pv-notifications.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "main": "main.js",
+  "files": [
+    "admin/",
+    "lib/",
+    "main.js",
+    "io-package.json"
+  ],
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "bugs": {
+    "url": "https://github.com/alex/iobroker.pv-notifications/issues"
+  },
+  "readmeFilename": "README.md"
+}

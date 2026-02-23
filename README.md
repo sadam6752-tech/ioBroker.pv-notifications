@@ -1,0 +1,141 @@
+# ioBroker PV Notifications Adapter
+
+Sendet Telegram-Benachrichtigungen für PV-Batteriestatus (voll, leer, Intermediate-Stufen).
+
+## Features
+
+- 🔋 **Batterie-Voll Benachrichtigung** bei 100% (nicht zwischen 00:00-08:00)
+- ⚠️ **Batterie-Leer Benachrichtigung** bei 0% (auch nachts)
+- 📊 **Intermediate-Stufen** (20%, 40%, 60%, 80%) mit Ladestand in % und kWh
+- 🌙 **Nachtmodus** (00:00-08:00): Nur 0% Benachrichtigungen
+- 📈 **Tagesstatistik** um konfigurierbare Zeit (Standard: 22:00)
+- 📅 **Wochenstatistik** am konfigurierbaren Wochentag
+- 🌤️ **Wetter-Prognose** Integration (optional)
+- ⚡ **Empfehlungen** bei hoher Produktion / hohem Verbrauch
+
+## Installation
+
+### Von GitHub
+
+```bash
+# In ioBroker Admin unter "Adapter" → "Eigenen Adapter hinzufügen":
+https://github.com/sadam6752-tech/ioBroker.pv-notifications
+```
+
+### Manuell
+
+```bash
+cd /opt/iobroker
+npm install iobroker.pv-notifications
+```
+
+## Konfiguration
+
+### Telegram
+
+| Einstellung | Beschreibung |
+|-------------|--------------|
+| Telegram Instanz | Z.B. `telegram.0` |
+| Telegram Empfänger | Kommagetrennte Liste, z.B. `Alex, Elena` |
+
+### Datenpunkte
+
+| Einstellung | Beschreibung | Beispiel |
+|-------------|--------------|----------|
+| Batterie SOC | SOC-Wert in % | `modbus.0.holdingRegisters.40083_Batterie_SOC` |
+| PV-Leistung | Aktuelle Leistung in W | `javascript.0.Solar.Sungrow.Leistung` |
+| Gesamtproduktion | Produktion heute in kWh | `javascript.0.Solar.Sungrow.Gesamtproduktion` |
+| Einspeisung | Eingespeist heute in kWh | `sourceanalytix.0...Einspeisung...` |
+| Hausverbrauch | Verbrauch heute in kWh | `sourceanalytix.0...Hausverbrauch...` |
+| Netzbezug | Netzbezug heute in kWh | `sourceanalytix.0...Netzbezug...` |
+
+### Batterie
+
+| Einstellung | Beschreibung | Standard |
+|-------------|--------------|----------|
+| Batterie-Kapazität | Kapazität in Wh | `21000` |
+| Schwellwert VOLL | SOC für "voll" | `100` |
+| Schwellwert LEER | SOC für "leer" | `0` |
+| Reset VOLL unter | Reset wenn SOC < | `95` |
+| Reset LEER über | Reset wenn SOC > | `5` |
+
+### Intermediate-Stufen
+
+| Einstellung | Beschreibung | Standard |
+|-------------|--------------|----------|
+| Intermediate-Stufen | Kommagetrennte SOC-Stufen | `20,40,60,80` |
+| Min. Intervall VOLL | Minuten zwischen Benachrichtigungen | `10` |
+| Min. Intervall LEER | Minuten zwischen Benachrichtigungen | `5` |
+| Min. Intervall Intermediate | Minuten zwischen Benachrichtigungen | `30` |
+
+### Statistik
+
+| Einstellung | Beschreibung | Standard |
+|-------------|--------------|----------|
+| Tagesstatistik Uhrzeit | Format HH:MM | `22:00` |
+| Wochentag Wochenstatistik | 0=So, 1=Mo, ..., 6=Sa | `7` (Sonntag) |
+
+## Beispiele
+
+### Batterie voll (100%)
+```
+11:45 - 🔋 *Batterie VOLL* (100%)
+
+⚡ Aktuelle Produktion: 5356 W
+🏠 Aktueller Verbrauch: 1200 W
+☀️ Produktion heute: 12.5 kWh
+🔌 Eingespeist heute: 8.2 kWh
+🌤️ Morgen: ☀️ sonnig
+
+🚗 Jetzt ideal für: Elektroauto, Waschmaschine, Spülmaschine!
+```
+
+### Intermediate (60%)
+```
+11:51 - 🔋 Batterie bei 60% (12.6 kWh) ⬆️
+⚡ Produktion: 5356 W
+```
+
+### Tagesstatistik (22:00)
+```
+22:00 - 📊 *Tagesstatistik PV-Anlage*
+━━━━━━━━━━━━━━━━━━━━━━
+🔋 Aktueller Ladestand: 85%
+⚡ Aktuelle Energie: 17.9 kWh (21.0 kWh Gesamt)
+━━━━━━━━━━━━━━━━━━━━━━
+☀️ Produktion: 12.5 kWh
+🏠 Eigenverbrauch: 8.2 kWh (65.6%)
+🔌 Einspeisung: 4.3 kWh
+```
+
+## States
+
+Der Adapter erstellt folgende States unter `pv-notifications.0`:
+
+| State | Typ | Beschreibung |
+|-------|-----|--------------|
+| `statistics.fullCyclesToday` | number | Vollzyklen heute |
+| `statistics.emptyCyclesToday` | number | Leerzyklen heute |
+| `statistics.maxSOCToday` | number | Max SOC heute |
+| `statistics.minSOCToday` | number | Min SOC heute |
+| `statistics.fullCyclesWeek` | number | Vollzyklen diese Woche |
+| `statistics.emptyCyclesWeek` | number | Leerzyklen diese Woche |
+| `statistics.currentSOC` | number | Aktueller SOC |
+| `statistics.currentEnergyKWh` | number | Aktuelle Energie in kWh |
+
+## Nachtmodus
+
+Zwischen **00:00 und 08:00** werden folgende Benachrichtigungen unterdrückt:
+- ❌ Batterie VOLL (100%)
+- ❌ Intermediate-Stufen (20%, 40%, 60%, 80%)
+
+Folgende Benachrichtigung wird **immer** gesendet:
+- ✅ Batterie LEER (0%) - auch nachts
+
+## Lizenz
+
+MIT License
+
+## Autor
+
+Alex <alex@example.com>
