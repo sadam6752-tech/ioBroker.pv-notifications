@@ -198,10 +198,11 @@ class PvNotifications extends utils.Adapter {
 
         // === NACHT-ZEIT (00:00-08:00) - Nur 0% Benachrichtigung erlauben ===
         const nightTime = this.isNightTime();
+        const nightModeActive = this.config.nightModeEnabled !== false;
 
-        // === Batterie VOLL (100%) - Nicht nachts ===
+        // === Batterie VOLL (100%) - Nicht nachts (wenn Nachtmodus aktiv) ===
         if (soc === this.config.thresholdFull) {
-            if (!nightTime && !this.status.full && this.canNotify('full')) {
+            if ((!nightTime || !nightModeActive) && !this.status.full && this.canNotify('full')) {
                 const message = this.buildFullMessage(soc);
                 this.sendTelegram(message, 'high');
                 this.status.full = true;
@@ -212,22 +213,25 @@ class PvNotifications extends utils.Adapter {
                 this.log.info('Batterie voll - Telegram gesendet');
             } else if (this.status.full && !this.canNotify('full')) {
                 this.log.debug('Batterie voll, aber Intervall noch nicht abgelaufen');
-            } else if (nightTime) {
+            } else if (nightTime && nightModeActive) {
                 this.log.debug('Batterie voll, aber Nachtzeit (00:00-08:00) - keine Benachrichtigung');
             }
         }
 
-        // === Batterie LEER (0%) - Immer erlauben (auch nachts) ===
+        // === Batterie LEER (0%) - Immer erlauben (auch nachts, wenn Nachtmodus aktiv) ===
         if (soc === this.config.thresholdEmpty) {
             if (!this.status.empty && this.canNotify('empty')) {
-                const message = this.buildEmptyMessage(soc);
-                this.sendTelegram(message, 'high');
-                this.status.empty = true;
-                this.status.lastNotification.empty = Date.now();
-                this.stats.emptyCycles++;
-                this.stats.weekEmptyCycles++;
-                this.saveStatistics();
-                this.log.info('Batterie leer - Telegram gesendet');
+                // Nachts nur senden wenn Nachtmodus aktiv ist
+                if (!nightTime || nightModeActive) {
+                    const message = this.buildEmptyMessage(soc);
+                    this.sendTelegram(message, 'high');
+                    this.status.empty = true;
+                    this.status.lastNotification.empty = Date.now();
+                    this.stats.emptyCycles++;
+                    this.stats.weekEmptyCycles++;
+                    this.saveStatistics();
+                    this.log.info('Batterie leer - Telegram gesendet');
+                }
             } else if (this.status.empty && !this.canNotify('empty')) {
                 this.log.debug('Batterie leer, aber Intervall noch nicht abgelaufen');
             }
@@ -236,9 +240,9 @@ class PvNotifications extends utils.Adapter {
         // === Intermediate-Stufen (nur wenn nicht voll/leer und nicht nachts) ===
         if (soc !== this.config.thresholdFull && soc !== this.config.thresholdEmpty) {
             const intermediateSteps = this.config.intermediateSteps.split(',').map(s => parseInt(s.trim()));
-            
-            // Prüfe Intermediate-Stufen - nur außerhalb der Nachtzeit
-            if (!nightTime) {
+
+            // Prüfe Intermediate-Stufen - nur außerhalb der Nachtzeit (wenn Nachtmodus aktiv)
+            if (!nightTime || !nightModeActive) {
                 for (const step of intermediateSteps) {
                     if (soc === step && !this.status.intermediateNotified.includes(step)) {
                         if (this.canNotify('intermediate')) {
@@ -262,7 +266,7 @@ class PvNotifications extends utils.Adapter {
                         }
                     }
                 }
-            } else {
+            } else if (nightModeActive) {
                 this.log.debug('Nachtzeit (00:00-08:00) - Intermediate Benachrichtigungen unterdrückt');
             }
         }

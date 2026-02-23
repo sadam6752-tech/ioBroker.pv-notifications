@@ -85,6 +85,7 @@ npm install iobroker.pv-notifications
 | Min. Intervall VOLL | Minuten zwischen Benachrichtigungen | `10` |
 | Min. Intervall LEER | Minuten zwischen Benachrichtigungen | `5` |
 | Min. Intervall Intermediate | Minuten zwischen Benachrichtigungen | `30` |
+| Nachtmodus aktivieren | Checkbox für Nachtmodus (00:00-08:00) | `true` |
 
 ### Statistik
 

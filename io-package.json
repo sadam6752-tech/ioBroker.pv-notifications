@@ -58,6 +58,7 @@
     "thresholdEmpty": 0,
     "thresholdResetFull": 95,
     "thresholdResetEmpty": 5,
+    "nightModeEnabled": true,
     "intermediateSteps": "20,40,60,80",
     "minIntervalFull": 10,
     "minIntervalEmpty": 5,

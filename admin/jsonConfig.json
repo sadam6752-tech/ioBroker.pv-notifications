@@ -165,11 +165,20 @@
     },
     "_header_intermediate": {
       "type": "header",
-      "text": "Intermediate-Stufen",
+      "text": "Nachtmodus & Intermediate-Stufen",
       "size": 2,
       "sm": 12,
       "md": 12,
       "lg": 12
+    },
+    "nightModeEnabled": {
+      "type": "checkbox",
+      "label": "Nachtmodus aktivieren (00:00-08:00)",
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "default": true,
+      "tooltip": "Wenn deaktiviert, werden Benachrichtigungen auch nachts gesendet"
     },
     "intermediateSteps": {
       "type": "text",
