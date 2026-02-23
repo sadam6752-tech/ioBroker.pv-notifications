@@ -1,82 +1,46 @@
 {
   "_id": "iobroker.pv-notifications",
-  "version": "1.0.0",
-  "news": {
-    "1.0.0": {
-      "en": "Initial release",
-      "de": "Erstveröffentlichung",
-      "ru": "Первый выпуск",
-      "pt": "Lançamento inicial",
-      "fr": "Première version",
-      "it": "Versione iniziale",
-      "es": "Versión inicial",
-      "pl": "Pierwsze wydanie",
-      "uk": "Початковий випуск",
-      "zh-cn": "首次发布"
-    }
-  },
-  "title": "PV Notifications",
-  "titleLang": {
-    "en": "PV Notifications",
-    "de": "PV-Benachrichtigungen",
-    "ru": "PV-Уведомления",
-    "pt": "Notificações PV",
-    "fr": "Notifications PV",
-    "it": "Notifiche PV",
-    "es": "Notificaciones PV",
-    "pl": "Powiadomienia PV",
-    "uk": "PV-Повідомлення",
-    "zh-cn": "PV 通知"
-  },
-  "desc": {
-    "en": "Send Telegram notifications for PV battery status (full, empty, intermediate levels)",
-    "de": "Sende Telegram-Benachrichtigungen für PV-Batteriestatus (voll, leer, Zwischenstufen)",
-    "ru": "Отправка Telegram-уведомлений о состоянии батареи PV",
-    "pt": "Enviar notificações Telegram para status da bateria PV",
-    "fr": "Envoyer des notifications Telegram pour l'état de la batterie PV",
-    "it": "Invia notifiche Telegram per lo stato della batteria PV",
-    "es": "Enviar notificaciones de Telegram para el estado de la batería PV",
-    "pl": "Wysyłaj powiadomienia Telegram o stanie baterii PV",
-    "uk": "Надсилання Telegram-повідомлень про стан батареї PV",
-    "zh-cn": "发送 PV 电池状态的 Telegram 通知"
-  },
-  "authors": [
-    "Alex <alex@example.com>"
-  ],
-  "keywords": [
-    "PV",
-    "Solar",
-    "Batterie",
-    "Telegram",
-    "Smart Home",
-    "ioBroker"
-  ],
-  "licenseInformation": {
-    "license": "MIT",
-    "type": "free"
-  },
-  "platforms": [
-    "Linux",
-    "Windows",
-    "Darwin"
-  ],
-  "mode": "daemon",
-  "type": "energy",
-  "compact": true,
-  "connectionType": "local",
-  "dataSource": "push",
-  "adminUI": {
-    "config": "json",
-    "tab": "materialize"
-  },
-  "enabled": true,
-  "extIcon": "https://raw.githubusercontent.com/sadam6752-tech/ioBroker.pv-notifications/main/admin/pv-notifications.png",
-  "icon": "pv-notifications.png",
-  "webExt": {
-    "devServer": {
-      "port": 3001
+  "version": "1.0.1",
+  "common": {
+    "name": "pv-notifications",
+    "title": "PV Notifications",
+    "titleLang": {
+      "en": "PV Notifications",
+      "de": "PV-Benachrichtigungen",
+      "ru": "PV-Уведомления"
     },
-    "lib": "react"
+    "desc": {
+      "en": "Send Telegram notifications for PV battery status",
+      "de": "Sende Telegram-Benachrichtigungen für PV-Batteriestatus"
+    },
+    "authors": ["Alex <alex@example.com>"],
+    "keywords": ["PV", "Solar", "Batterie", "Telegram"],
+    "license": "MIT",
+    "platform": "Node.js",
+    "main": "main.js",
+    "type": "energy",
+    "enabled": true,
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "push",
+    "adminUI": {
+      "config": "json"
+    },
+    "extIcon": "https://raw.githubusercontent.com/sadam6752-tech/ioBroker.pv-notifications/main/admin/pv-notifications.png",
+    "icon": "pv-notifications.png",
+    "readme": "https://github.com/sadam6752-tech/ioBroker.pv-notifications/blob/main/README.md",
+    "loglevel": "info",
+    "tier": 3,
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0"
+      }
+    ]
   },
   "native": {
     "telegramInstance": "telegram.0",
@@ -105,15 +69,5 @@
     "highConsumption": 3000
   },
   "objects": [],
-  "stateRights": true,
-  "dependencies": [
-    {
-      "js-controller": ">=5.0.0"
-    }
-  ],
-  "globalDependencies": [
-    {
-      "admin": ">=5.0.0"
-    }
-  ]
+  "stateRights": true
 }
