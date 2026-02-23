@@ -198,6 +198,7 @@
       "lg": 4,
       "min": 0,
       "max": 6,
+      "default": 6,
       "tooltip": "0=Sonntag, 1=Montag, ..., 6=Samstag"
     },
     "_header_weather": {
