@@ -101,6 +101,14 @@
       "lg": 6,
       "tooltip": "sourceanalytix...Einspeisung.currentMonth"
     },
+    "monthlyGridPower": {
+      "type": "text",
+      "label": "Netzbezug diesen Monat (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Netzbezug.currentMonth"
+    },
     "_header_battery": {
       "type": "header",
       "text": "Batterie Konfiguration",

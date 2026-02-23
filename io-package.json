@@ -74,7 +74,8 @@
     "monthlyStatsTime": "09:00",
     "monthlyProduction": "",
     "monthlyConsumption": "",
-    "monthlyFeedIn": ""
+    "monthlyFeedIn": "",
+    "monthlyGridPower": ""
   },
   "objects": [
     {

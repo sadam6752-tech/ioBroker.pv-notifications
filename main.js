@@ -461,6 +461,7 @@ class PvNotifications extends utils.Adapter {
 
         const totalProd = this.getStateValue(this.config.totalProduction);
         const feedIn = this.getStateValue(this.config.feedIn);
+        const gridPower = this.getStateValue(this.config.gridPower);
         const selfConsumption = this.round(totalProd - Math.abs(feedIn), 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
@@ -471,7 +472,8 @@ class PvNotifications extends utils.Adapter {
 ━━━━━━━━━━━━━━━━━━━━━━
 ☀️ Produktion: ${this.round(totalProd)} kWh
 🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
-🔌 Einspeisung: ${this.round(Math.abs(feedIn), 0)} kWh`;
+🔌 Einspeisung: ${this.round(Math.abs(feedIn), 0)} kWh
+⚡ Netzbezug: ${this.round(gridPower, 0)} kWh`;
     }
 
     /**
@@ -494,10 +496,12 @@ class PvNotifications extends utils.Adapter {
         const monthlyProd = this.getStateValue(this.config.monthlyProduction);
         const monthlyConsumption = this.getStateValue(this.config.monthlyConsumption);
         const monthlyFeedIn = this.getStateValue(this.config.monthlyFeedIn);
+        const monthlyGridPower = this.getStateValue(this.config.monthlyGridPower);
         
         const totalProd = this.round(monthlyProd, 1);
         const consumption = this.round(monthlyConsumption, 1);
         const feedIn = this.round(Math.abs(monthlyFeedIn), 1);
+        const gridPower = this.round(monthlyGridPower, 1);
         const selfConsumption = this.round(totalProd - feedIn, 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
@@ -506,6 +510,7 @@ class PvNotifications extends utils.Adapter {
 ☀️ Produktion: ${totalProd} kWh
 🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
 🔌 Einspeisung: ${feedIn} kWh
+⚡ Netzbezug: ${gridPower} kWh
 ━━━━━━━━━━━━━━━━━━━━━━
 💡 Danke für einen nachhaltigen Monat!`;
     }

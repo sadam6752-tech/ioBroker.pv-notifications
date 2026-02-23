@@ -65,6 +65,7 @@ npm install iobroker.pv-notifications
 | Produktion diesen Monat | Monatsproduktion (kWh) | `sourceanalytix.0...Produktion.currentMonth` |
 | Verbrauch diesen Monat | Monatsverbrauch (kWh) | `sourceanalytix.0...Verbrauch.currentMonth` |
 | Einspeisung diesen Monat | Monatseinspeisung (kWh) | `sourceanalytix.0...Einspeisung.currentMonth` |
+| Netzbezug diesen Monat | Monats-Netzbezug (kWh) | `sourceanalytix.0...Netzbezug.currentMonth` |
 
 ### Batterie
 
@@ -127,6 +128,7 @@ npm install iobroker.pv-notifications
 ☀️ Produktion: 12.5 kWh
 🏠 Eigenverbrauch: 8.2 kWh (65.6%)
 🔌 Einspeisung: 4.3 kWh
+⚡ Netzbezug: 2.1 kWh
 ```
 
 ### Monatsstatistik (01. des Monats um 09:00)
@@ -136,6 +138,7 @@ npm install iobroker.pv-notifications
 ☀️ Produktion: 345.2 kWh
 🏠 Eigenverbrauch: 287.5 kWh (83.3%)
 🔌 Einspeisung: 57.7 kWh
+⚡ Netzbezug: 23.4 kWh
 ━━━━━━━━━━━━━━━━━━━━━━
 💡 Danke für einen nachhaltigen Monat!
 ```
