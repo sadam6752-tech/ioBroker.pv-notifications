@@ -51,6 +51,9 @@ class PvNotifications extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
+        // Reset connection indicator
+        this.setState('info.connection', false, true);
+
         this.log.info('PV Notifications Adapter gestartet');
 
         // Konfiguration loggen
@@ -65,6 +68,7 @@ class PvNotifications extends utils.Adapter {
         await this.createState('statistics.emptyCyclesWeek', 0, 'number', 'Leerzyklen diese Woche');
         await this.createState('statistics.currentSOC', 0, 'number', 'Aktueller SOC');
         await this.createState('statistics.currentEnergyKWh', 0, 'number', 'Aktuelle Energie in kWh');
+        await this.createState('info.connection', false, 'boolean', 'Adapter ist mit Telegram verbunden');
 
         // Event-Handler für Batterie-SOC registrieren
         if (this.config.batterySOC) {
@@ -77,6 +81,10 @@ class PvNotifications extends utils.Adapter {
 
         // Initiale Statistik laden
         await this.loadStatistics();
+
+        // Signalisiere dass der Adapter bereit ist
+        this.setState('info.connection', true, true);
+        this.log.info('PV Notifications Adapter ist bereit');
     }
 
     /**
@@ -603,9 +611,12 @@ class PvNotifications extends utils.Adapter {
     async onUnload(callback) {
         try {
             this.log.info('PV Notifications Adapter wird gestoppt');
+            // Connection zurücksetzen
+            this.setState('info.connection', false, true);
             await this.saveStatistics();
             callback();
         } catch (e) {
+            this.log.error('Fehler beim Stoppen: ' + e.message);
             callback();
         }
     }

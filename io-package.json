@@ -68,6 +68,26 @@
     "highProduction": 5000,
     "highConsumption": 3000
   },
-  "objects": [],
+  "objects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      }
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "name": "Adapter ist mit Telegram verbunden",
+        "type": "boolean",
+        "role": "indicator.connected",
+        "read": true,
+        "write": false,
+        "def": false
+      }
+    }
+  ],
   "stateRights": true
 }
