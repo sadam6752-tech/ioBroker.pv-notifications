@@ -13,7 +13,7 @@
     "telegramInstance": {
       "type": "instance",
       "label": "Telegram Instanz",
-      "filter": "telegram",
+      "adapter": "telegram",
       "sm": 6,
       "md": 6,
       "lg": 6
