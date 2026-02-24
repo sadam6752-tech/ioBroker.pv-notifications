@@ -364,14 +364,19 @@ class PvNotifications extends utils.Adapter {
 🔌 Eingespeist heute: ${this.round(Math.abs(feedIn), 0)} kWh`;
 
         // Wetter-Prognose hinzufügen (optional)
-        if (this.config.weatherTomorrow) {
+        if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
             try {
+                const weatherTomorrowText = this.getStateValue(this.config.weatherTomorrowText);
                 const weatherTomorrow = this.getStateValue(this.config.weatherTomorrow);
-                if (weatherTomorrow) {
-                    const weatherDesc = this.getWeatherDescription(weatherTomorrow);
-                    message += `\n🌤️ Morgen: ${weatherDesc}`;
+                const tempTomorrow = this.getStateValue(this.config.weatherTomorrowTemp);
+                const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                
+                const weatherText = weatherTomorrowText || weatherTomorrow;
+                if (weatherText) {
+                    const weatherDesc = this.getWeatherDescription(weatherText);
+                    message += `\n🌤️ Morgen: ${weatherDesc}${tempText}`;
 
-                    if (this.isWeatherBad(weatherTomorrow)) {
+                    if (this.isWeatherBad(weatherText)) {
                         message += `\n💡 Tipp: Morgen wenig Sonne - heute Verbraucher nutzen!`;
                     }
                 }
@@ -401,14 +406,19 @@ class PvNotifications extends utils.Adapter {
 🏠 Verbrauch: ${this.round(consumption)} W`;
 
         // Wetter-Prognose
-        if (this.config.weatherTomorrow) {
+        if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
             try {
+                const weatherTomorrowText = this.getStateValue(this.config.weatherTomorrowText);
                 const weatherTomorrow = this.getStateValue(this.config.weatherTomorrow);
-                if (weatherTomorrow) {
-                    const weatherDesc = this.getWeatherDescription(weatherTomorrow);
-                    message += `\n🌤️ Morgen: ${weatherDesc}`;
+                const tempTomorrow = this.getStateValue(this.config.weatherTomorrowTemp);
+                const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                
+                const weatherText = weatherTomorrowText || weatherTomorrow;
+                if (weatherText) {
+                    const weatherDesc = this.getWeatherDescription(weatherText);
+                    message += `\n🌤️ Morgen: ${weatherDesc}${tempText}`;
 
-                    if (this.isWeatherGood(weatherTomorrow)) {
+                    if (this.isWeatherGood(weatherText)) {
                         message += `\n💡 Gute Nachricht: Morgen wieder mehr Sonne!`;
                     }
                 }
@@ -484,30 +494,22 @@ class PvNotifications extends utils.Adapter {
 ⚡ Netzbezug: ${this.round(gridPower, 0)} kWh`;
 
         // Wetter-Prognose für morgen hinzufügen
-        if (this.config.weatherTomorrow) {
+        if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
             try {
-                const weatherTomorrow = this.getStateValue(this.config.weatherTomorrow);
                 const weatherTomorrowText = this.getStateValue(this.config.weatherTomorrowText);
-                
-                if (weatherTomorrow || weatherTomorrowText) {
-                    // Temperatur für morgen (wenn verfügbar)
-                    const tempTomorrow = this.getStateValue(this.config.weatherTomorrowTemp);
-                    const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
-                    
-                    // Wetterbeschreibung
-                    let weatherDesc = '';
-                    if (weatherTomorrowText) {
-                        weatherDesc = this.getWeatherDescription(weatherTomorrowText);
-                    } else if (weatherTomorrow) {
-                        weatherDesc = this.getWeatherDescription(weatherTomorrow);
-                    }
-                    
+                const weatherTomorrow = this.getStateValue(this.config.weatherTomorrow);
+                const tempTomorrow = this.getStateValue(this.config.weatherTomorrowTemp);
+                const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+
+                const weatherText = weatherTomorrowText || weatherTomorrow;
+                if (weatherText) {
+                    const weatherDesc = this.getWeatherDescription(weatherText);
                     message += `\n━━━━━━━━━━━━━━━━━━━━━━\n🌤️ *Wetter morgen:* ${weatherDesc}${tempText}`;
-                    
+
                     // Zusätzliche Info bei gutem/schlechtem Wetter
-                    if (this.isWeatherGood(weatherTomorrowText || weatherTomorrow)) {
+                    if (this.isWeatherGood(weatherText)) {
                         message += `\n☀️ Gute PV-Produktion erwartet!`;
-                    } else if (this.isWeatherBad(weatherTomorrowText || weatherTomorrow)) {
+                    } else if (this.isWeatherBad(weatherText)) {
                         message += `\n⛅ Weniger PV-Produktion erwartet`;
                     }
                 }

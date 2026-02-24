@@ -336,23 +336,25 @@
       "md": 12,
       "lg": 12
     },
-    "weatherToday": {
+    "weatherTodayText": {
       "type": "text",
       "label": "Wetter heute",
       "sm": 6,
       "md": 6,
-      "lg": 6
+      "lg": 6,
+      "tooltip": "Z.B. daswetter.0.Day0.forecast.currentSymbol"
     },
-    "weatherTomorrow": {
+    "weatherTodayTemp": {
       "type": "text",
-      "label": "Wetter morgen",
+      "label": "Temperatur heute (°C)",
       "sm": 6,
       "md": 6,
-      "lg": 6
+      "lg": 6,
+      "tooltip": "Z.B. daswetter.0.Day0.forecast.maxTemp"
     },
     "weatherTomorrowText": {
       "type": "text",
-      "label": "Wettertext morgen",
+      "label": "Wetter morgen",
       "sm": 6,
       "md": 6,
       "lg": 6,
