@@ -109,6 +109,7 @@ class PvNotifications extends utils.Adapter {
 
         // Test-Button State erstellen
         await this.createState('testButton', false, 'boolean', 'Test-Benachrichtigung senden');
+        this.subscribeStates('testButton');
 
         await this.createState('info.connection', false, 'boolean', 'Adapter ist mit Telegram verbunden');
 
@@ -135,18 +136,24 @@ class PvNotifications extends utils.Adapter {
     async createState(name, def, type, desc) {
         const id = `${this.namespace}.${name}`;
         try {
-            await this.setObjectNotExistsAsync(name, {
-                type: 'state',
-                common: {
-                    name: desc,
-                    type: type,
-                    role: 'value',
-                    read: true,
-                    write: true,
-                    def: def
-                },
-                native: {}
-            });
+            // Prüfen ob Objekt existiert
+            const obj = await this.getObjectAsync(name);
+            if (!obj) {
+                // Objekt erstellen
+                await this.setObjectAsync(name, {
+                    type: 'state',
+                    common: {
+                        name: desc,
+                        type: type,
+                        role: 'value',
+                        read: true,
+                        write: true,
+                        def: def
+                    },
+                    native: {}
+                });
+                this.log.debug(`State erstellt: ${name}`);
+            }
         } catch (e) {
             this.log.error(`Fehler beim Erstellen von ${name}: ${e.message}`);
         }
