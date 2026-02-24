@@ -675,15 +675,26 @@ class PvNotifications extends utils.Adapter {
     /**
      * Baue tägliche Statistik-Nachricht
      */
-    buildDailyStatsMessage() {
-        const soc = this.getStateValue(this.config.batterySOC);
+    async buildDailyStatsMessage() {
+        // Werte aus States lesen
+        const socState = await this.getStateAsync('statistics.currentSOC');
+        const soc = socState && socState.val !== null ? socState.val : 0;
+        
         const batteryCapacityKWh = this.round(this.config.batteryCapacityWh / 1000, 1);
         const currentKWh = this.round((soc / 100) * this.config.batteryCapacityWh / 1000, 1);
-
-        const totalProd = this.getStateValue(this.config.totalProduction);
-        const feedIn = this.getStateValue(this.config.feedIn);
-        const gridPower = this.getStateValue(this.config.gridPower);
-        const selfConsumption = this.round(totalProd - Math.abs(feedIn), 1);
+        
+        // Weitere Werte aus States lesen
+        const totalProdState = await this.getStateAsync('statistics.currentTotalProduction');
+        const totalProd = totalProdState && totalProdState.val !== null ? this.round(totalProdState.val, 1) : 0;
+        
+        const feedInState = await this.getStateAsync('statistics.currentFeedIn');
+        const feedIn = feedInState && feedInState.val !== null ? this.round(Math.abs(feedInState.val), 0) : 0;
+        
+        const gridPowerState = await this.getStateAsync('statistics.currentGridPower');
+        const gridPower = gridPowerState && gridPowerState.val !== null ? this.round(gridPowerState.val, 0) : 0;
+        
+        // Eigenverbrauch berechnen
+        const selfConsumption = this.round(totalProd - feedIn, 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
         let message = `📊 *${this.translate('Daily statistics PV system')}*
@@ -691,10 +702,10 @@ class PvNotifications extends utils.Adapter {
 🔋 ${this.translate('Current charge level')}: ${soc}%
 ⚡ ${this.translate('Current energy')}: ${currentKWh} kWh (${batteryCapacityKWh} kWh ${this.translate('Total capacity')})
 ━━━━━━━━━━━━━━━━━━━━━━
-☀️ ${this.translate('Production')}: ${this.round(totalProd)} kWh
+☀️ ${this.translate('Production')}: ${totalProd} kWh
 🏠 ${this.translate('Own consumption')}: ${selfConsumption} kWh (${selfConsumptionRate}%)
-🔌 ${this.translate('Feed-in')}: ${this.round(Math.abs(feedIn), 0)} kWh
-⚡ ${this.translate('Grid consumption')}: ${this.round(gridPower, 0)} kWh`;
+🔌 ${this.translate('Feed-in')}: ${feedIn} kWh
+⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh`;
 
         // Wetter-Prognose für morgen hinzufügen
         if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
@@ -859,15 +870,15 @@ class PvNotifications extends utils.Adapter {
             // Tägliche Statistik zur konfigurierten Zeit
             const [dayHours, dayMinutes] = this.config.statsDayTime.split(':').map(Number);
             if (hours === dayHours && minutes === dayMinutes) {
-                this.sendTelegram(this.buildDailyStatsMessage());
+                this.sendDailyStatsMessage();
             }
-            
+
             // Wöchentliche Statistik am konfigurierten Tag und Zeit
             const [weekHours, weekMinutes] = this.config.statsWeekTime.split(':').map(Number);
             if (day === this.config.statsWeekDay && hours === weekHours && minutes === weekMinutes) {
                 this.sendTelegram(this.buildWeeklyStatsMessage());
             }
-            
+
             // Monatsstatistik am konfigurierten Tag und Zeit
             if (this.config.monthlyStatsEnabled) {
                 const [monthHours, monthMinutes] = this.config.monthlyStatsTime.split(':').map(Number);
@@ -1208,6 +1219,29 @@ class PvNotifications extends utils.Adapter {
         this.sendTelegram(testMessage, 'info');
 
         this.log.info('Test-Benachrichtigung wurde gesendet');
+    }
+
+    /**
+     * Sende tägliche Statistik-Nachricht
+     */
+    async sendDailyStatsMessage() {
+        this.log.info('Tagesstatistik wird gesendet');
+
+        // Prüfe ob Telegram konfiguriert ist
+        if (!this.config.telegramInstance) {
+            this.log.warn('Tagesstatistik fehlgeschlagen: Keine Telegram-Instanz konfiguriert');
+            return;
+        }
+
+        if (!this.config.telegramUsers) {
+            this.log.warn('Tagesstatistik fehlgeschlagen: Keine Telegram-Benutzer konfiguriert');
+            return;
+        }
+
+        const dailyStatsMessage = await this.buildDailyStatsMessage();
+        this.sendTelegram(dailyStatsMessage, 'info');
+
+        this.log.info('Tagesstatistik wurde gesendet');
     }
 
     /**
