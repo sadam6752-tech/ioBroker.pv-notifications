@@ -35,223 +35,125 @@
       "lg": 12
     },
     "batterySOC": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_batterySOC",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_batterySOC",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.battery", "value.charge"]
-        }
-      }
+      "objSelect": true
     },
     "powerProduction": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_powerProduction",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.power", "value.power.production"]
-        }
-      }
+      "objSelect": true
     },
     "totalProduction": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_totalProduction",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.total"]
-        }
-      }
+      "objSelect": true
     },
     "feedIn": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_feedIn",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.feedin"]
-        }
-      }
+      "objSelect": true
     },
     "consumption": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_consumption",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.consumption"]
-        }
-      }
+      "objSelect": true
     },
     "gridPower": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_gridPower",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.grid"]
-        }
-      }
+      "objSelect": true
     },
     "weeklyProduction": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_weeklyProduction",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_weeklyProduction",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.total"]
-        }
-      }
+      "objSelect": true
     },
     "weeklyConsumption": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_weeklyConsumption",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_weeklyConsumption",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.consumption"]
-        }
-      }
+      "objSelect": true
     },
     "weeklyFeedIn": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_weeklyFeedIn",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_weeklyFeedIn",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.feedin"]
-        }
-      }
+      "objSelect": true
     },
     "weeklyGridPower": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_weeklyGridPower",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_weeklyGridPower",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.grid"]
-        }
-      }
+      "objSelect": true
     },
     "monthlyProduction": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_monthlyProduction",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_monthlyProduction",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.total"]
-        }
-      }
+      "objSelect": true
     },
     "monthlyConsumption": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_monthlyConsumption",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_monthlyConsumption",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.consumption"]
-        }
-      }
+      "objSelect": true
     },
     "monthlyFeedIn": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_monthlyFeedIn",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_monthlyFeedIn",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.feedin"]
-        }
-      }
+      "objSelect": true
     },
     "monthlyGridPower": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_monthlyGridPower",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_monthlyGridPower",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        },
-        "role": {
-          "value": ["value.energy", "value.energy.grid"]
-        }
-      }
+      "objSelect": true
     },
     "_header_battery": {
       "type": "header",
@@ -449,58 +351,40 @@
       "lg": 12
     },
     "weatherTodayText": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_weatherTodayText",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_weatherTodayText",
-      "nativeAttributes": {
-        "type": {
-          "string": true,
-          "number": true
-        }
-      }
+      "objSelect": true
     },
     "weatherTodayTemp": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_weatherTodayTemp",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_weatherTodayTemp",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        }
-      }
+      "objSelect": true
     },
     "weatherTomorrowText": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_weatherTomorrowText",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_weatherTomorrowText",
-      "nativeAttributes": {
-        "type": {
-          "string": true,
-          "number": true
-        }
-      }
+      "objSelect": true
     },
     "weatherTomorrowTemp": {
-      "type": "objSelect",
+      "type": "text",
       "label": "label_weatherTomorrowTemp",
       "sm": 6,
       "md": 6,
       "lg": 6,
       "tooltip": "tooltip_weatherTomorrowTemp",
-      "nativeAttributes": {
-        "type": {
-          "number": true
-        }
-      }
+      "objSelect": true
     },
     "_header_thresholds": {
       "type": "header",
