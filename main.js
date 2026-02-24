@@ -473,7 +473,7 @@ class PvNotifications extends utils.Adapter {
         const selfConsumption = this.round(totalProd - Math.abs(feedIn), 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
-        return `📊 *Tagesstatistik PV-Anlage*
+        let message = `📊 *Tagesstatistik PV-Anlage*
 ━━━━━━━━━━━━━━━━━━━━━━
 🔋 Aktueller Ladestand: ${soc}%
 ⚡ Aktuelle Energie: ${currentKWh} kWh (${batteryCapacityKWh} kWh Gesamt)
@@ -482,6 +482,41 @@ class PvNotifications extends utils.Adapter {
 🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
 🔌 Einspeisung: ${this.round(Math.abs(feedIn), 0)} kWh
 ⚡ Netzbezug: ${this.round(gridPower, 0)} kWh`;
+
+        // Wetter-Prognose für morgen hinzufügen
+        if (this.config.weatherTomorrow) {
+            try {
+                const weatherTomorrow = this.getStateValue(this.config.weatherTomorrow);
+                const weatherTomorrowText = this.getStateValue(this.config.weatherTomorrowText);
+                
+                if (weatherTomorrow || weatherTomorrowText) {
+                    // Temperatur für morgen (wenn verfügbar)
+                    const tempTomorrow = this.getStateValue(this.config.weatherTomorrowTemp);
+                    const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                    
+                    // Wetterbeschreibung
+                    let weatherDesc = '';
+                    if (weatherTomorrowText) {
+                        weatherDesc = this.getWeatherDescription(weatherTomorrowText);
+                    } else if (weatherTomorrow) {
+                        weatherDesc = this.getWeatherDescription(weatherTomorrow);
+                    }
+                    
+                    message += `\n━━━━━━━━━━━━━━━━━━━━━━\n🌤️ *Wetter morgen:* ${weatherDesc}${tempText}`;
+                    
+                    // Zusätzliche Info bei gutem/schlechtem Wetter
+                    if (this.isWeatherGood(weatherTomorrowText || weatherTomorrow)) {
+                        message += `\n☀️ Gute PV-Produktion erwartet!`;
+                    } else if (this.isWeatherBad(weatherTomorrowText || weatherTomorrow)) {
+                        message += `\n⛅ Weniger PV-Produktion erwartet`;
+                    }
+                }
+            } catch (e) {
+                this.log.debug('Wetter-Daten für morgen nicht verfügbar: ' + e.message);
+            }
+        }
+
+        return message;
     }
 
     /**

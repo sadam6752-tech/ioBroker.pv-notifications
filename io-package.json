@@ -1,9 +1,9 @@
 {
   "_id": "iobroker.pv-notifications",
-  "version": "1.0.4",
+  "version": "1.0.12",
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.4",
+    "version": "1.0.12",
     "title": "PV Notifications",
     "titleLang": {
       "en": "PV Notifications",
@@ -69,6 +69,8 @@
     "statsWeekTime": "10:00",
     "weatherToday": "",
     "weatherTomorrow": "",
+    "weatherTomorrowText": "",
+    "weatherTomorrowTemp": "",
     "highProduction": 5000,
     "highConsumption": 3000,
     "monthlyStatsEnabled": false,
