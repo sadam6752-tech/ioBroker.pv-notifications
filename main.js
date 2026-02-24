@@ -171,10 +171,41 @@ class PvNotifications extends utils.Adapter {
         // Aktuelle Werte von den konfigurierten Datenpunkten lesen
         await this.refreshCurrentValues();
 
+        // Prüfe Berechtigungen für konfigurierte Datenpunkte
+        await this.checkPermissions();
+
         // Signalisiere dass der Adapter bereit ist
         this.setState('info.connection', true, true);
         this.log.info('PV Notifications Adapter ist bereit');
         this.log.info(`Adapter Namespace: ${this.namespace}`);
+    }
+
+    /**
+     * Prüfe Berechtigungen für konfigurierte Datenpunkte
+     */
+    async checkPermissions() {
+        const dataPoints = [
+            { name: 'Batterie SOC', id: this.config.batterySOC },
+            { name: 'PV-Leistung', id: this.config.powerProduction },
+            { name: 'Gesamtproduktion', id: this.config.totalProduction },
+            { name: 'Einspeisung', id: this.config.feedIn },
+            { name: 'Verbrauch', id: this.config.consumption },
+            { name: 'Netzbezug', id: this.config.gridPower }
+        ];
+
+        for (const dp of dataPoints) {
+            if (dp.id) {
+                try {
+                    const state = await this.getForeignStateAsync(dp.id);
+                    if (state === null || state === undefined) {
+                        this.log.warn(`Kein Lesezugriff auf "${dp.id}" (${dp.name}) - Bitte Berechtigungen prüfen!`);
+                        this.log.warn(`Anleitung: Objects → ${dp.id} → 🔑 Schlüssel → Lesen/Empfangen für pv-notifications.0 aktivieren`);
+                    }
+                } catch (e) {
+                    this.log.warn(`Fehler beim Zugriff auf "${dp.id}" (${dp.name}): ${e.message}`);
+                }
+            }
+        }
     }
 
     /**
