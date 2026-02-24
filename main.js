@@ -1141,20 +1141,40 @@ class PvNotifications extends utils.Adapter {
     /**
      * Baue Test-Nachricht
      */
-    buildTestMessage() {
-        const soc = this.getStateValue(this.config.batterySOC);
+    async buildTestMessage() {
+        // Werte aus States lesen
+        const socState = await this.getStateAsync('statistics.currentSOC');
+        const soc = socState && socState.val !== null ? socState.val : 0;
+        
         const batteryCapacityKWh = this.round(this.config.batteryCapacityWh / 1000, 1);
         const currentKWh = this.round((soc / 100) * this.config.batteryCapacityWh / 1000, 1);
+        
+        // Weitere Werte aus States lesen
+        const totalProdState = await this.getStateAsync('statistics.currentTotalProduction');
+        const totalProd = totalProdState && totalProdState.val !== null ? this.round(totalProdState.val, 1) : 0;
+        
+        const consumptionState = await this.getStateAsync('statistics.currentConsumption');
+        const consumption = consumptionState && consumptionState.val !== null ? this.round(consumptionState.val, 1) : 0;
+        
+        const feedInState = await this.getStateAsync('statistics.currentFeedIn');
+        const feedIn = feedInState && feedInState.val !== null ? this.round(Math.abs(feedInState.val), 0) : 0;
+        
+        const gridPowerState = await this.getStateAsync('statistics.currentGridPower');
+        const gridPower = gridPowerState && gridPowerState.val !== null ? this.round(gridPowerState.val, 0) : 0;
+        
+        // Eigenverbrauch berechnen
+        const selfConsumption = this.round(totalProd - feedIn, 1);
+        const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
         return `🧪 *${this.translate('Daily statistics PV system')} - TEST*
 ━━━━━━━━━━━━━━━━━━━━━━
 🔋 ${this.translate('Current charge level')}: ${soc}%
 ⚡ ${this.translate('Current energy')}: ${currentKWh} kWh (${batteryCapacityKWh} kWh ${this.translate('Total capacity')})
 ━━━━━━━━━━━━━━━━━━━━━━
-✅ ${this.translate('Production')}: 0 kWh
-🏠 ${this.translate('Own consumption')}: 0 kWh (0%)
-🔌 ${this.translate('Feed-in')}: 0 kWh
-⚡ ${this.translate('Grid consumption')}: 0 kWh
+✅ ${this.translate('Production')}: ${totalProd} kWh
+🏠 ${this.translate('Own consumption')}: ${selfConsumption} kWh (${selfConsumptionRate}%)
+🔌 ${this.translate('Feed-in')}: ${feedIn} kWh
+⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh
 ━━━━━━━━━━━━━━━━━━━━━━
 💡 ${this.translate('A healthy cycle per day is normal')}
 
@@ -1166,21 +1186,21 @@ class PvNotifications extends utils.Adapter {
      */
     async sendTestMessage() {
         this.log.info('Test-Benachrichtigung wird gesendet');
-        
+
         // Prüfe ob Telegram konfiguriert ist
         if (!this.config.telegramInstance) {
             this.log.warn('Test fehlgeschlagen: Keine Telegram-Instanz konfiguriert');
             return;
         }
-        
+
         if (!this.config.telegramUsers) {
             this.log.warn('Test fehlgeschlagen: Keine Telegram-Benutzer konfiguriert');
             return;
         }
-        
-        const testMessage = this.buildTestMessage();
+
+        const testMessage = await this.buildTestMessage();
         this.sendTelegram(testMessage, 'info');
-        
+
         this.log.info('Test-Benachrichtigung wurde gesendet');
     }
 
