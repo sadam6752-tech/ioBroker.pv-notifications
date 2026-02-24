@@ -99,6 +99,11 @@ class PvNotifications extends utils.Adapter {
         await this.createState('statistics.emptyCyclesWeek', 0, 'number', 'Leerzyklen diese Woche');
         await this.createState('statistics.currentSOC', 0, 'number', 'Aktueller SOC');
         await this.createState('statistics.currentEnergyKWh', 0, 'number', 'Aktuelle Energie in kWh');
+        await this.createState('statistics.currentPower', 0, 'number', 'Aktuelle Leistung W');
+        await this.createState('statistics.currentTotalProduction', 0, 'number', 'Gesamtproduktion heute kWh');
+        await this.createState('statistics.currentFeedIn', 0, 'number', 'Einspeisung heute kWh');
+        await this.createState('statistics.currentConsumption', 0, 'number', 'Verbrauch heute kWh');
+        await this.createState('statistics.currentGridPower', 0, 'number', 'Netzbezug heute kWh');
 
         // States für letzte Monats-/Wochenstatistik
         await this.createState('statistics.lastMonthProduction', 0, 'number', 'Produktion letzter Monat');
@@ -163,6 +168,9 @@ class PvNotifications extends utils.Adapter {
         // Initiale Statistik laden
         await this.loadStatistics();
 
+        // Aktuelle Werte von den konfigurierten Datenpunkten lesen
+        await this.refreshCurrentValues();
+
         // Signalisiere dass der Adapter bereit ist
         this.setState('info.connection', true, true);
         this.log.info('PV Notifications Adapter ist bereit');
@@ -198,7 +206,7 @@ class PvNotifications extends utils.Adapter {
         try {
             const today = new Date().getDate();
             const lastReset = await this.getStateAsync('statistics.lastStatsReset');
-            
+
             if (!lastReset || lastReset.val !== today) {
                 // Neuer Tag - Statistik zurücksetzen
                 this.stats.fullCycles = 0;
@@ -210,6 +218,47 @@ class PvNotifications extends utils.Adapter {
             }
         } catch (e) {
             this.log.error(`Fehler beim Laden der Statistik: ${e.message}`);
+        }
+    }
+
+    /**
+     * Aktuelle Werte von konfigurierten Datenpunkten lesen
+     */
+    async refreshCurrentValues() {
+        try {
+            this.log.info('Aktualisiere aktuelle Werte...');
+            
+            // SOC lesen und verarbeiten
+            if (this.config.batterySOC) {
+                const socState = await this.getStateAsync(this.config.batterySOC);
+                if (socState && socState.val !== null) {
+                    this.log.debug(`SOC gelesen: ${socState.val}%`);
+                    this.onBatterySOCChange(socState.val);
+                }
+            }
+            
+            // Andere Werte direkt in States speichern
+            const valueMap = [
+                { config: this.config.powerProduction, state: 'statistics.currentPower' },
+                { config: this.config.totalProduction, state: 'statistics.currentTotalProduction' },
+                { config: this.config.feedIn, state: 'statistics.currentFeedIn' },
+                { config: this.config.consumption, state: 'statistics.currentConsumption' },
+                { config: this.config.gridPower, state: 'statistics.currentGridPower' }
+            ];
+            
+            for (const item of valueMap) {
+                if (item.config) {
+                    const state = await this.getStateAsync(item.config);
+                    if (state && state.val !== null) {
+                        await this.setStateAsync(item.state, state.val, true);
+                        this.log.debug(`${item.state} aktualisiert: ${state.val}`);
+                    }
+                }
+            }
+            
+            this.log.info('Aktuelle Werte aktualisiert');
+        } catch (e) {
+            this.log.error(`Fehler beim Aktualisieren der Werte: ${e.message}`);
         }
     }
 
