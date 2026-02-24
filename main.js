@@ -379,6 +379,7 @@ class PvNotifications extends utils.Adapter {
                         this.log.error(`Telegram Fehler: ${result.error}`);
                     } else {
                         this.log.info(fullMessage);
+                        this.log.info(`Telegram erfolgreich gesendet an: ${usersList.join(', ')}`);
                     }
                 });
             } else {
@@ -997,11 +998,39 @@ class PvNotifications extends utils.Adapter {
                     // Test-Benachrichtigung senden
                     this.log.info('Test-Benachrichtigung wird gesendet');
                     
+                    // Prüfe ob Telegram konfiguriert ist
+                    if (!this.config.telegramInstance) {
+                        this.log.warn('Test fehlgeschlagen: Keine Telegram-Instanz konfiguriert');
+                        if (obj.callback) {
+                            this.sendTo(obj.from, obj.command, { 
+                                success: false, 
+                                error: 'Keine Telegram-Instanz konfiguriert' 
+                            }, obj.callback);
+                        }
+                        return;
+                    }
+                    
+                    if (!this.config.telegramUsers) {
+                        this.log.warn('Test fehlgeschlagen: Keine Telegram-Benutzer konfiguriert');
+                        if (obj.callback) {
+                            this.sendTo(obj.from, obj.command, { 
+                                success: false, 
+                                error: 'Keine Telegram-Benutzer konfiguriert' 
+                            }, obj.callback);
+                        }
+                        return;
+                    }
+                    
                     const testMessage = this.buildTestMessage();
                     this.sendTelegram(testMessage, 'info');
                     
+                    this.log.info('Test-Benachrichtigung wurde gesendet');
+                    
                     if (obj.callback) {
-                        this.sendTo(obj.from, obj.command, { success: true }, obj.callback);
+                        this.sendTo(obj.from, obj.command, { 
+                            success: true,
+                            message: 'Test-Benachrichtigung wurde gesendet'
+                        }, obj.callback);
                     }
                     break;
             }
