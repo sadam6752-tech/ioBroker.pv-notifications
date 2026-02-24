@@ -126,6 +126,10 @@ class PvNotifications extends utils.Adapter {
             this.log.info(`Subscription für ${this.config.batterySOC} erstellt`);
         }
 
+        // NACH allen subscriptions: Nochmal alle States subscriben
+        this.subscribeStates('*');
+        this.log.info('Alle States subscribiert (*)');
+
         // Zeitgesteuerte Aufgaben starten
         this.startScheduledTasks();
 
