@@ -17,6 +17,9 @@ class PvNotifications extends utils.Adapter {
             name: 'pv-notifications',
         });
 
+        // Systemsprache laden
+        this.systemLang = 'de'; // Standard
+
         // Status & Counter
         this.status = {
             full: false,
@@ -68,6 +71,9 @@ class PvNotifications extends utils.Adapter {
     async onReady() {
         // Reset connection indicator
         this.setState('info.connection', false, true);
+
+        // Systemsprache laden
+        await this.loadSystemLanguage();
 
         this.log.info('PV Notifications Adapter gestartet');
 
@@ -399,12 +405,12 @@ class PvNotifications extends utils.Adapter {
         const feedIn = this.getStateValue(this.config.feedIn);
         const consumption = this.getStateValue(this.config.consumption);
 
-        let message = `🔋 *Batterie VOLL* (${soc}%)
+        let message = `🔋 *${this.translate('Battery full')}* (${soc}%)
 
-⚡ Aktuelle Produktion: ${this.round(power)} W
-🏠 Aktueller Verbrauch: ${this.round(consumption)} W
-☀️ Produktion heute: ${this.round(totalProd)} kWh
-🔌 Eingespeist heute: ${this.round(Math.abs(feedIn), 0)} kWh`;
+⚡ ${this.translate('Current production')}: ${this.round(power)} W
+🏠 ${this.translate('Current consumption')}: ${this.round(consumption)} W
+☀️ ${this.translate('Production today')}: ${this.round(totalProd)} kWh
+🔌 ${this.translate('Feed-in today')}: ${this.round(Math.abs(feedIn), 0)} kWh`;
 
         // Wetter-Prognose hinzufügen (optional)
         if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
@@ -420,7 +426,7 @@ class PvNotifications extends utils.Adapter {
                     message += `\n🌤️ Morgen: ${weatherDesc}${tempText}`;
 
                     if (this.isWeatherBad(weatherText)) {
-                        message += `\n💡 Tipp: Morgen wenig Sonne - heute Verbraucher nutzen!`;
+                        message += `\n💡 ${this.translate('Tip tomorrow little sun use consumers today')}`;
                     }
                 }
             } catch (e) {
@@ -430,7 +436,7 @@ class PvNotifications extends utils.Adapter {
 
         // Empfehlungen bei hoher Produktion
         if (power > this.config.highProduction) {
-            message += `\n\n🚗 Jetzt ideal für: Elektroauto, Waschmaschine, Spülmaschine!`;
+            message += `\n\n🚗 ${this.translate('Now ideal for electric car washing machine dishwasher')}`;
         }
 
         return message;
@@ -443,10 +449,10 @@ class PvNotifications extends utils.Adapter {
         const gridPower = this.getStateValue(this.config.gridPower);
         const consumption = this.getStateValue(this.config.consumption);
 
-        let message = `🔋 *Batterie LEER* (${soc}%)
+        let message = `🔋 *${this.translate('Battery empty')}* (${soc}%)
 
-⚠️ Aktueller Netzbezug: ${this.round(gridPower)} W
-🏠 Verbrauch: ${this.round(consumption)} W`;
+⚠️ ${this.translate('Grid consumption today')}: ${this.round(gridPower)} W
+🏠 ${this.translate('Consumption today')}: ${this.round(consumption)} W`;
 
         // Wetter-Prognose
         if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
@@ -462,7 +468,7 @@ class PvNotifications extends utils.Adapter {
                     message += `\n🌤️ Morgen: ${weatherDesc}${tempText}`;
 
                     if (this.isWeatherGood(weatherText)) {
-                        message += `\n💡 Gute Nachricht: Morgen wieder mehr Sonne!`;
+                        message += `\n💡 ${this.translate('Good news tomorrow more sun')}`;
                     }
                 }
             } catch (e) {
@@ -472,7 +478,7 @@ class PvNotifications extends utils.Adapter {
 
         // Spartipps
         if (consumption > this.config.highConsumption) {
-            message += `\n\n💰 Hoher Verbrauch! Nicht benötigte Geräte ausschalten.`;
+            message += `\n\n💰 ${this.translate('High consumption Turn off unnecessary devices')}`;
         }
 
         return message;
@@ -489,27 +495,30 @@ class PvNotifications extends utils.Adapter {
         // Nachrichtentext basierend auf SOC und Richtung
         let infoText = '';
         if (soc === 80) {
-            infoText = '💡 Bald voll!';
+            infoText = this.systemLang === 'ru' ? '💡 Скоро полон!' : '💡 Bald voll!';
         } else if (soc === 60) {
             infoText = '';
         } else if (soc === 40) {
-            infoText = '💡 Noch ausreichend Reserve';
+            infoText = this.systemLang === 'ru' ? '💡 Еще достаточно резерва' : '💡 Noch ausreichend Reserve';
         } else if (soc === 20) {
             if (direction === 'down') {
-                infoText = '⚠️ Bald Reserve nötig';
+                infoText = this.systemLang === 'ru' ? '⚠️ Скоро нужен резерв' : '⚠️ Bald Reserve nötig';
             } else {
-                infoText = '✅ Batterie wird geladen';
+                infoText = this.systemLang === 'ru' ? '✅ Батарея заряжается' : '✅ Batterie wird geladen';
             }
         }
 
+        const batteryAt = this.translate('Battery at');
+        const production = this.translate('Production');
+
         const messages = {
-            80: `🔋 Batterie bei ${soc}% (${currentKWh} kWh) ${trend}\n⚡ Produktion: ${this.round(power)} W\n${infoText}`,
-            60: `🔋 Batterie bei ${soc}% (${currentKWh} kWh) ${trend}\n⚡ Produktion: ${this.round(power)} W`,
-            40: `🔋 Batterie bei ${soc}% (${currentKWh} kWh) ${trend}\n⚡ Produktion: ${this.round(power)} W\n${infoText}`,
-            20: `🔋 Batterie bei ${soc}% (${currentKWh} kWh) ${trend}\n⚡ Produktion: ${this.round(power)} W\n${infoText}`
+            80: `🔋 ${batteryAt} ${soc}% (${currentKWh} kWh) ${trend}\n⚡ ${production}: ${this.round(power)} W\n${infoText}`,
+            60: `🔋 ${batteryAt} ${soc}% (${currentKWh} kWh) ${trend}\n⚡ ${production}: ${this.round(power)} W`,
+            40: `🔋 ${batteryAt} ${soc}% (${currentKWh} kWh) ${trend}\n⚡ ${production}: ${this.round(power)} W\n${infoText}`,
+            20: `🔋 ${batteryAt} ${soc}% (${currentKWh} kWh) ${trend}\n⚡ ${production}: ${this.round(power)} W\n${infoText}`
         };
 
-        return messages[soc] || `🔋 Batterie bei ${soc}% (${currentKWh} kWh)`;
+        return messages[soc] || `🔋 ${batteryAt} ${soc}% (${currentKWh} kWh)`;
     }
 
     /**
@@ -526,15 +535,15 @@ class PvNotifications extends utils.Adapter {
         const selfConsumption = this.round(totalProd - Math.abs(feedIn), 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
-        let message = `📊 *Tagesstatistik PV-Anlage*
+        let message = `📊 *${this.translate('Daily statistics PV system')}*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Aktueller Ladestand: ${soc}%
-⚡ Aktuelle Energie: ${currentKWh} kWh (${batteryCapacityKWh} kWh Gesamt)
+🔋 ${this.translate('Current charge level')}: ${soc}%
+⚡ ${this.translate('Current energy')}: ${currentKWh} kWh (${batteryCapacityKWh} kWh ${this.translate('Total capacity')})
 ━━━━━━━━━━━━━━━━━━━━━━
-☀️ Produktion: ${this.round(totalProd)} kWh
-🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
-🔌 Einspeisung: ${this.round(Math.abs(feedIn), 0)} kWh
-⚡ Netzbezug: ${this.round(gridPower, 0)} kWh`;
+☀️ ${this.translate('Production')}: ${this.round(totalProd)} kWh
+🏠 ${this.translate('Own consumption')}: ${selfConsumption} kWh (${selfConsumptionRate}%)
+🔌 ${this.translate('Feed-in')}: ${this.round(Math.abs(feedIn), 0)} kWh
+⚡ ${this.translate('Grid consumption')}: ${this.round(gridPower, 0)} kWh`;
 
         // Wetter-Prognose für morgen hinzufügen
         if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
@@ -547,13 +556,13 @@ class PvNotifications extends utils.Adapter {
                 const weatherText = weatherTomorrowText || weatherTomorrow;
                 if (weatherText) {
                     const weatherDesc = this.getWeatherDescription(weatherText);
-                    message += `\n━━━━━━━━━━━━━━━━━━━━━━\n🌤️ *Wetter morgen:* ${weatherDesc}${tempText}`;
+                    message += `\n━━━━━━━━━━━━━━━━━━━━━━\n🌤️ *${this.translate('Weather tomorrow')}:* ${weatherDesc}${tempText}`;
 
                     // Zusätzliche Info bei gutem/schlechtem Wetter
                     if (this.isWeatherGood(weatherText)) {
-                        message += `\n☀️ Gute PV-Produktion erwartet!`;
+                        message += `\n☀️ ${this.translate('Good PV production expected')}`;
                     } else if (this.isWeatherBad(weatherText)) {
-                        message += `\n⛅ Weniger PV-Produktion erwartet`;
+                        message += `\n⛅ ${this.translate('Less PV production expected')}`;
                     }
                 }
             } catch (e) {
@@ -575,18 +584,18 @@ class PvNotifications extends utils.Adapter {
         const selfConsumption = this.round(totalProd - feedIn, 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
-        return `📊 *Wochenstatistik PV-Anlage*
+        return `📊 *${this.translate('Weekly statistics PV system')}*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Vollzyklen letzte Woche: ${this.stats.lastWeekFullCycles}
-📉 Leerzyklen letzte Woche: ${this.stats.lastWeekEmptyCycles}
+🔋 ${this.translate('Full cycles last week')}: ${this.stats.lastWeekFullCycles}
+📉 ${this.translate('Empty cycles last week')}: ${this.stats.lastWeekEmptyCycles}
 ━━━━━━━━━━━━━━━━━━━━━━
-☀️ Produktion: ${totalProd} kWh
-🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
-🔌 Einspeisung: ${feedIn} kWh
-⚡ Netzbezug: ${gridPower} kWh
+☀️ ${this.translate('Production')}: ${totalProd} kWh
+🏠 ${this.translate('Own consumption')}: ${selfConsumption} kWh (${selfConsumptionRate}%)
+🔌 ${this.translate('Feed-in')}: ${feedIn} kWh
+⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh
 ━━━━━━━━━━━━━━━━━━━━━━
-💡 Ein gesunder Zyklus pro Tag ist normal.
-🔋 Bei vielen Zyklen: Batterie-Settings prüfen.`;
+💡 ${this.translate('A healthy cycle per day is normal')}
+🔋 ${this.translate('If there are many cycles check battery settings')}`;
     }
 
     /**
@@ -600,15 +609,15 @@ class PvNotifications extends utils.Adapter {
         const selfConsumption = this.round(totalProd - feedIn, 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
-        return `📊 *Monatsstatistik PV-Anlage*
+        return `📊 *${this.translate('Monthly statistics PV system')}*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Vollzyklen letzter Monat: ${this.stats.lastMonthFullCycles}
-📉 Leerzyklen letzter Monat: ${this.stats.lastMonthEmptyCycles}
+🔋 ${this.translate('Full cycles last month')}: ${this.stats.lastMonthFullCycles}
+📉 ${this.translate('Empty cycles last month')}: ${this.stats.lastMonthEmptyCycles}
 ━━━━━━━━━━━━━━━━━━━━━━
-☀️ Produktion: ${totalProd} kWh
-🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
-🔌 Einspeisung: ${feedIn} kWh
-⚡ Netzbezug: ${gridPower} kWh
+☀️ ${this.translate('Production')}: ${totalProd} kWh
+🏠 ${this.translate('Own consumption')}: ${selfConsumption} kWh (${selfConsumptionRate}%)
+🔌 ${this.translate('Feed-in')}: ${feedIn} kWh
+⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh
 ━━━━━━━━━━━━━━━━━━━━━━`;
     }
 
@@ -786,6 +795,194 @@ class PvNotifications extends utils.Adapter {
             this.stats.lastMonthReset = today;
             this.saveStatistics();
         }
+    }
+
+    /**
+     * Systemsprache von ioBroker laden
+     */
+    async loadSystemLanguage() {
+        try {
+            const systemConfig = await this.getForeignObjectAsync('system.config');
+            if (systemConfig && systemConfig.common && systemConfig.common.language) {
+                this.systemLang = systemConfig.common.language;
+                this.log.debug(`Systemsprache geladen: ${this.systemLang}`);
+            }
+        } catch (e) {
+            this.log.debug(`Systemsprache konnte nicht geladen werden, verwende Standard (de): ${e.message}`);
+        }
+    }
+
+    /**
+     * Text übersetzen
+     */
+    translate(key) {
+        const translations = {
+            'Battery full': {
+                'de': 'Batterie VOLL',
+                'en': 'Battery FULL',
+                'ru': 'БАТАРЕЯ ПОЛНА'
+            },
+            'Battery empty': {
+                'de': 'Batterie LEER',
+                'en': 'Battery EMPTY',
+                'ru': 'БАТАРЕЯ ПУСТА'
+            },
+            'Battery at': {
+                'de': 'Batterie bei',
+                'en': 'Battery at',
+                'ru': 'Батарея'
+            },
+            'Daily statistics PV system': {
+                'de': 'Tagesstatistik PV-Anlage',
+                'en': 'Daily Statistics PV System',
+                'ru': 'Дневная статистика PV системы'
+            },
+            'Weekly statistics PV system': {
+                'de': 'Wochenstatistik PV-Anlage',
+                'en': 'Weekly Statistics PV System',
+                'ru': 'Недельная статистика PV системы'
+            },
+            'Monthly statistics PV system': {
+                'de': 'Monatsstatistik PV-Anlage',
+                'en': 'Monthly Statistics PV System',
+                'ru': 'Месячная статистика PV системы'
+            },
+            'Current charge level': {
+                'de': 'Aktueller Ladestand',
+                'en': 'Current charge level',
+                'ru': 'Текущий уровень заряда'
+            },
+            'Current energy': {
+                'de': 'Aktuelle Energie',
+                'en': 'Current energy',
+                'ru': 'Текущая энергия'
+            },
+            'Total capacity': {
+                'de': 'Gesamt',
+                'en': 'Total capacity',
+                'ru': 'Общая емкость'
+            },
+            'Production': {
+                'de': 'Produktion',
+                'en': 'Production',
+                'ru': 'Производство'
+            },
+            'Own consumption': {
+                'de': 'Eigenverbrauch',
+                'en': 'Own consumption',
+                'ru': 'Собственное потребление'
+            },
+            'Feed-in': {
+                'de': 'Einspeisung',
+                'en': 'Feed-in',
+                'ru': 'Подача в сеть'
+            },
+            'Grid consumption': {
+                'de': 'Netzbezug',
+                'en': 'Grid consumption',
+                'ru': 'Потребление из сети'
+            },
+            'Full cycles last week': {
+                'de': 'Vollzyklen letzte Woche',
+                'en': 'Full cycles last week',
+                'ru': 'Полные циклы на прошлой неделе'
+            },
+            'Empty cycles last week': {
+                'de': 'Leerzyklen letzte Woche',
+                'en': 'Empty cycles last week',
+                'ru': 'Пустые циклы на прошлой неделе'
+            },
+            'Full cycles last month': {
+                'de': 'Vollzyklen letzter Monat',
+                'en': 'Full cycles last month',
+                'ru': 'Полные циклы в прошлом месяце'
+            },
+            'Empty cycles last month': {
+                'de': 'Leerzyklen letzter Monat',
+                'en': 'Empty cycles last month',
+                'ru': 'Пустые циклы в прошлом месяце'
+            },
+            'Weather tomorrow': {
+                'de': 'Wetter morgen',
+                'en': 'Weather tomorrow',
+                'ru': 'Погода завтра'
+            },
+            'Good PV production expected': {
+                'de': 'Gute PV-Produktion erwartet',
+                'en': 'Good PV production expected',
+                'ru': 'Ожидается хорошее производство PV'
+            },
+            'Less PV production expected': {
+                'de': 'Weniger PV-Produktion erwartet',
+                'en': 'Less PV production expected',
+                'ru': 'Ожидается меньшее производство PV'
+            },
+            'Current production': {
+                'de': 'Aktuelle Produktion',
+                'en': 'Current production',
+                'ru': 'Текущее производство'
+            },
+            'Current consumption': {
+                'de': 'Aktueller Verbrauch',
+                'en': 'Current consumption',
+                'ru': 'Текущее потребление'
+            },
+            'Production today': {
+                'de': 'Produktion heute',
+                'en': 'Production today',
+                'ru': 'Производство сегодня'
+            },
+            'Feed-in today': {
+                'de': 'Eingespeist heute',
+                'en': 'Feed-in today',
+                'ru': 'Подано в сеть сегодня'
+            },
+            'Grid consumption today': {
+                'de': 'Netzbezug heute',
+                'en': 'Grid consumption today',
+                'ru': 'Потребление из сети сегодня'
+            },
+            'Consumption today': {
+                'de': 'Verbrauch heute',
+                'en': 'Consumption today',
+                'ru': 'Потребление сегодня'
+            },
+            'Tip tomorrow little sun use consumers today': {
+                'de': 'Tipp: Morgen wenig Sonne - heute Verbraucher nutzen',
+                'en': 'Tip: Little sun tomorrow - use consumers today',
+                'ru': 'Совет: Завтра мало солнца - используйте потребители сегодня'
+            },
+            'Good news tomorrow more sun': {
+                'de': 'Gute Nachricht: Morgen wieder mehr Sonne',
+                'en': 'Good news: More sun tomorrow',
+                'ru': 'Хорошая новость: Завтра больше солнца'
+            },
+            'Now ideal for electric car washing machine dishwasher': {
+                'de': 'Jetzt ideal für: Elektroauto, Waschmaschine, Spülmaschine',
+                'en': 'Now ideal for: Electric car, washing machine, dishwasher',
+                'ru': 'Сейчас идеально для: Электромобиль, стиральная машина, посудомоечная машина'
+            },
+            'High consumption Turn off unnecessary devices': {
+                'de': 'Hoher Verbrauch! Nicht benötigte Geräte ausschalten',
+                'en': 'High consumption! Turn off unnecessary devices',
+                'ru': 'Высокое потребление! Выключите ненужные устройства'
+            },
+            'A healthy cycle per day is normal': {
+                'de': 'Ein gesunder Zyklus pro Tag ist normal',
+                'en': 'A healthy cycle per day is normal',
+                'ru': 'Один здоровый цикл в день - это нормально'
+            },
+            'If there are many cycles check battery settings': {
+                'de': 'Bei vielen Zyklen: Batterie-Settings prüfen',
+                'en': 'If there are many cycles, check battery settings',
+                'ru': 'При большом количестве циклов проверьте настройки батареи'
+            }
+        };
+
+        if (translations[key] && translations[key][this.systemLang]) {
+            return translations[key][this.systemLang];
+        }
+        return translations[key] && translations[key]['de'] || key;
     }
 
     /**

@@ -1,9 +1,9 @@
 {
   "_id": "iobroker.pv-notifications",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "title": "PV Notifications",
     "titleLang": {
       "en": "PV Notifications",
@@ -12,7 +12,8 @@
     },
     "desc": {
       "en": "Send Telegram notifications for PV battery status",
-      "de": "Sende Telegram-Benachrichtigungen für PV-Batteriestatus"
+      "de": "Sende Telegram-Benachrichtigungen für PV-Batteriestatus",
+      "ru": "Отправка Telegram-уведомлений о состоянии батареи PV"
     },
     "authors": ["Alex <alex@example.com>"],
     "keywords": ["PV", "Solar", "Batterie", "Telegram"],
@@ -28,6 +29,7 @@
     "adminUI": {
       "config": "json"
     },
+    "i18n": true,
     "extIcon": "https://raw.githubusercontent.com/sadam6752-tech/ioBroker.pv-notifications/main/admin/pv-notifications.png",
     "icon": "pv-notifications.png",
     "readme": "https://github.com/sadam6752-tech/ioBroker.pv-notifications/blob/main/README.md",
