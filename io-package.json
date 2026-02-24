@@ -65,7 +65,7 @@
     "minIntervalEmpty": 5,
     "minIntervalIntermediate": 30,
     "statsDayTime": "22:00",
-    "statsWeekDay": 6,
+    "statsWeekDay": 0,
     "statsWeekTime": "10:00",
     "weatherTodayText": "",
     "weatherTodayTemp": "",

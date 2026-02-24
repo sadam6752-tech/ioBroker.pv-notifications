@@ -108,7 +108,7 @@ npm install iobroker.pv-notifications
 | Einstellung | Beschreibung | Standard |
 |-------------|--------------|----------|
 | Tagesstatistik Uhrzeit | Format HH:MM | `22:00` |
-| Wochentag Wochenstatistik | 0=So, 1=Mo, ..., 6=Sa | `6` (Samstag) |
+| Wochentag Wochenstatistik | 0=Mo, 1=Di, ..., 6=So | `0` (Montag) |
 | Uhrzeit Wochenstatistik | Format HH:MM | `10:00` |
 | Monatsstatistik aktivieren | Checkbox für Monatsstatistik | `false` |
 | Tag des Monats | 1-31 | `1` (Erster des Monats) |
@@ -214,10 +214,10 @@ Der Adapter erstellt folgende States unter `pv-notifications.0`:
 
 ### Wochenstatistik
 
-- Die Wochenstatistik wird am **konfigurierten Wochentag** (Standard: Samstag) gesendet
+- Die Wochenstatistik wird am **konfigurierten Wochentag** (Standard: Montag) gesendet
 - Der Adapter **speichert automatisch** die aktuellen Wochendaten, bevor die Statistik zurückgesetzt wird
 - Die Statistik verwendet **gespeicherte Daten** aus `statistics.lastWeek*` States
-- **Konfiguration:** Wochentag einstellen (0=So, 1=Mo, ..., 6=Sa)
+- **Konfiguration:** Wochentag einstellen (0=Mo, 1=Di, ..., 6=So)
 
 ## Konfigurations-Beispiel (openweathermap)
 

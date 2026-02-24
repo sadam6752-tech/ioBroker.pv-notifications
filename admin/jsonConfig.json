@@ -280,8 +280,8 @@
       "lg": 3,
       "min": 0,
       "max": 6,
-      "default": 6,
-      "tooltip": "0=Sonntag, 1=Montag, ..., 6=Samstag"
+      "default": 0,
+      "tooltip": "0=Montag, 1=Dienstag, ..., 6=Sonntag"
     },
     "statsWeekTime": {
       "type": "text",
