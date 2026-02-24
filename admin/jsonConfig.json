@@ -1,10 +1,10 @@
 {
-  "i18n": "i18n/translations.json",
+  "i18n": true,
   "type": "panel",
   "items": {
     "_header_telegram": {
       "type": "header",
-      "text": "Telegram Konfiguration",
+      "text": "header_telegram",
       "size": 2,
       "sm": 12,
       "md": 12,
@@ -12,7 +12,7 @@
     },
     "telegramInstance": {
       "type": "instance",
-      "label": "Telegram Instanz",
+      "label": "label_telegramInstance",
       "adapter": "telegram",
       "sm": 6,
       "md": 6,
@@ -20,15 +20,15 @@
     },
     "telegramUsers": {
       "type": "text",
-      "label": "Telegram Benutzer (kommagetrennt)",
+      "label": "label_telegramUsers",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "Z.B. User1, User2 oder -123456789 (ID)"
+      "tooltip": "tooltip_telegramUsers"
     },
     "_header_datapoints": {
       "type": "header",
-      "text": "Datenpunkte Konfiguration",
+      "text": "header_datapoints",
       "size": 2,
       "sm": 12,
       "md": 12,
@@ -36,114 +36,114 @@
     },
     "batterySOC": {
       "type": "text",
-      "label": "Batterie SOC Datenpunkt",
+      "label": "label_batterySOC",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "Z.B. modbus.0.holdingRegisters.40083_Batterie_SOC"
+      "tooltip": "tooltip_batterySOC"
     },
     "powerProduction": {
       "type": "text",
-      "label": "Aktuelle PV-Leistung (W)",
+      "label": "label_powerProduction",
       "sm": 6,
       "md": 6,
       "lg": 6
     },
     "totalProduction": {
       "type": "text",
-      "label": "Gesamtproduktion heute (kWh)",
+      "label": "label_totalProduction",
       "sm": 6,
       "md": 6,
       "lg": 6
     },
     "feedIn": {
       "type": "text",
-      "label": "Einspeisung heute (kWh)",
+      "label": "label_feedIn",
       "sm": 6,
       "md": 6,
       "lg": 6
     },
     "consumption": {
       "type": "text",
-      "label": "Hausverbrauch heute (kWh)",
+      "label": "label_consumption",
       "sm": 6,
       "md": 6,
       "lg": 6
     },
     "gridPower": {
       "type": "text",
-      "label": "Netzbezug heute (kWh)",
+      "label": "label_gridPower",
       "sm": 6,
       "md": 6,
       "lg": 6
     },
     "weeklyProduction": {
       "type": "text",
-      "label": "Produktion diese Woche (kWh)",
+      "label": "label_weeklyProduction",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "sourceanalytix...Produktion.currentWeek"
+      "tooltip": "tooltip_weeklyProduction"
     },
     "weeklyConsumption": {
       "type": "text",
-      "label": "Verbrauch diese Woche (kWh)",
+      "label": "label_weeklyConsumption",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "sourceanalytix...Verbrauch.currentWeek"
+      "tooltip": "tooltip_weeklyConsumption"
     },
     "weeklyFeedIn": {
       "type": "text",
-      "label": "Einspeisung diese Woche (kWh)",
+      "label": "label_weeklyFeedIn",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "sourceanalytix...Einspeisung.currentWeek"
+      "tooltip": "tooltip_weeklyFeedIn"
     },
     "weeklyGridPower": {
       "type": "text",
-      "label": "Netzbezug diese Woche (kWh)",
+      "label": "label_weeklyGridPower",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "sourceanalytix...Netzbezug.currentWeek"
+      "tooltip": "tooltip_weeklyGridPower"
     },
     "monthlyProduction": {
       "type": "text",
-      "label": "Produktion diesen Monat (kWh)",
+      "label": "label_monthlyProduction",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "sourceanalytix...Produktion.currentMonth"
+      "tooltip": "tooltip_monthlyProduction"
     },
     "monthlyConsumption": {
       "type": "text",
-      "label": "Verbrauch diesen Monat (kWh)",
+      "label": "label_monthlyConsumption",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "sourceanalytix...Verbrauch.currentMonth"
+      "tooltip": "tooltip_monthlyConsumption"
     },
     "monthlyFeedIn": {
       "type": "text",
-      "label": "Einspeisung diesen Monat (kWh)",
+      "label": "label_monthlyFeedIn",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "sourceanalytix...Einspeisung.currentMonth"
+      "tooltip": "tooltip_monthlyFeedIn"
     },
     "monthlyGridPower": {
       "type": "text",
-      "label": "Netzbezug diesen Monat (kWh)",
+      "label": "label_monthlyGridPower",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "sourceanalytix...Netzbezug.currentMonth"
+      "tooltip": "tooltip_monthlyGridPower"
     },
     "_header_battery": {
       "type": "header",
-      "text": "Batterie Konfiguration",
+      "text": "header_battery",
       "size": 2,
       "sm": 12,
       "md": 12,
@@ -151,7 +151,7 @@
     },
     "batteryCapacityWh": {
       "type": "number",
-      "label": "Batterie-Kapazität (Wh)",
+      "label": "label_batteryCapacityWh",
       "sm": 6,
       "md": 6,
       "lg": 6,
@@ -161,7 +161,7 @@
     },
     "thresholdFull": {
       "type": "number",
-      "label": "Schwellwert VOLL (%)",
+      "label": "label_thresholdFull",
       "sm": 3,
       "md": 3,
       "lg": 3,
@@ -170,7 +170,7 @@
     },
     "thresholdEmpty": {
       "type": "number",
-      "label": "Schwellwert LEER (%)",
+      "label": "label_thresholdEmpty",
       "sm": 3,
       "md": 3,
       "lg": 3,
@@ -179,7 +179,7 @@
     },
     "thresholdResetFull": {
       "type": "number",
-      "label": "Reset VOLL unter (%)",
+      "label": "label_thresholdResetFull",
       "sm": 3,
       "md": 3,
       "lg": 3,
@@ -188,7 +188,7 @@
     },
     "thresholdResetEmpty": {
       "type": "number",
-      "label": "Reset LEER über (%)",
+      "label": "label_thresholdResetEmpty",
       "sm": 3,
       "md": 3,
       "lg": 3,
@@ -197,7 +197,7 @@
     },
     "_header_intermediate": {
       "type": "header",
-      "text": "Nachtmodus & Intermediate-Stufen",
+      "text": "header_intermediate",
       "size": 2,
       "sm": 12,
       "md": 12,
@@ -205,33 +205,33 @@
     },
     "nightModeEnabled": {
       "type": "checkbox",
-      "label": "Nachtmodus aktivieren (00:00-08:00)",
+      "label": "label_nightModeEnabled",
       "sm": 12,
       "md": 12,
       "lg": 12,
       "default": true,
-      "tooltip": "Wenn deaktiviert, werden Benachrichtigungen auch nachts gesendet"
+      "tooltip": "tooltip_nightModeEnabled"
     },
     "nightModeIgnoreEmpty": {
       "type": "checkbox",
-      "label": "Nachtmodus für 0% ignorieren",
+      "label": "label_nightModeIgnoreEmpty",
       "sm": 12,
       "md": 12,
       "lg": 12,
       "default": true,
-      "tooltip": "Wenn aktiviert, wird bei 0% immer benachrichtigt (auch nachts)"
+      "tooltip": "tooltip_nightModeIgnoreEmpty"
     },
     "intermediateSteps": {
       "type": "text",
-      "label": "Intermediate-Stufen (kommagetrennt)",
+      "label": "label_intermediateSteps",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "Z.B. 20,40,60,80"
+      "tooltip": "tooltip_intermediateSteps"
     },
     "minIntervalFull": {
       "type": "number",
-      "label": "Min. Intervall VOLL (Minuten)",
+      "label": "label_minIntervalFull",
       "sm": 3,
       "md": 3,
       "lg": 3,
@@ -240,7 +240,7 @@
     },
     "minIntervalEmpty": {
       "type": "number",
-      "label": "Min. Intervall LEER (Minuten)",
+      "label": "label_minIntervalEmpty",
       "sm": 3,
       "md": 3,
       "lg": 3,
@@ -249,7 +249,7 @@
     },
     "minIntervalIntermediate": {
       "type": "number",
-      "label": "Min. Intervall Intermediate (Minuten)",
+      "label": "label_minIntervalIntermediate",
       "sm": 6,
       "md": 6,
       "lg": 6,
@@ -258,7 +258,7 @@
     },
     "_header_statistics": {
       "type": "header",
-      "text": "Statistik & Zeitplanung",
+      "text": "header_statistics",
       "size": 2,
       "sm": 12,
       "md": 12,
@@ -266,35 +266,35 @@
     },
     "statsDayTime": {
       "type": "text",
-      "label": "Tagesstatistik Uhrzeit",
+      "label": "label_statsDayTime",
       "sm": 4,
       "md": 4,
       "lg": 4,
-      "tooltip": "Format: HH:MM (z.B. 22:00)"
+      "tooltip": "tooltip_statsDayTime"
     },
     "statsWeekDay": {
       "type": "number",
-      "label": "Wochentag für Wochenstatistik",
+      "label": "label_statsWeekDay",
       "sm": 3,
       "md": 3,
       "lg": 3,
       "min": 0,
       "max": 6,
       "default": 0,
-      "tooltip": "0=Montag, 1=Dienstag, ..., 6=Sonntag"
+      "tooltip": "tooltip_statsWeekDay"
     },
     "statsWeekTime": {
       "type": "text",
-      "label": "Uhrzeit für Wochenstatistik",
+      "label": "label_statsWeekTime",
       "sm": 3,
       "md": 3,
       "lg": 3,
       "default": "10:00",
-      "tooltip": "Format: HH:MM (z.B. 10:00)"
+      "tooltip": "tooltip_statsWeekTime"
     },
     "_header_monthly": {
       "type": "header",
-      "text": "Monatsstatistik (Optional)",
+      "text": "header_monthly",
       "size": 2,
       "sm": 12,
       "md": 12,
@@ -302,7 +302,7 @@
     },
     "monthlyStatsEnabled": {
       "type": "checkbox",
-      "label": "Monatsstatistik aktivieren",
+      "label": "label_monthlyStatsEnabled",
       "sm": 6,
       "md": 6,
       "lg": 6,
@@ -310,27 +310,27 @@
     },
     "monthlyStatsDay": {
       "type": "number",
-      "label": "Tag des Monats",
+      "label": "label_monthlyStatsDay",
       "sm": 3,
       "md": 3,
       "lg": 3,
       "min": 1,
       "max": 31,
       "default": 1,
-      "tooltip": "1-31 (z.B. 1 = Erster des Monats)"
+      "tooltip": "tooltip_monthlyStatsDay"
     },
     "monthlyStatsTime": {
       "type": "text",
-      "label": "Uhrzeit",
+      "label": "label_monthlyStatsTime",
       "sm": 3,
       "md": 3,
       "lg": 3,
       "default": "09:00",
-      "tooltip": "Format: HH:MM (z.B. 09:00)"
+      "tooltip": "tooltip_monthlyStatsTime"
     },
     "_header_weather": {
       "type": "header",
-      "text": "Wetter (Optional)",
+      "text": "header_weather",
       "size": 2,
       "sm": 12,
       "md": 12,
@@ -338,39 +338,39 @@
     },
     "weatherTodayText": {
       "type": "text",
-      "label": "Wetter heute",
+      "label": "label_weatherTodayText",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "Z.B. daswetter.0.Day0.forecast.currentSymbol"
+      "tooltip": "tooltip_weatherTodayText"
     },
     "weatherTodayTemp": {
       "type": "text",
-      "label": "Temperatur heute (°C)",
+      "label": "label_weatherTodayTemp",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "Z.B. daswetter.0.Day0.forecast.maxTemp"
+      "tooltip": "tooltip_weatherTodayTemp"
     },
     "weatherTomorrowText": {
       "type": "text",
-      "label": "Wetter morgen",
+      "label": "label_weatherTomorrowText",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "Z.B. daswetter.0.Day1.forecast.currentSymbol"
+      "tooltip": "tooltip_weatherTomorrowText"
     },
     "weatherTomorrowTemp": {
       "type": "text",
-      "label": "Temperatur morgen (°C)",
+      "label": "label_weatherTomorrowTemp",
       "sm": 6,
       "md": 6,
       "lg": 6,
-      "tooltip": "Z.B. daswetter.0.Day1.forecast.maxTemp"
+      "tooltip": "tooltip_weatherTomorrowTemp"
     },
     "_header_thresholds": {
       "type": "header",
-      "text": "Schwellwerte für Empfehlungen",
+      "text": "header_thresholds",
       "size": 2,
       "sm": 12,
       "md": 12,
@@ -378,14 +378,14 @@
     },
     "highProduction": {
       "type": "number",
-      "label": "Hohe Produktion ab (W)",
+      "label": "label_highProduction",
       "sm": 6,
       "md": 6,
       "lg": 6
     },
     "highConsumption": {
       "type": "number",
-      "label": "Hoher Verbrauch ab (W)",
+      "label": "label_highConsumption",
       "sm": 6,
       "md": 6,
       "lg": 6
