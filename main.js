@@ -131,8 +131,9 @@ class PvNotifications extends utils.Adapter {
 
         // Event-Handler für Batterie-SOC registrieren
         if (this.config.batterySOC) {
-            this.subscribeStates(this.config.batterySOC);
-            this.log.info(`Subscription für ${this.config.batterySOC} erstellt`);
+            // subscribeForeignStates für externe States verwenden
+            this.subscribeForeignStates(this.config.batterySOC);
+            this.log.info(`Subscription für ${this.config.batterySOC} erstellt (foreign)`);
         }
         
         // Subscription für alle Datenpunkte erstellen
