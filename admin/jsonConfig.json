@@ -109,6 +109,38 @@
       "lg": 6,
       "tooltip": "sourceanalytix...Netzbezug.currentMonth"
     },
+    "weeklyProduction": {
+      "type": "text",
+      "label": "Produktion diese Woche (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Produktion.currentWeek"
+    },
+    "weeklyConsumption": {
+      "type": "text",
+      "label": "Verbrauch diese Woche (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Verbrauch.currentWeek"
+    },
+    "weeklyFeedIn": {
+      "type": "text",
+      "label": "Einspeisung diese Woche (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Einspeisung.currentWeek"
+    },
+    "weeklyGridPower": {
+      "type": "text",
+      "label": "Netzbezug diese Woche (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Netzbezug.currentWeek"
+    },
     "_header_battery": {
       "type": "header",
       "text": "Batterie Konfiguration",

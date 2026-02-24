@@ -523,10 +523,27 @@ class PvNotifications extends utils.Adapter {
      * Baue wöchentliche Statistik-Nachricht
      */
     buildWeeklyStatsMessage() {
+        const weeklyProd = this.getStateValue(this.config.weeklyProduction);
+        const weeklyConsumption = this.getStateValue(this.config.weeklyConsumption);
+        const weeklyFeedIn = this.getStateValue(this.config.weeklyFeedIn);
+        const weeklyGridPower = this.getStateValue(this.config.weeklyGridPower);
+
+        const totalProd = this.round(weeklyProd, 1);
+        const consumption = this.round(weeklyConsumption, 1);
+        const feedIn = this.round(Math.abs(weeklyFeedIn), 1);
+        const gridPower = this.round(weeklyGridPower, 1);
+        const selfConsumption = this.round(totalProd - feedIn, 1);
+        const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
+
         return `📊 *Wochenstatistik PV-Anlage*
 ━━━━━━━━━━━━━━━━━━━━━━
 🔋 Vollzyklen diese Woche: ${this.stats.weekFullCycles}
 📉 Leerzyklen diese Woche: ${this.stats.weekEmptyCycles}
+━━━━━━━━━━━━━━━━━━━━━━
+☀️ Produktion: ${totalProd} kWh
+🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
+🔌 Einspeisung: ${feedIn} kWh
+⚡ Netzbezug: ${gridPower} kWh
 ━━━━━━━━━━━━━━━━━━━━━━
 💡 Ein gesunder Zyklus pro Tag ist normal.
 🔋 Bei vielen Zyklen: Batterie-Settings prüfen.`;
@@ -540,7 +557,7 @@ class PvNotifications extends utils.Adapter {
         const monthlyConsumption = this.getStateValue(this.config.monthlyConsumption);
         const monthlyFeedIn = this.getStateValue(this.config.monthlyFeedIn);
         const monthlyGridPower = this.getStateValue(this.config.monthlyGridPower);
-        
+
         const totalProd = this.round(monthlyProd, 1);
         const consumption = this.round(monthlyConsumption, 1);
         const feedIn = this.round(Math.abs(monthlyFeedIn), 1);
@@ -549,6 +566,9 @@ class PvNotifications extends utils.Adapter {
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
         return `📊 *Monatsstatistik PV-Anlage*
+━━━━━━━━━━━━━━━━━━━━━━
+🔋 Vollzyklen dieser Monat: ${this.stats.fullCycles}
+📉 Leerzyklen dieser Monat: ${this.stats.emptyCycles}
 ━━━━━━━━━━━━━━━━━━━━━━
 ☀️ Produktion: ${totalProd} kWh
 🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)

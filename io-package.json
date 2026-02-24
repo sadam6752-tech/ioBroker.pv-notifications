@@ -1,9 +1,9 @@
 {
   "_id": "iobroker.pv-notifications",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "title": "PV Notifications",
     "titleLang": {
       "en": "PV Notifications",
@@ -79,7 +79,11 @@
     "monthlyProduction": "",
     "monthlyConsumption": "",
     "monthlyFeedIn": "",
-    "monthlyGridPower": ""
+    "monthlyGridPower": "",
+    "weeklyProduction": "",
+    "weeklyConsumption": "",
+    "weeklyFeedIn": "",
+    "weeklyGridPower": ""
   },
   "objects": [
     {
