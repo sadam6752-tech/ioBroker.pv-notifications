@@ -109,7 +109,10 @@ class PvNotifications extends utils.Adapter {
 
         // Test-Button State erstellen
         await this.createState('testButton', false, 'boolean', 'Test-Benachrichtigung senden');
+        
+        // Explizit subscriben
         this.subscribeStates('testButton');
+        this.log.info('Subscription für testButton erstellt');
 
         await this.createState('info.connection', false, 'boolean', 'Adapter ist mit Telegram verbunden');
 
@@ -128,6 +131,7 @@ class PvNotifications extends utils.Adapter {
         // Signalisiere dass der Adapter bereit ist
         this.setState('info.connection', true, true);
         this.log.info('PV Notifications Adapter ist bereit');
+        this.log.info(`Adapter Namespace: ${this.namespace}`);
     }
 
     /**
