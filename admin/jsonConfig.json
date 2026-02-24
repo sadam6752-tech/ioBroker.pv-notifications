@@ -1,5 +1,5 @@
 {
-  "i18n": true,
+  "i18n": "i18n/translations.json",
   "type": "panel",
   "items": {
     "_header_telegram": {
