@@ -77,38 +77,6 @@
       "md": 6,
       "lg": 6
     },
-    "monthlyProduction": {
-      "type": "text",
-      "label": "Produktion diesen Monat (kWh)",
-      "sm": 6,
-      "md": 6,
-      "lg": 6,
-      "tooltip": "sourceanalytix...Produktion.currentMonth"
-    },
-    "monthlyConsumption": {
-      "type": "text",
-      "label": "Verbrauch diesen Monat (kWh)",
-      "sm": 6,
-      "md": 6,
-      "lg": 6,
-      "tooltip": "sourceanalytix...Verbrauch.currentMonth"
-    },
-    "monthlyFeedIn": {
-      "type": "text",
-      "label": "Einspeisung diesen Monat (kWh)",
-      "sm": 6,
-      "md": 6,
-      "lg": 6,
-      "tooltip": "sourceanalytix...Einspeisung.currentMonth"
-    },
-    "monthlyGridPower": {
-      "type": "text",
-      "label": "Netzbezug diesen Monat (kWh)",
-      "sm": 6,
-      "md": 6,
-      "lg": 6,
-      "tooltip": "sourceanalytix...Netzbezug.currentMonth"
-    },
     "weeklyProduction": {
       "type": "text",
       "label": "Produktion diese Woche (kWh)",
@@ -140,6 +108,38 @@
       "md": 6,
       "lg": 6,
       "tooltip": "sourceanalytix...Netzbezug.currentWeek"
+    },
+    "monthlyProduction": {
+      "type": "text",
+      "label": "Produktion diesen Monat (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Produktion.currentMonth"
+    },
+    "monthlyConsumption": {
+      "type": "text",
+      "label": "Verbrauch diesen Monat (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Verbrauch.currentMonth"
+    },
+    "monthlyFeedIn": {
+      "type": "text",
+      "label": "Einspeisung diesen Monat (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Einspeisung.currentMonth"
+    },
+    "monthlyGridPower": {
+      "type": "text",
+      "label": "Netzbezug diesen Monat (kWh)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "sourceanalytix...Netzbezug.currentMonth"
     },
     "_header_battery": {
       "type": "header",
