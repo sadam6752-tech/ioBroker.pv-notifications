@@ -30,7 +30,8 @@ class PvNotifications extends utils.Adapter {
                 empty: 0,
                 intermediate: 0
             },
-            previousSOC: null
+            previousSOC: null,
+            testMessageRunning: false  // Flag gegen doppelte Test-Nachrichten
         };
 
         // Statistik
@@ -340,20 +341,25 @@ class PvNotifications extends utils.Adapter {
      */
     async onStateChange(id, state) {
         this.log.debug(`State geändert: ${id} = ${JSON.stringify(state)}`);
-        
+
         if (state) {
             // Test-Button verarbeiten (alle States im eigenen Namespace)
             if (id.startsWith(this.namespace + '.testButton')) {
-                this.log.info(`Test-Button State empfangen: ${id}, val=${state.val}`);
-                if (state.val === true) {
+                // Nur wenn auf true gesetzt und noch nicht läuft
+                if (state.val === true && !this.status.testMessageRunning) {
+                    this.status.testMessageRunning = true;  // Flag setzen
+                    this.log.info(`Test-Button State empfangen: ${id}, val=${state.val}`);
                     this.log.info('Test-Button wurde gedrückt');
-                    this.sendTestMessage();
+                    await this.sendTestMessage();
                     // State zurücksetzen
                     await this.setStateAsync('testButton', false, true);
+                    this.status.testMessageRunning = false;  // Flag zurücksetzen
+                } else if (this.status.testMessageRunning) {
+                    this.log.debug('Test-Nachricht wird bereits gesendet, überspringe...');
                 }
                 return;
             }
-            
+
             // Batterie-SOC Änderung verarbeiten
             if (id === this.config.batterySOC) {
                 this.onBatterySOCChange(state.val);
