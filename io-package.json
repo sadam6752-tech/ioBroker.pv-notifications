@@ -1,9 +1,9 @@
 {
   "_id": "iobroker.pv-notifications",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "title": "PV Notifications",
     "titleLang": {
       "en": "PV Notifications",
@@ -103,6 +103,246 @@
         "read": true,
         "write": false,
         "def": false
+      }
+    },
+    {
+      "_id": "statistics.fullCyclesToday",
+      "type": "state",
+      "common": {
+        "name": "Vollzyklen heute",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.emptyCyclesToday",
+      "type": "state",
+      "common": {
+        "name": "Leerzyklen heute",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.maxSOCToday",
+      "type": "state",
+      "common": {
+        "name": "Max SOC heute",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.minSOCToday",
+      "type": "state",
+      "common": {
+        "name": "Min SOC heute",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 100
+      }
+    },
+    {
+      "_id": "statistics.fullCyclesWeek",
+      "type": "state",
+      "common": {
+        "name": "Vollzyklen diese Woche",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.emptyCyclesWeek",
+      "type": "state",
+      "common": {
+        "name": "Leerzyklen diese Woche",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.currentSOC",
+      "type": "state",
+      "common": {
+        "name": "Aktueller SOC",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.currentEnergyKWh",
+      "type": "state",
+      "common": {
+        "name": "Aktuelle Energie in kWh",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastMonthProduction",
+      "type": "state",
+      "common": {
+        "name": "Produktion letzter Monat",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastMonthConsumption",
+      "type": "state",
+      "common": {
+        "name": "Verbrauch letzter Monat",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastMonthFeedIn",
+      "type": "state",
+      "common": {
+        "name": "Einspeisung letzter Monat",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastMonthGridPower",
+      "type": "state",
+      "common": {
+        "name": "Netzbezug letzter Monat",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastMonthFullCycles",
+      "type": "state",
+      "common": {
+        "name": "Vollzyklen letzter Monat",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastMonthEmptyCycles",
+      "type": "state",
+      "common": {
+        "name": "Leerzyklen letzter Monat",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastWeekProduction",
+      "type": "state",
+      "common": {
+        "name": "Produktion letzte Woche",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastWeekConsumption",
+      "type": "state",
+      "common": {
+        "name": "Verbrauch letzte Woche",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastWeekFeedIn",
+      "type": "state",
+      "common": {
+        "name": "Einspeisung letzte Woche",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastWeekGridPower",
+      "type": "state",
+      "common": {
+        "name": "Netzbezug letzte Woche",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastWeekFullCycles",
+      "type": "state",
+      "common": {
+        "name": "Vollzyklen letzte Woche",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
+      }
+    },
+    {
+      "_id": "statistics.lastWeekEmptyCycles",
+      "type": "state",
+      "common": {
+        "name": "Leerzyklen letzte Woche",
+        "type": "number",
+        "role": "value",
+        "read": true,
+        "write": false,
+        "def": 0
       }
     }
   ],

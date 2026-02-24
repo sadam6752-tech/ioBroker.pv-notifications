@@ -166,6 +166,8 @@ npm install iobroker.pv-notifications
 
 Der Adapter erstellt folgende States unter `pv-notifications.0`:
 
+### Aktuelle Statistik
+
 | State | Typ | Beschreibung |
 |-------|-----|--------------|
 | `statistics.fullCyclesToday` | number | Vollzyklen heute |
@@ -176,6 +178,46 @@ Der Adapter erstellt folgende States unter `pv-notifications.0`:
 | `statistics.emptyCyclesWeek` | number | Leerzyklen diese Woche |
 | `statistics.currentSOC` | number | Aktueller SOC |
 | `statistics.currentEnergyKWh` | number | Aktuelle Energie in kWh |
+
+### Gespeicherte letzte Monatsdaten (für Monatsstatistik)
+
+| State | Typ | Beschreibung |
+|-------|-----|--------------|
+| `statistics.lastMonthProduction` | number | Produktion letzter Monat (kWh) |
+| `statistics.lastMonthConsumption` | number | Verbrauch letzter Monat (kWh) |
+| `statistics.lastMonthFeedIn` | number | Einspeisung letzter Monat (kWh) |
+| `statistics.lastMonthGridPower` | number | Netzbezug letzter Monat (kWh) |
+| `statistics.lastMonthFullCycles` | number | Vollzyklen letzter Monat |
+| `statistics.lastMonthEmptyCycles` | number | Leerzyklen letzter Monat |
+
+### Gespeicherte letzte Wochendaten (für Wochenstatistik)
+
+| State | Typ | Beschreibung |
+|-------|-----|--------------|
+| `statistics.lastWeekProduction` | number | Produktion letzte Woche (kWh) |
+| `statistics.lastWeekConsumption` | number | Verbrauch letzte Woche (kWh) |
+| `statistics.lastWeekFeedIn` | number | Einspeisung letzte Woche (kWh) |
+| `statistics.lastWeekGridPower` | number | Netzbezug letzte Woche (kWh) |
+| `statistics.lastWeekFullCycles` | number | Vollzyklen letzte Woche |
+| `statistics.lastWeekEmptyCycles` | number | Leerzyklen letzte Woche |
+
+## Hinweis zur Monats- und Wochenstatistik
+
+**Wichtig:** Der Adapter speichert automatisch die Daten vom letzten Monat und letzter Woche in den States.
+
+### Monatsstatistik
+
+- Die Monatsstatistik wird am **konfigurierten Tag** (Standard: 1. des Monats) gesendet
+- Der Adapter **speichert automatisch** die aktuellen Monatsdaten, bevor die Statistik zurückgesetzt wird
+- Die Statistik verwendet **gespeicherte Daten** aus `statistics.lastMonth*` States
+- **Konfiguration:** Stelle sicher, dass die Monatsstatistik **nach dem letzten Tag des Monats** gesendet wird (z.B. 1. um 09:00)
+
+### Wochenstatistik
+
+- Die Wochenstatistik wird am **konfigurierten Wochentag** (Standard: Samstag) gesendet
+- Der Adapter **speichert automatisch** die aktuellen Wochendaten, bevor die Statistik zurückgesetzt wird
+- Die Statistik verwendet **gespeicherte Daten** aus `statistics.lastWeek*` States
+- **Konfiguration:** Wochentag einstellen (0=So, 1=Mo, ..., 6=Sa)
 
 ## Konfigurations-Beispiel (openweathermap)
 
@@ -221,8 +263,8 @@ Temperatur morgen:      daswetter.0.Day1.forecast.maxTemp
 ```
 📊 *Wochenstatistik PV-Anlage*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Vollzyklen diese Woche: 5
-📉 Leerzyklen diese Woche: 3
+🔋 Vollzyklen letzte Woche: 5
+📉 Leerzyklen letzte Woche: 3
 ━━━━━━━━━━━━━━━━━━━━━━
 ☀️ Produktion: 312.5 kWh
 🏠 Eigenverbrauch: 224.8 kWh (72%)
@@ -231,6 +273,20 @@ Temperatur morgen:      daswetter.0.Day1.forecast.maxTemp
 ━━━━━━━━━━━━━━━━━━━━━━
 💡 Ein gesunder Zyklus pro Tag ist normal.
 🔋 Bei vielen Zyklen: Batterie-Settings prüfen.
+```
+
+### Monatsstatistik (01. des Monats um 09:00)
+```
+09:00 - 📊 *Monatsstatistik PV-Anlage*
+━━━━━━━━━━━━━━━━━━━━━━
+🔋 Vollzyklen letzter Monat: 28
+📉 Leerzyklen letzter Monat: 15
+━━━━━━━━━━━━━━━━━━━━━━
+☀️ Produktion: 1245.7 kWh
+🏠 Eigenverbrauch: 897.3 kWh (72%)
+🔌 Einspeisung: 348.4 kWh
+⚡ Netzbezug: 185.2 kWh
+━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ## Nachtmodus

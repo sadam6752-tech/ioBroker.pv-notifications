@@ -40,7 +40,21 @@ class PvNotifications extends utils.Adapter {
             weekEmptyCycles: 0,
             lastStatsReset: new Date().getDate(),
             lastWeekReset: new Date().getDay(),
-            lastMonthReset: 0
+            lastMonthReset: 0,
+            
+            // Letzte Monats-/Wochendaten
+            lastMonthProduction: 0,
+            lastMonthConsumption: 0,
+            lastMonthFeedIn: 0,
+            lastMonthGridPower: 0,
+            lastMonthFullCycles: 0,
+            lastMonthEmptyCycles: 0,
+            lastWeekProduction: 0,
+            lastWeekConsumption: 0,
+            lastWeekFeedIn: 0,
+            lastWeekGridPower: 0,
+            lastWeekFullCycles: 0,
+            lastWeekEmptyCycles: 0
         };
 
         this.onReady = this.onReady.bind(this);
@@ -69,6 +83,21 @@ class PvNotifications extends utils.Adapter {
         await this.createState('statistics.emptyCyclesWeek', 0, 'number', 'Leerzyklen diese Woche');
         await this.createState('statistics.currentSOC', 0, 'number', 'Aktueller SOC');
         await this.createState('statistics.currentEnergyKWh', 0, 'number', 'Aktuelle Energie in kWh');
+        
+        // States für letzte Monats-/Wochenstatistik
+        await this.createState('statistics.lastMonthProduction', 0, 'number', 'Produktion letzter Monat');
+        await this.createState('statistics.lastMonthConsumption', 0, 'number', 'Verbrauch letzter Monat');
+        await this.createState('statistics.lastMonthFeedIn', 0, 'number', 'Einspeisung letzter Monat');
+        await this.createState('statistics.lastMonthGridPower', 0, 'number', 'Netzbezug letzter Monat');
+        await this.createState('statistics.lastMonthFullCycles', 0, 'number', 'Vollzyklen letzter Monat');
+        await this.createState('statistics.lastMonthEmptyCycles', 0, 'number', 'Leerzyklen letzter Monat');
+        await this.createState('statistics.lastWeekProduction', 0, 'number', 'Produktion letzte Woche');
+        await this.createState('statistics.lastWeekConsumption', 0, 'number', 'Verbrauch letzte Woche');
+        await this.createState('statistics.lastWeekFeedIn', 0, 'number', 'Einspeisung letzte Woche');
+        await this.createState('statistics.lastWeekGridPower', 0, 'number', 'Netzbezug letzte Woche');
+        await this.createState('statistics.lastWeekFullCycles', 0, 'number', 'Vollzyklen letzte Woche');
+        await this.createState('statistics.lastWeekEmptyCycles', 0, 'number', 'Leerzyklen letzte Woche');
+        
         await this.createState('info.connection', false, 'boolean', 'Adapter ist mit Telegram verbunden');
 
         // Event-Handler für Batterie-SOC registrieren
@@ -144,6 +173,20 @@ class PvNotifications extends utils.Adapter {
             await this.setStateAsync('statistics.minSOCToday', this.stats.minSOC, true);
             await this.setStateAsync('statistics.fullCyclesWeek', this.stats.weekFullCycles, true);
             await this.setStateAsync('statistics.emptyCyclesWeek', this.stats.weekEmptyCycles, true);
+            
+            // Letzte Monats-/Wochendaten speichern
+            await this.setStateAsync('statistics.lastMonthProduction', this.stats.lastMonthProduction, true);
+            await this.setStateAsync('statistics.lastMonthConsumption', this.stats.lastMonthConsumption, true);
+            await this.setStateAsync('statistics.lastMonthFeedIn', this.stats.lastMonthFeedIn, true);
+            await this.setStateAsync('statistics.lastMonthGridPower', this.stats.lastMonthGridPower, true);
+            await this.setStateAsync('statistics.lastMonthFullCycles', this.stats.lastMonthFullCycles, true);
+            await this.setStateAsync('statistics.lastMonthEmptyCycles', this.stats.lastMonthEmptyCycles, true);
+            await this.setStateAsync('statistics.lastWeekProduction', this.stats.lastWeekProduction, true);
+            await this.setStateAsync('statistics.lastWeekConsumption', this.stats.lastWeekConsumption, true);
+            await this.setStateAsync('statistics.lastWeekFeedIn', this.stats.lastWeekFeedIn, true);
+            await this.setStateAsync('statistics.lastWeekGridPower', this.stats.lastWeekGridPower, true);
+            await this.setStateAsync('statistics.lastWeekFullCycles', this.stats.lastWeekFullCycles, true);
+            await this.setStateAsync('statistics.lastWeekEmptyCycles', this.stats.lastWeekEmptyCycles, true);
         } catch (e) {
             this.log.error(`Fehler beim Speichern der Statistik: ${e.message}`);
         }
@@ -525,22 +568,17 @@ class PvNotifications extends utils.Adapter {
      * Baue wöchentliche Statistik-Nachricht
      */
     buildWeeklyStatsMessage() {
-        const weeklyProd = this.getStateValue(this.config.weeklyProduction);
-        const weeklyConsumption = this.getStateValue(this.config.weeklyConsumption);
-        const weeklyFeedIn = this.getStateValue(this.config.weeklyFeedIn);
-        const weeklyGridPower = this.getStateValue(this.config.weeklyGridPower);
-
-        const totalProd = this.round(weeklyProd, 1);
-        const consumption = this.round(weeklyConsumption, 1);
-        const feedIn = this.round(Math.abs(weeklyFeedIn), 1);
-        const gridPower = this.round(weeklyGridPower, 1);
+        const totalProd = this.round(this.stats.lastWeekProduction, 1);
+        const consumption = this.round(this.stats.lastWeekConsumption, 1);
+        const feedIn = this.round(Math.abs(this.stats.lastWeekFeedIn), 1);
+        const gridPower = this.round(this.stats.lastWeekGridPower, 1);
         const selfConsumption = this.round(totalProd - feedIn, 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
         return `📊 *Wochenstatistik PV-Anlage*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Vollzyklen diese Woche: ${this.stats.weekFullCycles}
-📉 Leerzyklen diese Woche: ${this.stats.weekEmptyCycles}
+🔋 Vollzyklen letzte Woche: ${this.stats.lastWeekFullCycles}
+📉 Leerzyklen letzte Woche: ${this.stats.lastWeekEmptyCycles}
 ━━━━━━━━━━━━━━━━━━━━━━
 ☀️ Produktion: ${totalProd} kWh
 🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
@@ -555,22 +593,17 @@ class PvNotifications extends utils.Adapter {
      * Baue monatliche Statistik-Nachricht
      */
     buildMonthlyStatsMessage() {
-        const monthlyProd = this.getStateValue(this.config.monthlyProduction);
-        const monthlyConsumption = this.getStateValue(this.config.monthlyConsumption);
-        const monthlyFeedIn = this.getStateValue(this.config.monthlyFeedIn);
-        const monthlyGridPower = this.getStateValue(this.config.monthlyGridPower);
-
-        const totalProd = this.round(monthlyProd, 1);
-        const consumption = this.round(monthlyConsumption, 1);
-        const feedIn = this.round(Math.abs(monthlyFeedIn), 1);
-        const gridPower = this.round(monthlyGridPower, 1);
+        const totalProd = this.round(this.stats.lastMonthProduction, 1);
+        const consumption = this.round(this.stats.lastMonthConsumption, 1);
+        const feedIn = this.round(Math.abs(this.stats.lastMonthFeedIn), 1);
+        const gridPower = this.round(this.stats.lastMonthGridPower, 1);
         const selfConsumption = this.round(totalProd - feedIn, 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
         return `📊 *Monatsstatistik PV-Anlage*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Vollzyklen dieser Monat: ${this.stats.fullCycles}
-📉 Leerzyklen dieser Monat: ${this.stats.emptyCycles}
+🔋 Vollzyklen letzter Monat: ${this.stats.lastMonthFullCycles}
+📉 Leerzyklen letzter Monat: ${this.stats.lastMonthEmptyCycles}
 ━━━━━━━━━━━━━━━━━━━━━━
 ☀️ Produktion: ${totalProd} kWh
 🏠 Eigenverbrauch: ${selfConsumption} kWh (${selfConsumptionRate}%)
@@ -706,9 +739,21 @@ class PvNotifications extends utils.Adapter {
         const today = new Date().getDay();
         if (today === this.config.statsWeekDay && today !== this.stats.lastWeekReset) {
             this.log.info('Setze wöchentliche Statistik zurück');
+            
+            // Aktuelle Daten als "letzte Woche" speichern
+            this.stats.lastWeekProduction = this.getStateValue(this.config.weeklyProduction);
+            this.stats.lastWeekConsumption = this.getStateValue(this.config.weeklyConsumption);
+            this.stats.lastWeekFeedIn = this.getStateValue(this.config.weeklyFeedIn);
+            this.stats.lastWeekGridPower = this.getStateValue(this.config.weeklyGridPower);
+            this.stats.lastWeekFullCycles = this.stats.weekFullCycles;
+            this.stats.lastWeekEmptyCycles = this.stats.weekEmptyCycles;
+            
+            // Wöchentliche Statistik zurücksetzen
             this.stats.weekFullCycles = 0;
             this.stats.weekEmptyCycles = 0;
             this.stats.lastWeekReset = today;
+            
+            this.saveStatistics();
             this.sendTelegram(this.buildWeeklyStatsMessage());
         }
     }
@@ -718,18 +763,28 @@ class PvNotifications extends utils.Adapter {
      */
     resetMonthlyStats() {
         if (!this.config.monthlyStatsEnabled) return;
-        
+
         const today = new Date().getDate();
         const now = new Date();
         const hours = now.getHours();
         const [statHours, statMinutes] = this.config.monthlyStatsTime.split(':').map(Number);
-        
-        // Reset am konfigurierten Tag nach der Sendezeit
-        if (today === this.config.monthlyStatsDay && 
-            this.stats.lastMonthReset !== today && 
+
+        // Daten am konfigurierten Tag nach der Sendezeit speichern
+        if (today === this.config.monthlyStatsDay &&
+            this.stats.lastMonthReset !== today &&
             hours >= statHours) {
             this.log.info('Setze monatliche Statistik zurück');
+            
+            // Aktuelle Daten als "letzter Monat" speichern
+            this.stats.lastMonthProduction = this.getStateValue(this.config.monthlyProduction);
+            this.stats.lastMonthConsumption = this.getStateValue(this.config.monthlyConsumption);
+            this.stats.lastMonthFeedIn = this.getStateValue(this.config.monthlyFeedIn);
+            this.stats.lastMonthGridPower = this.getStateValue(this.config.monthlyGridPower);
+            this.stats.lastMonthFullCycles = this.stats.fullCycles;
+            this.stats.lastMonthEmptyCycles = this.stats.emptyCycles;
+            
             this.stats.lastMonthReset = today;
+            this.saveStatistics();
         }
     }
 
