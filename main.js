@@ -69,10 +69,13 @@ class PvNotifications extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
+        this.log.info('onReady wird ausgeführt...');
+        
         // Reset connection indicator
         this.setState('info.connection', false, true);
 
         // Systemsprache laden
+        this.log.info('Lade Systemsprache...');
         await this.loadSystemLanguage();
 
         this.log.info('PV Notifications Adapter gestartet');
@@ -84,6 +87,7 @@ class PvNotifications extends utils.Adapter {
         this.log.info(`Konfiguration: Voll=${this.config.thresholdFull}%, Leer=${this.config.thresholdEmpty}%, Intermediate=[${this.config.intermediateSteps}]`);
 
         // States für Statistik erstellen
+        this.log.info('Erstelle Statistik-States...');
         await this.createState('statistics.fullCyclesToday', 0, 'number', 'Vollzyklen heute');
         await this.createState('statistics.emptyCyclesToday', 0, 'number', 'Leerzyklen heute');
         await this.createState('statistics.maxSOCToday', 0, 'number', 'Max SOC heute');
