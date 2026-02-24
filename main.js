@@ -17,8 +17,6 @@ class PvNotifications extends utils.Adapter {
             name: 'pv-notifications',
         });
 
-        this.log.info('KONSTRUKTOR wird ausgeführt!');
-
         // Systemsprache laden
         this.systemLang = 'de'; // Standard
 
@@ -74,7 +72,7 @@ class PvNotifications extends utils.Adapter {
         this.log.info('onReady wird ausgeführt...');
         
         // Reset connection indicator
-        this.setState('info.connection', false, true);
+        await this.setState('info.connection', false, true);
 
         // Systemsprache laden
         this.log.info('Lade Systemsprache...');
