@@ -35,10 +35,7 @@
       "lg": 12,
       "command": "sendTestMessage",
       "color": "primary",
-      "icon": "pv-notifications.png",
-      "attrs": {
-        "style": "margin-top: 10px;"
-      }
+      "icon": "pv-notifications.png"
     },
     "_header_datapoints": {
       "type": "header",
