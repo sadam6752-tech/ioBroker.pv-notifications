@@ -403,17 +403,22 @@ class PvNotifications extends utils.Adapter {
     /**
      * Hauptfunktion - wird bei SOC-Änderung aufgerufen
      */
-    onBatterySOCChange(soc) {
+    async onBatterySOCChange(soc) {
         // Prüfe auf undefinierte/null Werte
         if (soc === null || soc === undefined || isNaN(soc)) {
             this.log.warn('Ungültiger SOC-Wert erhalten: ' + soc);
             return;
         }
 
-        // Aktuelle States aktualisieren
-        this.setStateAsync('statistics.currentSOC', soc, true);
+        this.log.info(`[onBatterySOCChange] SOC: ${soc}%`);
+
+        // Aktuelle States aktualisieren (mit await)
+        await this.setStateAsync('statistics.currentSOC', soc, true);
+        this.log.debug(`statistics.currentSOC aktualisiert: ${soc}`);
+        
         const currentKWh = this.round((soc / 100) * this.config.batteryCapacityWh / 1000, 1);
-        this.setStateAsync('statistics.currentEnergyKWh', currentKWh, true);
+        await this.setStateAsync('statistics.currentEnergyKWh', currentKWh, true);
+        this.log.debug(`statistics.currentEnergyKWh aktualisiert: ${currentKWh} kWh`);
 
         // Statistik aktualisieren
         if (soc > this.stats.maxSOC) this.stats.maxSOC = soc;
