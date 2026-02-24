@@ -63,6 +63,7 @@ class PvNotifications extends utils.Adapter {
         this.onReady = this.onReady.bind(this);
         this.onStateChange = this.onStateChange.bind(this);
         this.onUnload = this.onUnload.bind(this);
+        this.onMessage = this.onMessage.bind(this);
     }
 
     /**
@@ -983,6 +984,51 @@ class PvNotifications extends utils.Adapter {
             return translations[key][this.systemLang];
         }
         return translations[key] && translations[key]['de'] || key;
+    }
+
+    /**
+     * Is called when a message is received
+     * @param {any} obj
+     */
+    async onMessage(obj) {
+        if (obj) {
+            switch (obj.command) {
+                case 'sendTestMessage':
+                    // Test-Benachrichtigung senden
+                    this.log.info('Test-Benachrichtigung wird gesendet');
+                    
+                    const testMessage = this.buildTestMessage();
+                    this.sendTelegram(testMessage, 'info');
+                    
+                    if (obj.callback) {
+                        this.sendTo(obj.from, obj.command, { success: true }, obj.callback);
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Baue Test-Nachricht
+     */
+    buildTestMessage() {
+        const soc = this.getStateValue(this.config.batterySOC);
+        const batteryCapacityKWh = this.round(this.config.batteryCapacityWh / 1000, 1);
+        const currentKWh = this.round((soc / 100) * this.config.batteryCapacityWh / 1000, 1);
+
+        return `🧪 *${this.translate('Daily statistics PV system')} - TEST*
+━━━━━━━━━━━━━━━━━━━━━━
+🔋 ${this.translate('Current charge level')}: ${soc}%
+⚡ ${this.translate('Current energy')}: ${currentKWh} kWh (${batteryCapacityKWh} kWh ${this.translate('Total capacity')})
+━━━━━━━━━━━━━━━━━━━━━━
+✅ ${this.translate('Production')}: 0 kWh
+🏠 ${this.translate('Own consumption')}: 0 kWh (0%)
+🔌 ${this.translate('Feed-in')}: 0 kWh
+⚡ ${this.translate('Grid consumption')}: 0 kWh
+━━━━━━━━━━━━━━━━━━━━━━
+💡 ${this.translate('A healthy cycle per day is normal')}
+
+*${this.translate('Test Notification')} - pv-notifications v${this.version}*`;
     }
 
     /**

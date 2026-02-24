@@ -68,5 +68,9 @@
     "tooltip_weatherTomorrowTemp": "e.g. daswetter.0.Day1.forecast.maxTemp",
     "header_thresholds": "Thresholds for recommendations",
     "label_highProduction": "High production from (W)",
-    "label_highConsumption": "High consumption from (W)"
+    "label_highConsumption": "High consumption from (W)",
+    "label_testButton": "Test Notification",
+    "buttonText_testButton": "Send Test",
+    "tooltip_testButton": "Sends a test notification to all configured Telegram users",
+    "Test Notification": "Test Notification"
 }

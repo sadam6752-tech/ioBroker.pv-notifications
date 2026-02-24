@@ -68,5 +68,9 @@
     "tooltip_weatherTomorrowTemp": "Например: daswetter.0.Day1.forecast.maxTemp",
     "header_thresholds": "Пороги для рекомендаций",
     "label_highProduction": "Высокое производство от (Вт)",
-    "label_highConsumption": "Высокое потребление от (Вт)"
+    "label_highConsumption": "Высокое потребление от (Вт)",
+    "label_testButton": "Тестовое уведомление",
+    "buttonText_testButton": "Отправить тест",
+    "tooltip_testButton": "Отправляет тестовое уведомление всем настроенным пользователям Telegram",
+    "Test Notification": "Тестовое уведомление"
 }

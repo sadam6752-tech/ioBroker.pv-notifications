@@ -68,5 +68,9 @@
     "tooltip_weatherTomorrowTemp": "Z.B. daswetter.0.Day1.forecast.maxTemp",
     "header_thresholds": "Schwellwerte für Empfehlungen",
     "label_highProduction": "Hohe Produktion ab (W)",
-    "label_highConsumption": "Hoher Verbrauch ab (W)"
+    "label_highConsumption": "Hoher Verbrauch ab (W)",
+    "label_testButton": "Test-Benachrichtigung",
+    "buttonText_testButton": "Test senden",
+    "tooltip_testButton": "Sendet eine Test-Benachrichtigung an alle konfigurierten Telegram-Benutzer",
+    "Test Notification": "Test-Benachrichtigung"
 }

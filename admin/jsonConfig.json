@@ -26,6 +26,16 @@
       "lg": 6,
       "tooltip": "tooltip_telegramUsers"
     },
+    "testButton": {
+      "type": "button",
+      "label": "label_testButton",
+      "tooltip": "tooltip_testButton",
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "buttonText": "buttonText_testButton",
+      "onClick": "sendTestMessage"
+    },
     "_header_datapoints": {
       "type": "header",
       "text": "header_datapoints",
