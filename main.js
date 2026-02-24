@@ -134,26 +134,19 @@ class PvNotifications extends utils.Adapter {
      * State erstellen
      */
     async createState(name, def, type, desc) {
-        const id = `${this.namespace}.${name}`;
         try {
-            // Prüfen ob Objekt existiert
-            const obj = await this.getObjectAsync(name);
-            if (!obj) {
-                // Objekt erstellen
-                await this.setObjectAsync(name, {
-                    type: 'state',
-                    common: {
-                        name: desc,
-                        type: type,
-                        role: 'value',
-                        read: true,
-                        write: true,
-                        def: def
-                    },
-                    native: {}
-                });
-                this.log.debug(`State erstellt: ${name}`);
-            }
+            await this.extendObjectAsync(name, {
+                type: 'state',
+                common: {
+                    name: desc,
+                    type: type,
+                    role: 'value',
+                    read: true,
+                    write: true,
+                    def: def
+                }
+            });
+            this.log.debug(`State erstellt/aktualisiert: ${name}`);
         } catch (e) {
             this.log.error(`Fehler beim Erstellen von ${name}: ${e.message}`);
         }

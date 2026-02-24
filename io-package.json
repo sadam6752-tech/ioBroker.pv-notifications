@@ -1,9 +1,9 @@
 {
   "_id": "iobroker.pv-notifications",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.40",
+    "version": "1.0.41",
     "title": "PV Notifications",
     "titleLang": {
       "en": "PV Notifications",
@@ -104,18 +104,6 @@
         "role": "indicator.connected",
         "read": true,
         "write": false,
-        "def": false
-      }
-    },
-    {
-      "_id": "testButton",
-      "type": "state",
-      "common": {
-        "name": "Test-Benachrichtigung senden",
-        "type": "boolean",
-        "role": "button",
-        "read": true,
-        "write": true,
         "def": false
       }
     },
