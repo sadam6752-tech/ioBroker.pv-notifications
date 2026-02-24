@@ -341,7 +341,7 @@ class PvNotifications extends utils.Adapter {
      * Is called if a subscribed state changes
      */
     async onStateChange(id, state) {
-        this.log.debug(`State geändert: ${id} = ${JSON.stringify(state)}`);
+        this.log.debug(`[onStateChange] State geändert: ${id} = ${JSON.stringify(state)}`);
 
         if (state) {
             // Test-Button verarbeiten (alle States im eigenen Namespace)
@@ -363,29 +363,36 @@ class PvNotifications extends utils.Adapter {
 
             // Batterie-SOC Änderung verarbeiten
             if (id === this.config.batterySOC) {
+                this.log.debug(`[onStateChange] Batterie-SOC geändert: ${state.val}%`);
                 this.onBatterySOCChange(state.val);
                 return;
             }
             
             // Andere Datenpunkte aktualisieren (Production, Consumption, etc.)
+            this.log.debug(`[onStateChange] Prüfe Datenpunkt: ${id}, ack=${state.ack}`);
             if (state.ack) {  // Nur Status-Updates verarbeiten
                 if (id === this.config.totalProduction) {
+                    this.log.info(`[onStateChange] totalProduction: ${state.val} kWh`);
                     await this.setStateAsync('statistics.currentTotalProduction', state.val, true);
                     this.log.debug(`statistics.currentTotalProduction aktualisiert: ${state.val}`);
                 }
                 if (id === this.config.feedIn) {
+                    this.log.info(`[onStateChange] feedIn: ${state.val} kWh`);
                     await this.setStateAsync('statistics.currentFeedIn', state.val, true);
                     this.log.debug(`statistics.currentFeedIn aktualisiert: ${state.val}`);
                 }
                 if (id === this.config.consumption) {
+                    this.log.info(`[onStateChange] consumption: ${state.val} kWh`);
                     await this.setStateAsync('statistics.currentConsumption', state.val, true);
                     this.log.debug(`statistics.currentConsumption aktualisiert: ${state.val}`);
                 }
                 if (id === this.config.gridPower) {
+                    this.log.info(`[onStateChange] gridPower: ${state.val} kWh`);
                     await this.setStateAsync('statistics.currentGridPower', state.val, true);
                     this.log.debug(`statistics.currentGridPower aktualisiert: ${state.val}`);
                 }
                 if (id === this.config.powerProduction) {
+                    this.log.info(`[onStateChange] powerProduction: ${state.val} W`);
                     await this.setStateAsync('statistics.currentPower', state.val, true);
                     this.log.debug(`statistics.currentPower aktualisiert: ${state.val}`);
                 }
