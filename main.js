@@ -719,33 +719,41 @@ class PvNotifications extends utils.Adapter {
      * Zeitgesteuerte Aufgaben starten
      */
     startScheduledTasks() {
-        // Alle 5 Minuten: Statistik prüfen
-        this.scheduleJob('*/5 * * * *', () => {
-            this.resetDailyStats();
-            this.resetWeeklyStats();
-            this.resetMonthlyStats();
-        });
-
-        // Tägliche Statistik zur konfigurierten Zeit
-        const [dayHours, dayMinutes] = this.config.statsDayTime.split(':');
-        this.scheduleJob(`${dayMinutes} ${dayHours} * * *`, () => {
-            this.sendTelegram(this.buildDailyStatsMessage());
-        });
-
-        // Wöchentliche Statistik am konfigurierten Tag und Zeit
-        const [weekHours, weekMinutes] = this.config.statsWeekTime.split(':');
-        this.scheduleJob(`${weekMinutes} ${weekHours} * * ${this.config.statsWeekDay}`, () => {
-            this.sendTelegram(this.buildWeeklyStatsMessage());
-        });
-
-        // Monatsstatistik am konfigurierten Tag und Zeit (wenn aktiviert)
-        if (this.config.monthlyStatsEnabled) {
-            const [monthHours, monthMinutes] = this.config.monthlyStatsTime.split(':');
-            this.scheduleJob(`${monthMinutes} ${monthHours} ${this.config.monthlyStatsDay} * *`, () => {
-                this.sendTelegram(this.buildMonthlyStatsMessage());
-            });
-            this.log.info(`Monatsstatistik aktiviert: Tag ${this.config.monthlyStatsDay} um ${this.config.monthlyStatsTime}`);
-        }
+        // Jede Minute prüfen
+        setInterval(() => {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const day = now.getDay(); // 0=So, 1=Mo, ..., 6=Sa
+            const date = now.getDate();
+            
+            // Alle 5 Minuten: Statistik prüfen (um :00, :05, :10, ...)
+            if (minutes % 5 === 0) {
+                this.resetDailyStats();
+                this.resetWeeklyStats();
+                this.resetMonthlyStats();
+            }
+            
+            // Tägliche Statistik zur konfigurierten Zeit
+            const [dayHours, dayMinutes] = this.config.statsDayTime.split(':').map(Number);
+            if (hours === dayHours && minutes === dayMinutes) {
+                this.sendTelegram(this.buildDailyStatsMessage());
+            }
+            
+            // Wöchentliche Statistik am konfigurierten Tag und Zeit
+            const [weekHours, weekMinutes] = this.config.statsWeekTime.split(':').map(Number);
+            if (day === this.config.statsWeekDay && hours === weekHours && minutes === weekMinutes) {
+                this.sendTelegram(this.buildWeeklyStatsMessage());
+            }
+            
+            // Monatsstatistik am konfigurierten Tag und Zeit
+            if (this.config.monthlyStatsEnabled) {
+                const [monthHours, monthMinutes] = this.config.monthlyStatsTime.split(':').map(Number);
+                if (date === this.config.monthlyStatsDay && hours === monthHours && minutes === monthMinutes) {
+                    this.sendTelegram(this.buildMonthlyStatsMessage());
+                }
+            }
+        }, 60000); // Jede Minute ausführen
 
         this.log.info(`Zeitgesteuerte Aufgaben gestartet (Täglich: ${this.config.statsDayTime}, Wöchentlich: Tag ${this.config.statsWeekDay} um ${this.config.statsWeekTime})`);
     }
