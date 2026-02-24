@@ -17,6 +17,8 @@ class PvNotifications extends utils.Adapter {
             name: 'pv-notifications',
         });
 
+        this.log.info('KONSTRUKTOR wird ausgeführt!');
+
         // Systemsprache laden
         this.systemLang = 'de'; // Standard
 
