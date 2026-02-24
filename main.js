@@ -63,6 +63,9 @@ class PvNotifications extends utils.Adapter {
         this.onReady = this.onReady.bind(this);
         this.onStateChange = this.onStateChange.bind(this);
         this.onUnload = this.onUnload.bind(this);
+        
+        // Ready-Handler registrieren (für js-controller 7+)
+        this.on('ready', this.onReady);
     }
 
     /**
@@ -96,7 +99,7 @@ class PvNotifications extends utils.Adapter {
         await this.createState('statistics.emptyCyclesWeek', 0, 'number', 'Leerzyklen diese Woche');
         await this.createState('statistics.currentSOC', 0, 'number', 'Aktueller SOC');
         await this.createState('statistics.currentEnergyKWh', 0, 'number', 'Aktuelle Energie in kWh');
-        
+
         // States für letzte Monats-/Wochenstatistik
         await this.createState('statistics.lastMonthProduction', 0, 'number', 'Produktion letzter Monat');
         await this.createState('statistics.lastMonthConsumption', 0, 'number', 'Verbrauch letzter Monat');
