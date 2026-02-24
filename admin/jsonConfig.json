@@ -318,6 +318,22 @@
       "md": 6,
       "lg": 6
     },
+    "weatherTomorrowText": {
+      "type": "text",
+      "label": "Wettertext morgen",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "Z.B. daswetter.0.Day1.forecast.currentSymbol"
+    },
+    "weatherTomorrowTemp": {
+      "type": "text",
+      "label": "Temperatur morgen (°C)",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "tooltip": "Z.B. daswetter.0.Day1.forecast.maxTemp"
+    },
     "_header_thresholds": {
       "type": "header",
       "text": "Schwellwerte für Empfehlungen",
