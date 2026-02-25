@@ -41,7 +41,7 @@
     "release:major": "npm version major && npm run release"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.1.4"
+    "@iobroker/adapter-core": "^3.3.2"
   },
   "devDependencies": {
     "@iobroker/testing": "^4.0.0",
