@@ -17,7 +17,10 @@
     },
     "authors": ["Alex <alex@example.com>"],
     "keywords": ["PV", "Solar", "Batterie", "Telegram"],
-    "license": "MIT",
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
     "platform": "Node.js",
     "main": "main.js",
     "mode": "daemon",
