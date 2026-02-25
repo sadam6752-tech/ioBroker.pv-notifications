@@ -12,3 +12,6 @@ dist/
 *.swp
 *.swo
 *~
+
+#ignore .commitinfo created by ioBroker release script
+.commitinfo
