@@ -4,7 +4,6 @@
   "common": {
     "name": "pv-notifications",
     "version": "1.0.80",
-    "title": "PV Notifications",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
