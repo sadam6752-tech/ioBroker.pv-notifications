@@ -4,10 +4,11 @@ Sendet Telegram-Benachrichtigungen für PV-Batteriestatus (voll, leer, Intermedi
 
 ## Features
 
-- 🔋 **Batterie-Voll Benachrichtigung** bei 100% (nicht zwischen 00:00-08:00)
-- ⚠️ **Batterie-Leer Benachrichtigung** bei 0% (auch nachts)
+- 🔋 **Batterie-Voll Benachrichtigung** bei 100%
+- ⚠️ **Batterie-Leer Benachrichtigung** bei 0%
 - 📊 **Intermediate-Stufen** (20%, 40%, 60%, 80%) mit Ladestand in % und kWh
-- 🌙 **Nachtmodus** (00:00-08:00): Nur 0% Benachrichtigungen
+- 🌙 **Nachtmodus** (konfigurierbare Zeit, Standard: 23:00-06:00)
+- 🤫 **Ruhemodus** (konfigurierbare Zeit, Standard: 12:00-15:00)
 - 📈 **Tagesstatistik** um konfigurierbare Zeit (Standard: 22:00)
 - 📅 **Wochenstatistik** am konfigurierbaren Wochentag
 - 📆 **Monatsstatistik** (optional) am konfigurierbaren Tag
@@ -100,8 +101,13 @@ npm install iobroker.pv-notifications
 | Min. Intervall VOLL | Minuten zwischen Benachrichtigungen | `10` |
 | Min. Intervall LEER | Minuten zwischen Benachrichtigungen | `5` |
 | Min. Intervall Intermediate | Minuten zwischen Benachrichtigungen | `30` |
-| Nachtmodus aktivieren | Checkbox für Nachtmodus (00:00-08:00) | `true` |
-| Nachtmodus für 0% ignorieren | Bei 0% immer benachrichtigen | `true` |
+| Nachtmodus aktivieren | Checkbox für Nachtmodus | `true` |
+| Nachtmodus Start | Startzeit (Format: HH:MM) | `23:00` |
+| Nachtmodus Ende | Endzeit (Format: HH:MM) | `06:00` |
+| Nachtmodus für 0% Batterie ignorieren | Bei 0% immer benachrichtigen | `true` |
+| Ruhemodus aktivieren | Checkbox für Ruhemodus | `false` |
+| Ruhemodus Start | Startzeit (Format: HH:MM) | `12:00` |
+| Ruhemodus Ende | Endzeit (Format: HH:MM) | `15:00` |
 
 ### Statistik
 
@@ -289,14 +295,25 @@ Temperatur morgen:      daswetter.0.Day1.forecast.maxTemp
 ━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## Nachtmodus
+## Nachtmodus & Ruhemodus
 
-Zwischen **00:00 und 08:00** werden folgende Benachrichtigungen unterdrückt:
+### Nachtmodus (konfigurierbar)
+
+Zwischen **23:00 und 06:00** (konfigurierbar) werden folgende Benachrichtigungen unterdrückt:
 - ❌ Batterie VOLL (100%)
 - ❌ Intermediate-Stufen (20%, 40%, 60%, 80%)
 
 Folgende Benachrichtigung wird **immer** gesendet:
-- ✅ Batterie LEER (0%) - auch nachts
+- ✅ Batterie LEER (0%) – wenn "Nachtmodus für 0% Batterie ignorieren" aktiviert ist
+
+### Ruhemodus (konfigurierbar)
+
+Zwischen **12:00 und 15:00** (konfigurierbar) werden **alle** Benachrichtigungen unterdrückt:
+- ❌ Batterie VOLL (100%)
+- ❌ Batterie LEER (0%)
+- ❌ Intermediate-Stufen (20%, 40%, 60%, 80%)
+
+**Hinweis:** Der Ruhemodus unterdrückt alle Benachrichtigungen einschließlich 0% Batterie. Verwende ihn für Zeiten, in denen du gar nicht gestört werden möchtest (z.B. Mittagsschlaf, Meetings).
 
 ## Lizenz
 
