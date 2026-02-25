@@ -19,7 +19,6 @@
     "keywords": ["PV", "Solar", "Batterie", "Telegram"],
     "license": "MIT",
     "platform": "Node.js",
-    "main": "main.js",
     "mode": "daemon",
     "type": "energy",
     "enabled": true,
