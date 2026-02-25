@@ -41,7 +41,7 @@
     "tooltip_nightModeStart": "Время начала ночного режима (например, 00:00)",
     "label_nightModeEnd": "Конец",
     "tooltip_nightModeEnd": "Время окончания ночного режима (например, 08:00)",
-    "label_nightModeIgnoreEmpty": "Игнорировать ночной режим для 0%",
+    "label_nightModeIgnoreEmpty": "Игнорировать ночной режим для 0% батареи",
     "tooltip_nightModeIgnoreEmpty": "Если включено, 0% всегда будет уведомлять (даже ночью)",
     "label_quietModeEnabled": "Активировать тихий режим",
     "tooltip_quietModeEnabled": "Если включено, уведомления не будут отправляться во время тихого времени",

@@ -41,7 +41,7 @@
     "tooltip_nightModeStart": "Startzeit für Nachtmodus (z.B. 00:00)",
     "label_nightModeEnd": "Ende",
     "tooltip_nightModeEnd": "Endezeit für Nachtmodus (z.B. 08:00)",
-    "label_nightModeIgnoreEmpty": "Nachtmodus für 0% ignorieren",
+    "label_nightModeIgnoreEmpty": "Nachtmodus für 0% Batterie ignorieren",
     "tooltip_nightModeIgnoreEmpty": "Wenn aktiviert, wird bei 0% immer benachrichtigt (auch nachts)",
     "label_quietModeEnabled": "Ruhemodus aktivieren",
     "tooltip_quietModeEnabled": "Wenn aktiviert, werden keine Benachrichtigungen während der Ruhezeit gesendet",
