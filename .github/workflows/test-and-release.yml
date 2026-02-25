@@ -30,7 +30,7 @@ jobs:
         run: npm test
       
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         if: matrix.node-version == '18.x'
 
   # Deploy to npm when a release is published
