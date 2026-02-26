@@ -37,10 +37,6 @@
     "batterySOC": {
       "type": "objectId",
       "label": "label_batterySOC",
-      "size": {
-        "xs": 12,
-        "xl": 6
-      },
       "sm": 6,
       "md": 6,
       "lg": 6,
@@ -49,10 +45,6 @@
     "powerProduction": {
       "type": "objectId",
       "label": "label_powerProduction",
-      "size": {
-        "xs": 12,
-        "xl": 6
-      },
       "sm": 6,
       "md": 6,
       "lg": 6
@@ -60,10 +52,6 @@
     "totalProduction": {
       "type": "objectId",
       "label": "label_totalProduction",
-      "size": {
-        "xs": 12,
-        "xl": 6
-      },
       "sm": 6,
       "md": 6,
       "lg": 6
