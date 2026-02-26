@@ -1,6 +1,6 @@
 {
   "name": "iobroker.pv-notifications",
-  "version": "1.0.83",
+  "version": "1.0.84",
   "description": "PV-Anlage Batterie-Status Telegram Benachrichtigungen",
   "author": {
     "name": "Alex1808 via LLM: Qwen",
@@ -21,7 +21,7 @@
     "url": "https://github.com/sadam6752-tech/ioBroker.pv-notifications.git"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18"
   },
   "main": "main.js",
   "files": [
@@ -41,10 +41,10 @@
     "release:major": "npm version major && npm run release"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.1.4"
+    "@iobroker/adapter-core": "^3.2.3"
   },
   "devDependencies": {
-    "@iobroker/testing": "^4.0.0",
+    "@iobroker/testing": "^5.2.2",
     "eslint": "^8.57.0",
     "mocha": "^10.4.0"
   },

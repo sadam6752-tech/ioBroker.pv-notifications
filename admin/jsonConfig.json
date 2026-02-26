@@ -14,6 +14,10 @@
       "type": "instance",
       "label": "label_telegramInstance",
       "adapter": "telegram",
+      "size": {
+        "xs": 12,
+        "xl": 6
+      },
       "sm": 6,
       "md": 6,
       "lg": 6
@@ -21,6 +25,10 @@
     "telegramUsers": {
       "type": "text",
       "label": "label_telegramUsers",
+      "size": {
+        "xs": 12,
+        "xl": 6
+      },
       "sm": 6,
       "md": 6,
       "lg": 6,
@@ -37,6 +45,10 @@
     "batterySOC": {
       "type": "objectId",
       "label": "label_batterySOC",
+      "size": {
+        "xs": 12,
+        "xl": 6
+      },
       "sm": 6,
       "md": 6,
       "lg": 6,
@@ -45,6 +57,10 @@
     "powerProduction": {
       "type": "objectId",
       "label": "label_powerProduction",
+      "size": {
+        "xs": 12,
+        "xl": 6
+      },
       "sm": 6,
       "md": 6,
       "lg": 6
@@ -52,6 +68,10 @@
     "totalProduction": {
       "type": "objectId",
       "label": "label_totalProduction",
+      "size": {
+        "xs": 12,
+        "xl": 6
+      },
       "sm": 6,
       "md": 6,
       "lg": 6
