@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.87",
+    "version": "1.0.88",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
