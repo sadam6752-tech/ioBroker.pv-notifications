@@ -47,14 +47,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-<<<<<<< Updated upstream
-      - uses: actions/checkout@v6
-      
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
-=======
       - uses: ioBroker/testing-action-adapter@v1
->>>>>>> Stashed changes
         with:
           node-version: ${{ matrix.node-version }}
           os: ${{ matrix.os }}
