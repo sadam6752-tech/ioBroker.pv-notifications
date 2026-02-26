@@ -1,10 +1,7 @@
 {
-  "_id": "iobroker.pv-notifications",
-  "version": "1.0.83",
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.83",
-    "title": "PV Notifications",
+    "version": "1.0.84",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -17,8 +14,11 @@
     },
     "authors": ["Alex <alex@example.com>"],
     "keywords": ["PV", "Solar", "Batterie", "Telegram"],
-    "license": "MIT",
-    "platform": "Node.js",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
+    "platform": "Javascript/Node.js",
     "main": "main.js",
     "mode": "daemon",
     "type": "energy",
@@ -29,13 +29,27 @@
     "adminUI": {
       "config": "json"
     },
-    "i18n": true,
     "extIcon": "https://raw.githubusercontent.com/sadam6752-tech/ioBroker.pv-notifications/main/admin/pv-notifications.png",
     "icon": "pv-notifications.png",
     "readme": "https://github.com/sadam6752-tech/ioBroker.pv-notifications/blob/main/README.md",
     "loglevel": "info",
     "tier": 3,
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.6.17"
+      }
+    ],
     "news": {
+      "1.0.84": {
+        "en": "Repository checker fixes: Node.js >=18, dependencies updated, io-package schema fixed, licenseInformation added",
+        "de": "Repository-Checker-Fixes: Node.js >=18, Abhängigkeiten aktualisiert, io-package-Schema korrigiert, licenseInformation hinzugefügt",
+        "ru": "Исправления репозитория: Node.js >=18, зависимости обновлены, схема io-package исправлена, добавлена licenseInformation"
+      },
       "1.0.83": {
         "en": "GitHub Issues resolved: createState deprecated fixed (setObjectNotExists), all log messages translated to English, README.md translated (EN + doc/de/ structure), Node.js 24 added to test matrix, manual installation guide removed",
         "de": "GitHub Issues behoben: createState deprecated fix (setObjectNotExists), alle Log-Nachrichten ins Englische übersetzt, README.md übersetzt (EN + doc/de/ Struktur), Node.js 24 zur Test-Matrix hinzugefügt, manuelle Installationsanleitung entfernt",
@@ -55,28 +69,8 @@
         "en": "Unified intermediate notifications format (all levels show charging/discharging status)",
         "de": "Vereinheitlichtes Intermediate-Nachrichtenformat (alle Stufen zeigen Lade-/Entlade-Status)",
         "ru": "Унифицирован формат промежуточных уведомлений (все уровни показывают статус зарядки/разрядки)"
-      },
-      "1.0.79": {
-        "en": "README.md updated with configurable night/quiet mode times",
-        "de": "README.md mit konfigurierbaren Nacht-/Ruhemodus-Zeiten aktualisiert",
-        "ru": "README.md обновлен с настраиваемым временем ночного/тихого режима"
-      },
-      "1.0.78": {
-        "en": "Fixed grid layout for intermediate fields (3+3+3+3=12)",
-        "de": "Grid-Layout für Intermediate-Felder korrigiert (3+3+3+3=12)",
-        "ru": "Исправлена сетка для промежуточных полей (3+3+3+3=12)"
       }
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=5.0.0"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.0.0"
-      }
-    ]
+    }
   },
   "native": {
     "telegramInstance": "telegram.0",
@@ -136,7 +130,7 @@
       "_id": "info.connection",
       "type": "state",
       "common": {
-        "name": "Adapter ist mit Telegram verbunden",
+        "name": "Adapter is connected to Telegram",
         "type": "boolean",
         "role": "indicator.connected",
         "read": true,
@@ -150,7 +144,7 @@
       "_id": "testButton",
       "type": "state",
       "common": {
-        "name": "Test-Benachrichtigung senden",
+        "name": "Send test notification",
         "type": "boolean",
         "role": "button",
         "read": true,
@@ -162,7 +156,7 @@
       "_id": "statistics.fullCyclesToday",
       "type": "state",
       "common": {
-        "name": "Vollzyklen heute",
+        "name": "Full cycles today",
         "type": "number",
         "role": "value",
         "read": true,
@@ -174,7 +168,7 @@
       "_id": "statistics.emptyCyclesToday",
       "type": "state",
       "common": {
-        "name": "Leerzyklen heute",
+        "name": "Empty cycles today",
         "type": "number",
         "role": "value",
         "read": true,
@@ -186,7 +180,7 @@
       "_id": "statistics.maxSOCToday",
       "type": "state",
       "common": {
-        "name": "Max SOC heute",
+        "name": "Max SOC today",
         "type": "number",
         "role": "value",
         "read": true,
@@ -198,7 +192,7 @@
       "_id": "statistics.minSOCToday",
       "type": "state",
       "common": {
-        "name": "Min SOC heute",
+        "name": "Min SOC today",
         "type": "number",
         "role": "value",
         "read": true,
@@ -210,7 +204,7 @@
       "_id": "statistics.fullCyclesWeek",
       "type": "state",
       "common": {
-        "name": "Vollzyklen diese Woche",
+        "name": "Full cycles this week",
         "type": "number",
         "role": "value",
         "read": true,
@@ -222,7 +216,7 @@
       "_id": "statistics.emptyCyclesWeek",
       "type": "state",
       "common": {
-        "name": "Leerzyklen diese Woche",
+        "name": "Empty cycles this week",
         "type": "number",
         "role": "value",
         "read": true,
@@ -234,7 +228,7 @@
       "_id": "statistics.currentSOC",
       "type": "state",
       "common": {
-        "name": "Aktueller SOC",
+        "name": "Current SOC",
         "type": "number",
         "role": "value",
         "read": true,
@@ -246,7 +240,7 @@
       "_id": "statistics.currentEnergyKWh",
       "type": "state",
       "common": {
-        "name": "Aktuelle Energie in kWh",
+        "name": "Current energy in kWh",
         "type": "number",
         "role": "value",
         "read": true,
@@ -258,7 +252,7 @@
       "_id": "statistics.lastMonthProduction",
       "type": "state",
       "common": {
-        "name": "Produktion letzter Monat",
+        "name": "Production last month",
         "type": "number",
         "role": "value",
         "read": true,
@@ -270,7 +264,7 @@
       "_id": "statistics.lastMonthConsumption",
       "type": "state",
       "common": {
-        "name": "Verbrauch letzter Monat",
+        "name": "Consumption last month",
         "type": "number",
         "role": "value",
         "read": true,
@@ -282,7 +276,7 @@
       "_id": "statistics.lastMonthFeedIn",
       "type": "state",
       "common": {
-        "name": "Einspeisung letzter Monat",
+        "name": "Feed-in last month",
         "type": "number",
         "role": "value",
         "read": true,
@@ -294,7 +288,7 @@
       "_id": "statistics.lastMonthGridPower",
       "type": "state",
       "common": {
-        "name": "Netzbezug letzter Monat",
+        "name": "Grid power last month",
         "type": "number",
         "role": "value",
         "read": true,
@@ -306,7 +300,7 @@
       "_id": "statistics.lastMonthFullCycles",
       "type": "state",
       "common": {
-        "name": "Vollzyklen letzter Monat",
+        "name": "Full cycles last month",
         "type": "number",
         "role": "value",
         "read": true,
@@ -318,7 +312,7 @@
       "_id": "statistics.lastMonthEmptyCycles",
       "type": "state",
       "common": {
-        "name": "Leerzyklen letzter Monat",
+        "name": "Empty cycles last month",
         "type": "number",
         "role": "value",
         "read": true,
@@ -330,7 +324,7 @@
       "_id": "statistics.lastWeekProduction",
       "type": "state",
       "common": {
-        "name": "Produktion letzte Woche",
+        "name": "Production last week",
         "type": "number",
         "role": "value",
         "read": true,
@@ -342,7 +336,7 @@
       "_id": "statistics.lastWeekConsumption",
       "type": "state",
       "common": {
-        "name": "Verbrauch letzte Woche",
+        "name": "Consumption last week",
         "type": "number",
         "role": "value",
         "read": true,
@@ -354,7 +348,7 @@
       "_id": "statistics.lastWeekFeedIn",
       "type": "state",
       "common": {
-        "name": "Einspeisung letzte Woche",
+        "name": "Feed-in last week",
         "type": "number",
         "role": "value",
         "read": true,
@@ -366,7 +360,7 @@
       "_id": "statistics.lastWeekGridPower",
       "type": "state",
       "common": {
-        "name": "Netzbezug letzte Woche",
+        "name": "Grid power last week",
         "type": "number",
         "role": "value",
         "read": true,
@@ -378,7 +372,7 @@
       "_id": "statistics.lastWeekFullCycles",
       "type": "state",
       "common": {
-        "name": "Vollzyklen letzte Woche",
+        "name": "Full cycles last week",
         "type": "number",
         "role": "value",
         "read": true,
@@ -390,7 +384,7 @@
       "_id": "statistics.lastWeekEmptyCycles",
       "type": "state",
       "common": {
-        "name": "Leerzyklen letzte Woche",
+        "name": "Empty cycles last week",
         "type": "number",
         "role": "value",
         "read": true,
@@ -398,6 +392,5 @@
         "def": 0
       }
     }
-  ],
-  "stateRights": true
+  ]
 }

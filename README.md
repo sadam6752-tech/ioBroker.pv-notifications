@@ -332,6 +332,32 @@ Alex1808 via LLM: Qwen
 
 sadam6752@gmail.com
 
+## Changelog
+
+### 1.0.84 (2026-02-26)
+* (FIX) Node.js version updated to >=18
+* (FIX) Dependencies updated (@iobroker/adapter-core to 3.2.3, @iobroker/testing to 5.2.2)
+* (FIX) io-package.json schema fixed (licenseInformation added, deprecated fields removed)
+* (FIX) setInterval with clearInterval added for proper cleanup
+* (FIX) js-controller dependency updated to >=6.0.11
+* (FIX) admin dependency updated to >=7.6.17
+
+### 1.0.83 (2026-02-26)
+* (FIX) createState deprecated fixed (setObjectNotExists)
+* (FIX) All log messages translated to English
+* (FIX) README.md translated (EN + doc/de/ + doc/ru/ structure)
+* (FIX) Node.js 24 added to test matrix
+* (FIX) Manual installation guide removed
+
+### 1.0.82 (2026-02-25)
+* (FIX) Copilot infrastructure and AI assistant guidelines added
+
+### 1.0.81 (2026-02-25)
+* (FIX) create-adapter infrastructure added (GitHub Actions, Dependabot, ESLint, Tests)
+
+### 1.0.80 (2026-02-25)
+* (FIX) Unified intermediate notifications format (all levels show charging/discharging status)
+
 ## Documentation in Other Languages
 
 - [🇬🇧 English](README.md)

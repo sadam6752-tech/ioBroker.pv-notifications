@@ -65,6 +65,9 @@ class PvNotifications extends utils.Adapter {
         this.onStateChange = this.onStateChange.bind(this);
         this.onUnload = this.onUnload.bind(this);
 
+        // Timer reference for cleanup
+        this.scheduledInterval = null;
+
         // Ready-Handler registrieren (für js-controller 7+)
         this.on('ready', this.onReady);
 
@@ -1003,11 +1006,11 @@ ${statusText}`;
     }
 
     /**
-     * Zeitgesteuerte Aufgaben starten
+     * Start scheduled tasks
      */
     startScheduledTasks() {
-        // Jede Minute prüfen
-        setInterval(() => {
+        // Check every minute
+        this.scheduledInterval = setInterval(() => {
             const now = new Date();
             const hours = now.getHours();
             const minutes = now.getMinutes();
@@ -1415,6 +1418,13 @@ ${statusText}`;
     async onUnload(callback) {
         try {
             this.log.info('PV Notifications Adapter is stopping');
+            
+            // Clear interval timer
+            if (this.scheduledInterval) {
+                clearInterval(this.scheduledInterval);
+                this.scheduledInterval = null;
+            }
+            
             // Reset connection
             this.setState('info.connection', false, true);
             await this.saveStatistics();
