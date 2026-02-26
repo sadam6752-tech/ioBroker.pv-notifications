@@ -31,22 +31,28 @@
     "io-package.json"
   ],
   "scripts": {
-    "test": "npm run test:package && npm run test:integration",
-    "test:package": "mocha test/package.js",
-    "test:integration": "mocha test/integration.js",
-    "lint": "eslint -c .eslintrc.json main.js admin/jsonConfig.js",
-    "release": "node build/release.js",
-    "release:patch": "npm version patch && npm run release",
-    "release:minor": "npm version minor && npm run release",
-    "release:major": "npm version major && npm run release"
+    "test": "npm run test:js && npm run test:package",
+    "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
+    "test:package": "mocha test/package --exit",
+    "test:integration": "mocha test/integration --exit",
+    "lint": "eslint -c eslint.config.mjs .",
+    "translate": "translate-adapter",
+    "release": "release-script"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.1.4"
   },
   "devDependencies": {
+    "@alcalzone/release-script": "^5.0.0",
+    "@alcalzone/release-script-plugin-iobroker": "^4.0.0",
+    "@alcalzone/release-script-plugin-license": "^4.0.0",
+    "@alcalzone/release-script-plugin-manual-review": "^4.0.0",
+    "@iobroker/adapter-dev": "^1.5.0",
+    "@iobroker/eslint-config": "^2.2.0",
     "@iobroker/testing": "^5.2.2",
-    "eslint": "^8.57.0",
-    "mocha": "^10.4.0"
+    "@types/bl": "^5.1.4",
+    "@types/node": "^24.10.12",
+    "typescript": "~5.9.3"
   },
   "bugs": {
     "url": "https://github.com/alex/iobroker.pv-notifications/issues"
