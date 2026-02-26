@@ -46,7 +46,7 @@
   "devDependencies": {
     "@iobroker/testing": "^5.2.2",
     "eslint": "^8.57.0",
-    "mocha": "^10.4.0"
+    "mocha": "^11.7.5"
   },
   "bugs": {
     "url": "https://github.com/alex/iobroker.pv-notifications/issues"
