@@ -21,10 +21,6 @@
     "telegramUsers": {
       "type": "text",
       "label": "label_telegramUsers",
-      "size": {
-        "xs": 12,
-        "xl": 6
-      },
       "sm": 6,
       "md": 6,
       "lg": 6,
