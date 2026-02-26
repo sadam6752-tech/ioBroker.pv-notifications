@@ -1,3 +1,4 @@
+/* global window, load, save */
 // This file is auto-generated
 window.adapterSettings = {
     url: 'jsonConfig.json',

@@ -35,6 +35,33 @@
     "readme": "https://github.com/sadam6752-tech/ioBroker.pv-notifications/blob/main/README.md",
     "loglevel": "info",
     "tier": 3,
+    "news": {
+      "1.0.82": {
+        "en": "Copilot infrastructure and AI assistant guidelines added",
+        "de": "Copilot-Infrastruktur und AI-Assistent Richtlinien hinzugefügt",
+        "ru": "Добавлена инфраструктура Copilot и руководства по AI-ассистенту"
+      },
+      "1.0.81": {
+        "en": "create-adapter infrastructure added (GitHub Actions, Dependabot, ESLint, Tests)",
+        "de": "create-adapter Infrastruktur hinzugefügt (GitHub Actions, Dependabot, ESLint, Tests)",
+        "ru": "Добавлена инфраструктура create-adapter (GitHub Actions, Dependabot, ESLint, тесты)"
+      },
+      "1.0.80": {
+        "en": "Unified intermediate notifications format (all levels show charging/discharging status)",
+        "de": "Vereinheitlichtes Intermediate-Nachrichtenformat (alle Stufen zeigen Lade-/Entlade-Status)",
+        "ru": "Унифицирован формат промежуточных уведомлений (все уровни показывают статус зарядки/разрядки)"
+      },
+      "1.0.79": {
+        "en": "README.md updated with configurable night/quiet mode times",
+        "de": "README.md mit konfigurierbaren Nacht-/Ruhemodus-Zeiten aktualisiert",
+        "ru": "README.md обновлен с настраиваемым временем ночного/тихого режима"
+      },
+      "1.0.78": {
+        "en": "Fixed grid layout for intermediate fields (3+3+3+3=12)",
+        "de": "Grid-Layout für Intermediate-Felder korrigiert (3+3+3+3=12)",
+        "ru": "Исправлена сетка для промежуточных полей (3+3+3+3=12)"
+      }
+    },
     "dependencies": [
       {
         "js-controller": ">=5.0.0"

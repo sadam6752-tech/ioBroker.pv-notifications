@@ -364,21 +364,21 @@ class PvNotifications extends utils.Adapter {
 
             // Andere Datenpunkte aktualisieren (Production, Consumption, etc.)
             // if (state.ack) {  // Nur Status-Updates verarbeiten
-                if (id === this.config.totalProduction) {
-                    await this.setStateAsync('statistics.currentTotalProduction', state.val, true);
-                }
-                if (id === this.config.feedIn) {
-                    await this.setStateAsync('statistics.currentFeedIn', state.val, true);
-                }
-                if (id === this.config.consumption) {
-                    await this.setStateAsync('statistics.currentConsumption', state.val, true);
-                }
-                if (id === this.config.gridPower) {
-                    await this.setStateAsync('statistics.currentGridPower', state.val, true);
-                }
-                if (id === this.config.powerProduction) {
-                    await this.setStateAsync('statistics.currentPower', state.val, true);
-                }
+            if (id === this.config.totalProduction) {
+                await this.setStateAsync('statistics.currentTotalProduction', state.val, true);
+            }
+            if (id === this.config.feedIn) {
+                await this.setStateAsync('statistics.currentFeedIn', state.val, true);
+            }
+            if (id === this.config.consumption) {
+                await this.setStateAsync('statistics.currentConsumption', state.val, true);
+            }
+            if (id === this.config.gridPower) {
+                await this.setStateAsync('statistics.currentGridPower', state.val, true);
+            }
+            if (id === this.config.powerProduction) {
+                await this.setStateAsync('statistics.currentPower', state.val, true);
+            }
             // }
         }
     }
@@ -405,8 +405,9 @@ class PvNotifications extends utils.Adapter {
         this.log.debug(`Batterie-SOC: ${soc}% | Status: voll=${this.status.full}, leer=${this.status.empty}`);
 
         // Bestimme Richtung (steigend/fallend) für Intermediate
-        const direction = (this.status.previousSOC !== null && soc > this.status.previousSOC) ? 'up' :
-                          (this.status.previousSOC !== null && soc < this.status.previousSOC) ? 'down' : 'up';
+        const direction = (this.status.previousSOC !== null && soc > this.status.previousSOC)
+            ? 'up'
+            : (this.status.previousSOC !== null && soc < this.status.previousSOC) ? 'down' : 'up';
 
         // Vorherigen SOC für nächste Aktualisierung speichern
         this.status.previousSOC = soc;
@@ -586,7 +587,7 @@ class PvNotifications extends utils.Adapter {
     /**
      * Sende Telegram-Nachricht mit Zeitstempel
      */
-    sendTelegram(message, priority = 'normal') {
+    sendTelegram(message) {
         const timestamp = this.getTimeString();
         const fullMessage = `${timestamp} - ${message}`;
 
@@ -804,7 +805,7 @@ ${statusText}`;
      */
     buildWeeklyStatsMessage() {
         const totalProd = this.round(this.stats.lastWeekProduction, 1);
-        const consumption = this.round(this.stats.lastWeekConsumption, 1);
+        // const consumption = this.round(this.stats.lastWeekConsumption, 1);  // ESLint: unused
         const feedIn = this.round(Math.abs(this.stats.lastWeekFeedIn), 1);
         const gridPower = this.round(this.stats.lastWeekGridPower, 1);
         const selfConsumption = this.round(totalProd - feedIn, 1);
@@ -829,7 +830,7 @@ ${statusText}`;
      */
     buildMonthlyStatsMessage() {
         const totalProd = this.round(this.stats.lastMonthProduction, 1);
-        const consumption = this.round(this.stats.lastMonthConsumption, 1);
+        // const consumption = this.round(this.stats.lastMonthConsumption, 1);  // ESLint: unused
         const feedIn = this.round(Math.abs(this.stats.lastMonthFeedIn), 1);
         const gridPower = this.round(this.stats.lastMonthGridPower, 1);
         const selfConsumption = this.round(totalProd - feedIn, 1);
@@ -1016,7 +1017,8 @@ ${statusText}`;
         const today = new Date().getDate();
         const now = new Date();
         const hours = now.getHours();
-        const [statHours, statMinutes] = this.config.monthlyStatsTime.split(':').map(Number);
+        const [statHours] = this.config.monthlyStatsTime.split(':').map(Number);
+        // const [statMinutes] = ...  // ESLint: unused
 
         // Daten am konfigurierten Tag nach der Sendezeit speichern
         if (today === this.config.monthlyStatsDay &&
@@ -1239,10 +1241,10 @@ ${statusText}`;
         // Weitere Werte aus States lesen
         const totalProdState = await this.getStateAsync('statistics.currentTotalProduction');
         const totalProd = totalProdState && totalProdState.val !== null ? this.round(totalProdState.val, 1) : 0;
-        
-        const consumptionState = await this.getStateAsync('statistics.currentConsumption');
-        const consumption = consumptionState && consumptionState.val !== null ? this.round(consumptionState.val, 1) : 0;
-        
+
+        // const consumptionState = await this.getStateAsync('statistics.currentConsumption');  // ESLint: unused
+        // const consumption = consumptionState && consumptionState.val !== null ? this.round(consumptionState.val, 1) : 0;
+
         const feedInState = await this.getStateAsync('statistics.currentFeedIn');
         const feedIn = feedInState && feedInState.val !== null ? this.round(Math.abs(feedInState.val), 0) : 0;
         
