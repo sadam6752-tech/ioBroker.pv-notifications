@@ -14,10 +14,6 @@
       "type": "instance",
       "label": "label_telegramInstance",
       "adapter": "telegram",
-      "size": {
-        "xs": 12,
-        "xl": 6
-      },
       "sm": 6,
       "md": 6,
       "lg": 6
