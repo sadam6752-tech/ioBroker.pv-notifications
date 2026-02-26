@@ -21,7 +21,7 @@
     "url": "https://github.com/sadam6752-tech/ioBroker.pv-notifications.git"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=20.0.0"
   },
   "main": "main.js",
   "files": [
