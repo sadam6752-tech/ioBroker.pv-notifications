@@ -76,22 +76,22 @@ class PvNotifications extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
-        this.log.info('onReady wird ausgeführt...');
-        
+        this.log.info('onReady is executing...');
+
         // Reset connection indicator
         await this.setState('info.connection', false, true);
 
-        // Systemsprache laden
-        this.log.info('Lade Systemsprache...');
+        // Load system language
+        this.log.info('Loading system language...');
         await this.loadSystemLanguage();
 
-        this.log.info('PV Notifications Adapter gestartet');
+        this.log.info('PV Notifications Adapter started');
 
-        // Konfiguration loggen
-        this.log.info(`Konfiguration: Voll=${this.config.thresholdFull}%, Leer=${this.config.thresholdEmpty}%, Intermediate=[${this.config.intermediateSteps}]`);
+        // Log configuration
+        this.log.info(`Configuration: Full=${this.config.thresholdFull}%, Empty=${this.config.thresholdEmpty}%, Intermediate=[${this.config.intermediateSteps}]`);
 
-        // States für Statistik erstellen
-        this.log.info('Erstelle Statistik-States...');
+        // Create statistics states
+        this.log.info('Creating statistics states...');
         await this.createState('statistics.fullCyclesToday', 0, 'number', 'Vollzyklen heute');
         await this.createState('statistics.emptyCyclesToday', 0, 'number', 'Leerzyklen heute');
         await this.createState('statistics.maxSOCToday', 0, 'number', 'Max SOC heute');
@@ -122,21 +122,21 @@ class PvNotifications extends utils.Adapter {
 
         // Test-Button State erstellen
         await this.createState('testButton', false, 'boolean', 'Test-Benachrichtigung senden');
-        
-        // Explizit subscriben (für js-controller 7+)
+
+        // Explicitly subscribe (for js-controller 7+)
         this.subscribeStates('testButton');
-        this.log.info('Subscription für testButton erstellt');
+        this.log.info('Subscription for testButton created');
 
-        await this.createState('info.connection', false, 'boolean', 'Adapter ist mit Telegram verbunden');
+        await this.createState('info.connection', false, 'boolean', 'Adapter is connected to Telegram');
 
-        // Event-Handler für Batterie-SOC registrieren
+        // Register event handler for battery SOC
         if (this.config.batterySOC) {
-            // subscribeForeignStates für externe States verwenden
+            // Use subscribeForeignStates for external states
             this.subscribeForeignStates(this.config.batterySOC);
-            this.log.info(`Subscription für ${this.config.batterySOC} erstellt (foreign)`);
+            this.log.info(`Subscription for ${this.config.batterySOC} created (foreign)`);
         }
         
-        // Subscription für alle Datenpunkte erstellen
+        // Create subscriptions for all data points
         const dataPoints = [
             this.config.powerProduction,
             this.config.totalProduction,
@@ -152,48 +152,48 @@ class PvNotifications extends utils.Adapter {
             this.config.monthlyFeedIn,
             this.config.monthlyGridPower
         ];
-        
+
         for (const dp of dataPoints) {
             if (dp) {
-                // subscribeForeignStates für externe States verwenden
+                // Use subscribeForeignStates for external states
                 this.subscribeForeignStates(dp);
-                this.log.debug(`Subscription für ${dp} erstellt (foreign)`);
+                this.log.debug(`Subscription for ${dp} created (foreign)`);
             }
         }
 
-        // NACH allen subscriptions: Nochmal alle States subscriben
+        // Re-subscribe all states after all subscriptions
         this.subscribeStates('*');
-        this.log.info('Alle States subscribiert (*)');
+        this.log.info('All states subscribed (*)');
 
-        // Zeitgesteuerte Aufgaben starten
+        // Start scheduled tasks
         this.startScheduledTasks();
 
-        // Initiale Statistik laden
+        // Load initial statistics
         await this.loadStatistics();
 
-        // Aktuelle Werte von den konfigurierten Datenpunkten lesen
+        // Refresh current values from configured data points
         await this.refreshCurrentValues();
 
-        // Prüfe Berechtigungen für konfigurierte Datenpunkte
+        // Check permissions for configured data points
         await this.checkPermissions();
 
-        // Signalisiere dass der Adapter bereit ist
+        // Signal that adapter is ready
         this.setState('info.connection', true, true);
-        this.log.info('PV Notifications Adapter ist bereit');
-        this.log.info(`Adapter Namespace: ${this.namespace}`);
+        this.log.info('PV Notifications Adapter is ready');
+        this.log.info(`Adapter namespace: ${this.namespace}`);
     }
 
     /**
-     * Prüfe Berechtigungen für konfigurierte Datenpunkte
+     * Check permissions for configured data points
      */
     async checkPermissions() {
         const dataPoints = [
-            { name: 'Batterie SOC', id: this.config.batterySOC },
-            { name: 'PV-Leistung', id: this.config.powerProduction },
-            { name: 'Gesamtproduktion', id: this.config.totalProduction },
-            { name: 'Einspeisung', id: this.config.feedIn },
-            { name: 'Verbrauch', id: this.config.consumption },
-            { name: 'Netzbezug', id: this.config.gridPower }
+            { name: 'Battery SOC', id: this.config.batterySOC },
+            { name: 'PV Power', id: this.config.powerProduction },
+            { name: 'Total Production', id: this.config.totalProduction },
+            { name: 'Feed In', id: this.config.feedIn },
+            { name: 'Consumption', id: this.config.consumption },
+            { name: 'Grid Power', id: this.config.gridPower }
         ];
 
         for (const dp of dataPoints) {
@@ -201,11 +201,11 @@ class PvNotifications extends utils.Adapter {
                 try {
                     const state = await this.getForeignStateAsync(dp.id);
                     if (state === null || state === undefined) {
-                        this.log.warn(`Kein Lesezugriff auf "${dp.id}" (${dp.name}) - Bitte Berechtigungen prüfen!`);
-                        this.log.warn(`Anleitung: Objects → ${dp.id} → 🔑 Schlüssel → Lesen/Empfangen für pv-notifications.0 aktivieren`);
+                        this.log.warn(`No read access to "${dp.id}" (${dp.name}) - Please check permissions!`);
+                        this.log.warn(`Instructions: Objects → ${dp.id} → 🔑 Key → Enable Read/Receive for pv-notifications.0`);
                     }
                 } catch (e) {
-                    this.log.warn(`Fehler beim Zugriff auf "${dp.id}" (${dp.name}): ${e.message}`);
+                    this.log.warn(`Error accessing "${dp.id}" (${dp.name}): ${e.message}`);
                 }
             }
         }
@@ -216,7 +216,7 @@ class PvNotifications extends utils.Adapter {
      */
     async createState(name, def, type, desc) {
         try {
-            await this.extendObjectAsync(name, {
+            await this.setObjectNotExists(name, {
                 type: 'state',
                 common: {
                     name: desc,
@@ -227,14 +227,14 @@ class PvNotifications extends utils.Adapter {
                     def: def
                 }
             });
-            this.log.debug(`State erstellt/aktualisiert: ${name}`);
+            this.log.debug(`State created: ${name}`);
         } catch (e) {
-            this.log.error(`Fehler beim Erstellen von ${name}: ${e.message}`);
+            this.log.error(`Error creating state ${name}: ${e.message}`);
         }
     }
 
     /**
-     * Statistik aus States laden
+     * Load statistics from states
      */
     async loadStatistics() {
         try {
@@ -242,7 +242,7 @@ class PvNotifications extends utils.Adapter {
             const lastReset = await this.getStateAsync('statistics.lastStatsReset');
 
             if (!lastReset || lastReset.val !== today) {
-                // Neuer Tag - Statistik zurücksetzen
+                // New day - reset statistics
                 this.stats.fullCycles = 0;
                 this.stats.emptyCycles = 0;
                 this.stats.maxSOC = 0;
@@ -251,31 +251,31 @@ class PvNotifications extends utils.Adapter {
                 await this.saveStatistics();
             }
         } catch (e) {
-            this.log.error(`Fehler beim Laden der Statistik: ${e.message}`);
+            this.log.error(`Error loading statistics: ${e.message}`);
         }
     }
 
     /**
-     * Aktuelle Werte von konfigurierten Datenpunkten lesen
+     * Refresh current values from configured data points
      */
     async refreshCurrentValues() {
         try {
-            this.log.info('Aktualisiere aktuelle Werte...');
-            
-            // SOC lesen und verarbeiten (mit getForeignStateAsync für externe States)
+            this.log.info('Refreshing current values...');
+
+            // Read and process SOC (using getForeignStateAsync for external states)
             if (this.config.batterySOC) {
-                this.log.info(`Lese SOC von ${this.config.batterySOC}...`);
+                this.log.info(`Reading SOC from ${this.config.batterySOC}...`);
                 const socState = await this.getForeignStateAsync(this.config.batterySOC);
                 if (socState && socState.val !== null) {
-                    this.log.info(`SOC gelesen: ${socState.val}%`);
+                    this.log.info(`SOC read: ${socState.val}%`);
                     this.onBatterySOCChange(socState.val);
                 } else {
-                    this.log.warn('SOC State ist null oder undefined');
-                    this.log.warn(`Bitte prüfe: Existiert "${this.config.batterySOC}" in Objects?`);
+                    this.log.warn('SOC state is null or undefined');
+                    this.log.warn(`Please check: Does "${this.config.batterySOC}" exist in Objects?`);
                 }
             }
-            
-            // Andere Werte direkt in States speichern
+
+            // Store other values directly in states
             const valueMap = [
                 { config: this.config.powerProduction, state: 'statistics.currentPower' },
                 { config: this.config.totalProduction, state: 'statistics.currentTotalProduction' },
@@ -283,7 +283,7 @@ class PvNotifications extends utils.Adapter {
                 { config: this.config.consumption, state: 'statistics.currentConsumption' },
                 { config: this.config.gridPower, state: 'statistics.currentGridPower' }
             ];
-            
+
             for (const item of valueMap) {
                 if (item.config) {
                     const state = await this.getForeignStateAsync(item.config);
@@ -292,15 +292,14 @@ class PvNotifications extends utils.Adapter {
                     }
                 }
             }
-            
-            this.log.info('Aktuelle Werte aktualisiert');
+            this.log.info('Current values updated');
         } catch (e) {
-            this.log.error(`Fehler beim Aktualisieren der Werte: ${e.message}`);
+            this.log.error(`Error updating values: ${e.message}`);
         }
     }
 
     /**
-     * Statistik in States speichern
+     * Save statistics to states
      */
     async saveStatistics() {
         try {
@@ -310,8 +309,8 @@ class PvNotifications extends utils.Adapter {
             await this.setStateAsync('statistics.minSOCToday', this.stats.minSOC, true);
             await this.setStateAsync('statistics.fullCyclesWeek', this.stats.weekFullCycles, true);
             await this.setStateAsync('statistics.emptyCyclesWeek', this.stats.weekEmptyCycles, true);
-            
-            // Letzte Monats-/Wochendaten speichern
+
+            // Save last month/week data
             await this.setStateAsync('statistics.lastMonthProduction', this.stats.lastMonthProduction, true);
             await this.setStateAsync('statistics.lastMonthConsumption', this.stats.lastMonthConsumption, true);
             await this.setStateAsync('statistics.lastMonthFeedIn', this.stats.lastMonthFeedIn, true);
@@ -325,7 +324,7 @@ class PvNotifications extends utils.Adapter {
             await this.setStateAsync('statistics.lastWeekFullCycles', this.stats.lastWeekFullCycles, true);
             await this.setStateAsync('statistics.lastWeekEmptyCycles', this.stats.lastWeekEmptyCycles, true);
         } catch (e) {
-            this.log.error(`Fehler beim Speichern der Statistik: ${e.message}`);
+            this.log.error(`Error saving statistics: ${e.message}`);
         }
     }
 
@@ -333,7 +332,7 @@ class PvNotifications extends utils.Adapter {
      * Is called when adapter receives configuration.
      */
     async onConfigChange() {
-        this.log.info('Konfiguration geändert');
+        this.log.info('Configuration changed');
     }
 
     /**
@@ -341,29 +340,29 @@ class PvNotifications extends utils.Adapter {
      */
     async onStateChange(id, state) {
         if (state) {
-            // Test-Button verarbeiten (alle States im eigenen Namespace)
+            // Process test button (all states in own namespace)
             if (id.startsWith(this.namespace + '.testButton')) {
-                // Nur wenn auf true gesetzt und noch nicht läuft
+                // Only when set to true and not already running
                 if (state.val === true && !this.status.testMessageRunning) {
-                    this.status.testMessageRunning = true;  // Flag setzen
-                    this.log.info(`Test-Button State empfangen: ${id}, val=${state.val}`);
-                    this.log.info('Test-Button wurde gedrückt');
+                    this.status.testMessageRunning = true;  // Set flag
+                    this.log.info(`Test button state received: ${id}, val=${state.val}`);
+                    this.log.info('Test button was pressed');
                     await this.sendTestMessage();
-                    // State zurücksetzen
+                    // Reset state
                     await this.setStateAsync('testButton', false, true);
-                    this.status.testMessageRunning = false;  // Flag zurücksetzen
+                    this.status.testMessageRunning = false;  // Reset flag
                 }
                 return;
             }
 
-            // Batterie-SOC Änderung verarbeiten
+            // Process battery SOC change
             if (id === this.config.batterySOC) {
                 this.onBatterySOCChange(state.val);
                 return;
             }
 
-            // Andere Datenpunkte aktualisieren (Production, Consumption, etc.)
-            // if (state.ack) {  // Nur Status-Updates verarbeiten
+            // Update other data points (Production, Consumption, etc.)
+            // if (state.ack) {  // Only process status updates
             if (id === this.config.totalProduction) {
                 await this.setStateAsync('statistics.currentTotalProduction', state.val, true);
             }
@@ -384,35 +383,35 @@ class PvNotifications extends utils.Adapter {
     }
 
     /**
-     * Hauptfunktion - wird bei SOC-Änderung aufgerufen
+     * Main function - called on SOC change
      */
     async onBatterySOCChange(soc) {
-        // Prüfe auf undefinierte/null Werte
+        // Check for undefined/null values
         if (soc === null || soc === undefined || isNaN(soc)) {
-            this.log.warn('Ungültiger SOC-Wert erhalten: ' + soc);
+            this.log.warn('Invalid SOC value received: ' + soc);
             return;
         }
 
-        // Aktuelle States aktualisieren
+        // Update current states
         await this.setStateAsync('statistics.currentSOC', soc, true);
         const currentKWh = this.round((soc / 100) * this.config.batteryCapacityWh / 1000, 1);
         await this.setStateAsync('statistics.currentEnergyKWh', currentKWh, true);
 
-        // Statistik aktualisieren
+        // Update statistics
         if (soc > this.stats.maxSOC) this.stats.maxSOC = soc;
         if (soc < this.stats.minSOC) this.stats.minSOC = soc;
 
-        this.log.debug(`Batterie-SOC: ${soc}% | Status: voll=${this.status.full}, leer=${this.status.empty}`);
+        this.log.debug(`Battery SOC: ${soc}% | Status: full=${this.status.full}, empty=${this.status.empty}`);
 
-        // Bestimme Richtung (steigend/fallend) für Intermediate
+        // Determine direction (rising/falling) for intermediate
         const direction = (this.status.previousSOC !== null && soc > this.status.previousSOC)
             ? 'up'
             : (this.status.previousSOC !== null && soc < this.status.previousSOC) ? 'down' : 'up';
 
-        // Vorherigen SOC für nächste Aktualisierung speichern
+        // Store previous SOC for next update
         this.status.previousSOC = soc;
 
-        // === NACHT-ZEIT - Prüfen mit konfigurierbarer Zeit ===
+        // === NIGHT-TIME check with configurable time ===
         const nightTime = this.isNightTime();
         const nightModeActive = this.config.nightModeEnabled !== false;
         const ignoreEmptyAtNight = this.config.nightModeIgnoreEmpty !== false;
@@ -425,7 +424,7 @@ class PvNotifications extends utils.Adapter {
         if (soc === this.config.thresholdFull) {
             // Prüfen ob Benachrichtigung erlaubt ist (nicht in Nachtzeit oder Ruhezeit)
             const allowNotification = (!nightTime || !nightModeActive) && (!quietTime || !quietModeActive);
-            
+
             if (allowNotification && !this.status.full && this.canNotify('full')) {
                 const message = this.buildFullMessage(soc);
                 this.sendTelegram(message, 'high');
@@ -434,27 +433,27 @@ class PvNotifications extends utils.Adapter {
                 this.stats.fullCycles++;
                 this.stats.weekFullCycles++;
                 this.saveStatistics();
-                this.log.info('Batterie voll - Telegram gesendet');
+                this.log.info('Battery full - Telegram sent');
             } else if (this.status.full && !this.canNotify('full')) {
-                this.log.debug('Batterie voll, aber Intervall noch nicht abgelaufen');
+                this.log.debug('Battery full, but interval not yet elapsed');
             } else if (!allowNotification) {
                 if (nightTime && nightModeActive) {
-                    this.log.debug('Batterie voll, aber Nachtzeit - keine Benachrichtigung');
+                    this.log.debug('Battery full, but night time - no notification');
                 }
                 if (quietTime && quietModeActive) {
-                    this.log.debug('Batterie voll, aber Ruhezeit - keine Benachrichtigung');
+                    this.log.debug('Battery full, but quiet time - no notification');
                 }
             }
         }
 
-        // === Batterie LEER (0%) - Immer erlauben wenn nightModeIgnoreEmpty aktiv ist ===
+        // === Battery EMPTY (0%) - Always allow if nightModeIgnoreEmpty is active ===
         if (soc === this.config.thresholdEmpty) {
             if (!this.status.empty && this.canNotify('empty')) {
-                // Bei 0% immer benachrichtigen wenn nightModeIgnoreEmpty aktiv ist
-                // Aber trotzdem Ruhezeit beachten (außer nightModeIgnoreEmpty ist aktiv)
+                // Always notify at 0% if nightModeIgnoreEmpty is active
+                // But still respect quiet time (unless nightModeIgnoreEmpty is active)
                 const allowEmptyNotification = ignoreEmptyAtNight || (!nightTime || !nightModeActive);
                 const blockedByQuietTime = quietTime && quietModeActive;
-                
+
                 if (allowEmptyNotification && !blockedByQuietTime) {
                     const message = this.buildEmptyMessage(soc);
                     this.sendTelegram(message, 'high');
@@ -463,17 +462,16 @@ class PvNotifications extends utils.Adapter {
                     this.stats.emptyCycles++;
                     this.stats.weekEmptyCycles++;
                     this.saveStatistics();
-                    this.log.info('Batterie leer - Telegram gesendet');
+                    this.log.info('Battery empty - Telegram sent');
                 } else if (blockedByQuietTime) {
-                    this.log.debug('Batterie leer, aber Ruhezeit aktiv');
+                    this.log.debug('Battery empty, but quiet time active');
                 } else if (nightTime && nightModeActive && !ignoreEmptyAtNight) {
-                    this.log.debug('Batterie leer, aber Nachtmodus aktiv und 0% wird ignoriert');
+                    this.log.debug('Battery empty, but night mode active and 0% is ignored');
                 }
             } else if (this.status.empty && !this.canNotify('empty')) {
-                this.log.debug('Batterie leer, aber Intervall noch nicht abgelaufen');
+                this.log.debug('Battery empty, but interval not yet elapsed');
             }
         }
-
         // === Intermediate-Stufen (nur wenn nicht voll/leer und nicht nachts und nicht in Ruhezeit) ===
         if (soc !== this.config.thresholdFull && soc !== this.config.thresholdEmpty) {
             const intermediateSteps = this.config.intermediateSteps.split(',').map(s => parseInt(s.trim()));
@@ -501,25 +499,25 @@ class PvNotifications extends utils.Adapter {
                         const idx = this.status.intermediateNotified.indexOf(step);
                         if (idx > -1) {
                             this.status.intermediateNotified.splice(idx, 1);
-                            this.log.debug(`Intermediate ${step}% Flag zurückgesetzt`);
+                            this.log.debug(`Intermediate ${step}% flag reset`);
                         }
                     }
                 }
             } else if (nightModeActive) {
-                this.log.debug('Nachtzeit (00:00-08:00) - Intermediate Benachrichtigungen unterdrückt');
+                this.log.debug('Night time (00:00-08:00) - intermediate notifications suppressed');
             }
         }
 
-        // === Reset Flag "voll" wenn SOC < 95% ===
+        // === Reset "full" flag if SOC < 95% ===
         if (soc < this.config.thresholdResetFull && this.status.full) {
             this.status.full = false;
-            this.log.debug('Status "voll" zurückgesetzt (SOC < 95%)');
+            this.log.debug('Status "full" reset (SOC < 95%)');
         }
 
-        // === Reset Flag "leer" wenn SOC > 5% ===
+        // === Reset "empty" flag if SOC > 5% ===
         if (soc > this.config.thresholdResetEmpty && this.status.empty) {
             this.status.empty = false;
-            this.log.debug('Status "leer" zurückgesetzt (SOC > 5%)');
+            this.log.debug('Status "empty" reset (SOC > 5%)');
         }
     }
 
@@ -602,17 +600,17 @@ class PvNotifications extends utils.Adapter {
                     users: usersList.join(', ')
                 }, (result) => {
                     if (result && result.error) {
-                        this.log.error(`Telegram Fehler: ${result.error}`);
+                        this.log.error(`Telegram error: ${result.error}`);
                     } else {
                         this.log.info(fullMessage);
-                        this.log.info(`Telegram erfolgreich gesendet an: ${usersList.join(', ')}`);
+                        this.log.info(`Telegram sent successfully to: ${usersList.join(', ')}`);
                     }
                 });
             } else {
-                this.log.warn('Keine Telegram-Benutzer konfiguriert: ' + fullMessage);
+                this.log.warn('No Telegram users configured: ' + fullMessage);
             }
         } else {
-            this.log.warn('Telegram-Instanz nicht konfiguriert: ' + fullMessage);
+            this.log.warn('Telegram instance not configured: ' + fullMessage);
         }
     }
 
@@ -658,7 +656,7 @@ class PvNotifications extends utils.Adapter {
                     }
                 }
             } catch (e) {
-                this.log.debug('Wetter-Daten nicht verfügbar: ' + e.message);
+                this.log.debug('Weather data not available: ' + e.message);
             }
         }
 
@@ -700,7 +698,7 @@ class PvNotifications extends utils.Adapter {
                     }
                 }
             } catch (e) {
-                this.log.debug('Wetter-Daten nicht verfügbar: ' + e.message);
+                this.log.debug('Weather data not available: ' + e.message);
             }
         }
 
@@ -793,7 +791,7 @@ ${statusText}`;
                     }
                 }
             } catch (e) {
-                this.log.debug('Wetter-Daten für morgen nicht verfügbar: ' + e.message);
+                this.log.debug('Weather data for tomorrow not available: ' + e.message);
             }
         }
 
@@ -969,10 +967,10 @@ ${statusText}`;
         const [resetHours, resetMinutes] = this.config.statsDayTime.split(':').map(Number);
         
         // Reset zur konfigurierten Zeit
-        if (today !== this.stats.lastStatsReset && 
-            hours === resetHours && 
+        if (today !== this.stats.lastStatsReset &&
+            hours === resetHours &&
             minutes === resetMinutes) {
-            this.log.info('Setze tägliche Statistik zurück');
+            this.log.info('Resetting daily statistics');
             this.stats.fullCycles = 0;
             this.stats.emptyCycles = 0;
             this.stats.maxSOC = 0;
@@ -983,12 +981,12 @@ ${statusText}`;
     }
 
     /**
-     * Wöchentliche Statistik zurücksetzen
+     * Reset weekly statistics
      */
     resetWeeklyStats() {
         const today = new Date().getDay();
         if (today === this.config.statsWeekDay && today !== this.stats.lastWeekReset) {
-            this.log.info('Setze wöchentliche Statistik zurück');
+            this.log.info('Resetting weekly statistics');
             
             // Aktuelle Daten als "letzte Woche" speichern
             this.stats.lastWeekProduction = this.getStateValue(this.config.weeklyProduction);
@@ -1024,7 +1022,7 @@ ${statusText}`;
         if (today === this.config.monthlyStatsDay &&
             this.stats.lastMonthReset !== today &&
             hours >= statHours) {
-            this.log.info('Setze monatliche Statistik zurück');
+            this.log.info('Resetting monthly statistics');
             
             // Aktuelle Daten als "letzter Monat" speichern
             this.stats.lastMonthProduction = this.getStateValue(this.config.monthlyProduction);
@@ -1271,49 +1269,49 @@ ${statusText}`;
     }
 
     /**
-     * Sende Test-Nachricht
+     * Send test message
      */
     async sendTestMessage() {
-        this.log.info('Test-Benachrichtigung wird gesendet');
+        this.log.info('Sending test notification');
 
-        // Prüfe ob Telegram konfiguriert ist
+        // Check if Telegram is configured
         if (!this.config.telegramInstance) {
-            this.log.warn('Test fehlgeschlagen: Keine Telegram-Instanz konfiguriert');
+            this.log.warn('Test failed: No Telegram instance configured');
             return;
         }
 
         if (!this.config.telegramUsers) {
-            this.log.warn('Test fehlgeschlagen: Keine Telegram-Benutzer konfiguriert');
+            this.log.warn('Test failed: No Telegram users configured');
             return;
         }
 
         const testMessage = await this.buildTestMessage();
         this.sendTelegram(testMessage, 'info');
 
-        this.log.info('Test-Benachrichtigung wurde gesendet');
+        this.log.info('Test notification sent');
     }
 
     /**
-     * Sende tägliche Statistik-Nachricht
+     * Send daily statistics message
      */
     async sendDailyStatsMessage() {
-        this.log.info('Tagesstatistik wird gesendet');
+        this.log.info('Sending daily statistics');
 
-        // Prüfe ob Telegram konfiguriert ist
+        // Check if Telegram is configured
         if (!this.config.telegramInstance) {
-            this.log.warn('Tagesstatistik fehlgeschlagen: Keine Telegram-Instanz konfiguriert');
+            this.log.warn('Daily statistics failed: No Telegram instance configured');
             return;
         }
 
         if (!this.config.telegramUsers) {
-            this.log.warn('Tagesstatistik fehlgeschlagen: Keine Telegram-Benutzer konfiguriert');
+            this.log.warn('Daily statistics failed: No Telegram users configured');
             return;
         }
 
         const dailyStatsMessage = await this.buildDailyStatsMessage();
         this.sendTelegram(dailyStatsMessage, 'info');
 
-        this.log.info('Tagesstatistik wurde gesendet');
+        this.log.info('Daily statistics sent');
     }
 
     /**
@@ -1322,13 +1320,13 @@ ${statusText}`;
      */
     async onUnload(callback) {
         try {
-            this.log.info('PV Notifications Adapter wird gestoppt');
-            // Connection zurücksetzen
+            this.log.info('PV Notifications Adapter is stopping');
+            // Reset connection
             this.setState('info.connection', false, true);
             await this.saveStatistics();
             callback();
         } catch (e) {
-            this.log.error('Fehler beim Stoppen: ' + e.message);
+            this.log.error('Error while stopping: ' + e.message);
             callback();
         }
     }

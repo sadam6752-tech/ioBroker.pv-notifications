@@ -1,9 +1,9 @@
 {
   "_id": "iobroker.pv-notifications",
-  "version": "1.0.82",
+  "version": "1.0.83",
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.82",
+    "version": "1.0.83",
     "title": "PV Notifications",
     "titleLang": {
       "en": "PV Notifications",
@@ -36,6 +36,11 @@
     "loglevel": "info",
     "tier": 3,
     "news": {
+      "1.0.83": {
+        "en": "GitHub Issues resolved: createState deprecated fixed (setObjectNotExists), all log messages translated to English, README.md translated (EN + doc/de/ structure), Node.js 24 added to test matrix, manual installation guide removed",
+        "de": "GitHub Issues behoben: createState deprecated fix (setObjectNotExists), alle Log-Nachrichten ins Englische übersetzt, README.md übersetzt (EN + doc/de/ Struktur), Node.js 24 zur Test-Matrix hinzugefügt, manuelle Installationsanleitung entfernt",
+        "ru": "Решены проблемы GitHub: createState deprecated исправлено (setObjectNotExists), все сообщения лога переведены на английский, README.md переведен (EN + структура doc/de/), Node.js 24 добавлен в матрицу тестов, руководство по ручной установке удалено"
+      },
       "1.0.82": {
         "en": "Copilot infrastructure and AI assistant guidelines added",
         "de": "Copilot-Infrastruktur und AI-Assistent Richtlinien hinzugefügt",

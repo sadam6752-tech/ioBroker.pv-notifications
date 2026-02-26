@@ -3,7 +3,7 @@
 ## Project Context
 
 - **Adapter Name:** pv-notifications
-- **Current Version:** 1.0.81
+- **Current Version:** 1.0.82
 - **Type:** Energy/Solar/Battery
 - **Language:** JavaScript (ES6+)
 - **js-controller:** ≥5.0.0 (compatible with 7+)

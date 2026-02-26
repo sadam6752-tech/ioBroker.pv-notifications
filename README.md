@@ -1,321 +1,320 @@
 # ioBroker PV Notifications Adapter
 
-Sendet Telegram-Benachrichtigungen für PV-Batteriestatus (voll, leer, Intermediate-Stufen).
+Sends Telegram notifications for PV battery status (full, empty, intermediate levels).
 
 ## Features
 
-- 🔋 **Batterie-Voll Benachrichtigung** bei 100%
-- ⚠️ **Batterie-Leer Benachrichtigung** bei 0%
-- 📊 **Intermediate-Stufen** (20%, 40%, 60%, 80%) mit Ladestand in % und kWh
-- 🌙 **Nachtmodus** (konfigurierbare Zeit, Standard: 23:00-06:00)
-- 🤫 **Ruhemodus** (konfigurierbare Zeit, Standard: 12:00-15:00)
-- 📈 **Tagesstatistik** um konfigurierbare Zeit (Standard: 22:00)
-- 📅 **Wochenstatistik** am konfigurierbaren Wochentag
-- 📆 **Monatsstatistik** (optional) am konfigurierbaren Tag
-- 🌤️ **Wetter-Prognose** Integration (benötigt openweathermap Adapter)
-- ⚡ **Empfehlungen** bei hoher Produktion / hohem Verbrauch
-- 📊 **Statistik-Daten** von sourceanalytix Adapter
+- 🔋 **Battery Full Notification** at 100%
+- ⚠️ **Battery Empty Notification** at 0%
+- 📊 **Intermediate Levels** (20%, 40%, 60%, 80%) with charge level in % and kWh
+- 🌙 **Night Mode** (configurable time, default: 23:00-06:00)
+- 🤫 **Quiet Mode** (configurable time, default: 12:00-15:00)
+- 📈 **Daily Statistics** at configurable time (default: 22:00)
+- 📅 **Weekly Statistics** on configurable weekday
+- 📆 **Monthly Statistics** (optional) on configurable day
+- 🌤️ **Weather Forecast** integration (requires openweathermap adapter)
+- ⚡ **Recommendations** for high production / high consumption
+- 📊 **Statistics Data** from sourceanalytix adapter
 
-## Abhängigkeiten
+## Dependencies
 
-Für volle Funktionalität werden folgende Adapter benötigt:
+The following adapters are required for full functionality:
 
-| Adapter | Beschreibung | Erforderlich |
-|---------|--------------|--------------|
-| **telegram** | Sendet Benachrichtigungen | ✅ Ja |
-| **sourceanalytix** | Statistik-Daten (Verbrauch, Einspeisung, Netzbezug) | ✅ Ja |
-| **daswetter** oder **openweathermap** | Wetter-Prognose für Empfehlungen | ❌ Optional |
+| Adapter | Description | Required |
+|---------|-------------|----------|
+| **telegram** | Sends notifications | ✅ Yes |
+| **sourceanalytix** | Statistics data (consumption, feed-in, grid power) | ✅ Yes |
+| **daswetter** or **openweathermap** | Weather forecast for recommendations | ❌ Optional |
 
 ## Installation
 
-### Von GitHub
+### Via ioBroker Admin (GitHub)
 
 ```bash
-# In ioBroker Admin unter "Adapter" → "Eigenen Adapter hinzufügen":
+# In ioBroker Admin under "Adapter" → "Install custom adapter":
 https://github.com/sadam6752-tech/ioBroker.pv-notifications
 ```
 
-### Manuell
+### Via ioBroker CLI
 
 ```bash
-cd /opt/iobroker
-npm install iobroker.pv-notifications
+iobroker url https://github.com/sadam6752-tech/ioBroker.pv-notifications
 ```
 
-## Konfiguration
+## Configuration
 
 ### Telegram
 
-| Einstellung | Beschreibung |
-|-------------|--------------|
-| Telegram Instanz | Z.B. `telegram.0` |
-| Telegram Benutzer | Kommagetrennte Liste mit Namen oder IDs, z.B. `User1, User2` oder `-123456789` |
+| Setting | Description |
+|---------|-------------|
+| Telegram Instance | E.g. `telegram.0` |
+| Telegram Users | Comma-separated list of names or IDs, e.g. `User1, User2` or `-123456789` |
 
-**Hinweis:** Du kannst Telegram-Benutzer sowohl über den **Benutzernamen** (ohne @) als auch über die **Telegram-ID** (negativ bei Gruppen/Channels) hinzufügen.
+**Note:** You can add Telegram users both by **username** (without @) and by **Telegram ID** (negative for groups/channels).
 
-### Datenpunkte
+### Data Points
 
-| Einstellung | Beschreibung | Beispiel |
-|-------------|--------------|----------|
-| Batterie SOC | SOC-Wert in % | `modbus.0.holdingRegisters.40083_Batterie_SOC` |
-| PV-Leistung | Aktuelle Leistung in W | `javascript.0.Solar.Sungrow.Leistung` |
-| Gesamtproduktion | Produktion heute in kWh | `javascript.0.Solar.Sungrow.Gesamtproduktion` |
-| Einspeisung | Eingespeist heute in kWh | `sourceanalytix.0...Einspeisung...` |
-| Hausverbrauch | Verbrauch heute in kWh | `sourceanalytix.0...Hausverbrauch...` |
-| Netzbezug | Netzbezug heute in kWh | `sourceanalytix.0...Netzbezug...` |
-| Produktion diesen Monat | Monatsproduktion (kWh) | `sourceanalytix.0...Produktion.currentMonth` |
-| Verbrauch diesen Monat | Monatsverbrauch (kWh) | `sourceanalytix.0...Verbrauch.currentMonth` |
-| Einspeisung diesen Monat | Monatseinspeisung (kWh) | `sourceanalytix.0...Einspeisung.currentMonth` |
-| Netzbezug diesen Monat | Monats-Netzbezug (kWh) | `sourceanalytix.0...Netzbezug.currentMonth` |
-| Produktion diese Woche | Wochenproduktion (kWh) | `sourceanalytix.0...Produktion.currentWeek` |
-| Verbrauch diese Woche | Wochenverbrauch (kWh) | `sourceanalytix.0...Verbrauch.currentWeek` |
-| Einspeisung diese Woche | Wocheneinspeisung (kWh) | `sourceanalytix.0...Einspeisung.currentWeek` |
-| Netzbezug diese Woche | Wochen-Netzbezug (kWh) | `sourceanalytix.0...Netzbezug.currentWeek` |
+| Setting | Description | Example |
+|---------|-------------|---------|
+| Battery SOC | SOC value in % | `modbus.0.holdingRegisters.40083_Batterie_SOC` |
+| PV Power | Current power in W | `javascript.0.Solar.Sungrow.Leistung` |
+| Total Production | Production today in kWh | `javascript.0.Solar.Sungrow.Gesamtproduktion` |
+| Feed In | Feed-in today in kWh | `sourceanalytix.0...Einspeisung...` |
+| Consumption | Consumption today in kWh | `sourceanalytix.0...Hausverbrauch...` |
+| Grid Power | Grid power today in kWh | `sourceanalytix.0...Netzbezug...` |
+| Production this Month | Monthly production (kWh) | `sourceanalytix.0...Produktion.currentMonth` |
+| Consumption this Month | Monthly consumption (kWh) | `sourceanalytix.0...Verbrauch.currentMonth` |
+| Feed In this Month | Monthly feed-in (kWh) | `sourceanalytix.0...Einspeisung.currentMonth` |
+| Grid Power this Month | Monthly grid power (kWh) | `sourceanalytix.0...Netzbezug.currentMonth` |
+| Production this Week | Weekly production (kWh) | `sourceanalytix.0...Produktion.currentWeek` |
+| Consumption this Week | Weekly consumption (kWh) | `sourceanalytix.0...Verbrauch.currentWeek` |
+| Feed In this Week | Weekly feed-in (kWh) | `sourceanalytix.0...Einspeisung.currentWeek` |
+| Grid Power this Week | Weekly grid power (kWh) | `sourceanalytix.0...Netzbezug.currentWeek` |
 
-### Wetter (Optional)
+### Weather (Optional)
 
-| Einstellung | Beschreibung | Beispiel (daswetter) | Beispiel (openweathermap) |
-|-------------|--------------|----------------------|---------------------------|
-| Wetter heute | Wetterbeschreibung heute | `daswetter.0.Day0.forecast.currentSymbol` | `openweathermap.0.forecast.0.text` |
-| Temperatur heute (°C) | Temperatur heute | `daswetter.0.Day0.forecast.maxTemp` | `openweathermap.0.forecast.0.temp` |
-| Wetter morgen | Wetterbeschreibung morgen | `daswetter.0.Day1.forecast.currentSymbol` | `openweathermap.0.forecast.1.text` |
-| Temperatur morgen (°C) | Temperatur morgen | `daswetter.0.Day1.forecast.maxTemp` | `openweathermap.0.forecast.1.temp` |
+| Setting | Description | Example (daswetter) | Example (openweathermap) |
+|---------|-------------|---------------------|-------------------------|
+| Weather Today | Weather description today | `daswetter.0.Day0.forecast.currentSymbol` | `openweathermap.0.forecast.0.text` |
+| Temperature Today (°C) | Temperature today | `daswetter.0.Day0.forecast.maxTemp` | `openweathermap.0.forecast.0.temp` |
+| Weather Tomorrow | Weather description tomorrow | `daswetter.0.Day1.forecast.currentSymbol` | `openweathermap.0.forecast.1.text` |
+| Temperature Tomorrow (°C) | Temperature tomorrow | `daswetter.0.Day1.forecast.maxTemp` | `openweathermap.0.forecast.1.temp` |
 
-**Hinweis:** Die Felder `Wetter heute` und `Wetter morgen` können alternativ verwendet werden, wenn der Wetter-Adapter andere Formate liefert. Für die beste Kompatibilität empfehlen wir die Verwendung von `Wettertext`-Feldern.
+**Note:** The fields `Weather Today` and `Weather Tomorrow` can alternatively be used if the weather adapter provides different formats. For best compatibility, we recommend using `Weather Text` fields.
 
-### Batterie
+### Battery
 
-| Einstellung | Beschreibung | Standard |
-|-------------|--------------|----------|
-| Batterie-Kapazität | Kapazität in Wh | `21000` |
-| Schwellwert VOLL | SOC für "voll" | `100` |
-| Schwellwert LEER | SOC für "leer" | `0` |
-| Reset VOLL unter | Reset wenn SOC < | `95` |
-| Reset LEER über | Reset wenn SOC > | `5` |
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Battery Capacity | Capacity in Wh | `21000` |
+| Threshold FULL | SOC for "full" | `100` |
+| Threshold EMPTY | SOC for "empty" | `0` |
+| Reset FULL below | Reset if SOC < | `95` |
+| Reset EMPTY above | Reset if SOC > | `5` |
 
-### Intermediate-Stufen
+### Intermediate Levels
 
-| Einstellung | Beschreibung | Standard |
-|-------------|--------------|----------|
-| Intermediate-Stufen | Kommagetrennte SOC-Stufen | `20,40,60,80` |
-| Min. Intervall VOLL | Minuten zwischen Benachrichtigungen | `10` |
-| Min. Intervall LEER | Minuten zwischen Benachrichtigungen | `5` |
-| Min. Intervall Intermediate | Minuten zwischen Benachrichtigungen | `30` |
-| Nachtmodus aktivieren | Checkbox für Nachtmodus | `true` |
-| Nachtmodus Start | Startzeit (Format: HH:MM) | `23:00` |
-| Nachtmodus Ende | Endzeit (Format: HH:MM) | `06:00` |
-| Nachtmodus für 0% Batterie ignorieren | Bei 0% immer benachrichtigen | `true` |
-| Ruhemodus aktivieren | Checkbox für Ruhemodus | `false` |
-| Ruhemodus Start | Startzeit (Format: HH:MM) | `12:00` |
-| Ruhemodus Ende | Endzeit (Format: HH:MM) | `15:00` |
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Intermediate Levels | Comma-separated SOC levels | `20,40,60,80` |
+| Min. Interval FULL | Minutes between notifications | `10` |
+| Min. Interval EMPTY | Minutes between notifications | `5` |
+| Min. Interval Intermediate | Minutes between notifications | `30` |
+| Enable Night Mode | Checkbox for night mode | `true` |
+| Night Mode Start | Start time (Format: HH:MM) | `23:00` |
+| Night Mode End | End time (Format: HH:MM) | `06:00` |
+| Ignore Night Mode for 0% Battery | Always notify at 0% | `true` |
+| Enable Quiet Mode | Checkbox for quiet mode | `false` |
+| Quiet Mode Start | Start time (Format: HH:MM) | `12:00` |
+| Quiet Mode End | End time (Format: HH:MM) | `15:00` |
 
-### Statistik
+### Statistics
 
-| Einstellung | Beschreibung | Standard |
-|-------------|--------------|----------|
-| Tagesstatistik Uhrzeit | Format HH:MM | `22:00` |
-| Wochentag Wochenstatistik | 0=Mo, 1=Di, ..., 6=So | `0` (Montag) |
-| Uhrzeit Wochenstatistik | Format HH:MM | `10:00` |
-| Monatsstatistik aktivieren | Checkbox für Monatsstatistik | `false` |
-| Tag des Monats | 1-31 | `1` (Erster des Monats) |
-| Uhrzeit Monatsstatistik | Format HH:MM | `09:00` |
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Daily Statistics Time | Format HH:MM | `22:00` |
+| Weekday Weekly Statistics | 0=Mon, 1=Tue, ..., 6=Sun | `0` (Monday) |
+| Time Weekly Statistics | Format HH:MM | `10:00` |
+| Enable Monthly Statistics | Checkbox for monthly statistics | `false` |
+| Day of Month | 1-31 | `1` (1st of month) |
+| Time Monthly Statistics | Format HH:MM | `09:00` |
 
-## Beispiele
+## Examples
 
-### Batterie voll (100%)
+### Battery Full (100%)
 ```
-11:45 - 🔋 *Batterie VOLL* (100%)
+11:45 - 🔋 *Battery FULL* (100%)
 
-⚡ Aktuelle Produktion: 5356 W
-🏠 Aktueller Verbrauch: 1200 W
-☀️ Produktion heute: 12.5 kWh
-🔌 Eingespeist heute: 8.2 kWh
-🌤️ Morgen: ☀️ sonnig
+⚡ Current Production: 5356 W
+🏠 Current Consumption: 1200 W
+☀️ Production Today: 12.5 kWh
+🔌 Feed-in Today: 8.2 kWh
+🌤️ Tomorrow: ☀️ Sunny
 
-🚗 Jetzt ideal für: Elektroauto, Waschmaschine, Spülmaschine!
+🚗 Now ideal for: Electric car, washing machine, dishwasher!
 ```
 
 ### Intermediate (60%)
 ```
-11:51 - 🔋 Batterie bei 60% (12.6 kWh) ⬆️
-⚡ Produktion: 5356 W
+11:51 - 🔋 Battery at 60% (12.6 kWh) ⬆️
+⚡ Production: 5356 W
 ```
 
-### Tagesstatistik (22:00)
+### Daily Statistics (22:00)
 ```
-22:00 - 📊 *Tagesstatistik PV-Anlage*
+22:00 - 📊 *Daily Statistics PV System*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Aktueller Ladestand: 85%
-⚡ Aktuelle Energie: 17.9 kWh (21.0 kWh Gesamt)
+🔋 Current Charge Level: 85%
+⚡ Current Energy: 17.9 kWh (21.0 kWh Total)
 ━━━━━━━━━━━━━━━━━━━━━━
-☀️ Produktion: 12.5 kWh
-🏠 Eigenverbrauch: 8.2 kWh (65.6%)
-🔌 Einspeisung: 4.3 kWh
-⚡ Netzbezug: 2.1 kWh
+☀️ Production: 12.5 kWh
+🏠 Own Consumption: 8.2 kWh (65.6%)
+🔌 Feed-in: 4.3 kWh
+⚡ Grid Power: 2.1 kWh
 ```
 
-### Monatsstatistik (01. des Monats um 09:00)
+### Monthly Statistics (1st of month at 09:00)
 ```
-09:00 - 📊 *Monatsstatistik PV-Anlage*
+09:00 - 📊 *Monthly Statistics PV System*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Vollzyklen dieser Monat: 28
-📉 Leerzyklen dieser Monat: 15
+🔋 Full Cycles This Month: 28
+📉 Empty Cycles This Month: 15
 ━━━━━━━━━━━━━━━━━━━━━━
-☀️ Produktion: 345.2 kWh
-🏠 Eigenverbrauch: 287.5 kWh (83.3%)
-🔌 Einspeisung: 57.7 kWh
-⚡ Netzbezug: 23.4 kWh
+☀️ Production: 345.2 kWh
+🏠 Own Consumption: 287.5 kWh (83.3%)
+🔌 Feed-in: 57.7 kWh
+⚡ Grid Power: 23.4 kWh
 ━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ## States
 
-Der Adapter erstellt folgende States unter `pv-notifications.0`:
+The adapter creates the following states under `pv-notifications.0`:
 
-### Aktuelle Statistik
+### Current Statistics
 
-| State | Typ | Beschreibung |
-|-------|-----|--------------|
-| `statistics.fullCyclesToday` | number | Vollzyklen heute |
-| `statistics.emptyCyclesToday` | number | Leerzyklen heute |
-| `statistics.maxSOCToday` | number | Max SOC heute |
-| `statistics.minSOCToday` | number | Min SOC heute |
-| `statistics.fullCyclesWeek` | number | Vollzyklen diese Woche |
-| `statistics.emptyCyclesWeek` | number | Leerzyklen diese Woche |
-| `statistics.currentSOC` | number | Aktueller SOC |
-| `statistics.currentEnergyKWh` | number | Aktuelle Energie in kWh |
+| State | Type | Description |
+|-------|------|-------------|
+| `statistics.fullCyclesToday` | number | Full cycles today |
+| `statistics.emptyCyclesToday` | number | Empty cycles today |
+| `statistics.maxSOCToday` | number | Max SOC today |
+| `statistics.minSOCToday` | number | Min SOC today |
+| `statistics.fullCyclesWeek` | number | Full cycles this week |
+| `statistics.emptyCyclesWeek` | number | Empty cycles this week |
+| `statistics.currentSOC` | number | Current SOC |
+| `statistics.currentEnergyKWh` | number | Current energy in kWh |
 
-### Gespeicherte letzte Monatsdaten (für Monatsstatistik)
+### Saved Last Month Data (for Monthly Statistics)
 
-| State | Typ | Beschreibung |
-|-------|-----|--------------|
-| `statistics.lastMonthProduction` | number | Produktion letzter Monat (kWh) |
-| `statistics.lastMonthConsumption` | number | Verbrauch letzter Monat (kWh) |
-| `statistics.lastMonthFeedIn` | number | Einspeisung letzter Monat (kWh) |
-| `statistics.lastMonthGridPower` | number | Netzbezug letzter Monat (kWh) |
-| `statistics.lastMonthFullCycles` | number | Vollzyklen letzter Monat |
-| `statistics.lastMonthEmptyCycles` | number | Leerzyklen letzter Monat |
+| State | Type | Description |
+|-------|------|-------------|
+| `statistics.lastMonthProduction` | number | Production last month (kWh) |
+| `statistics.lastMonthConsumption` | number | Consumption last month (kWh) |
+| `statistics.lastMonthFeedIn` | number | Feed-in last month (kWh) |
+| `statistics.lastMonthGridPower` | number | Grid power last month (kWh) |
+| `statistics.lastMonthFullCycles` | number | Full cycles last month |
+| `statistics.lastMonthEmptyCycles` | number | Empty cycles last month |
 
-### Gespeicherte letzte Wochendaten (für Wochenstatistik)
+### Saved Last Week Data (for Weekly Statistics)
 
-| State | Typ | Beschreibung |
-|-------|-----|--------------|
-| `statistics.lastWeekProduction` | number | Produktion letzte Woche (kWh) |
-| `statistics.lastWeekConsumption` | number | Verbrauch letzte Woche (kWh) |
-| `statistics.lastWeekFeedIn` | number | Einspeisung letzte Woche (kWh) |
-| `statistics.lastWeekGridPower` | number | Netzbezug letzte Woche (kWh) |
-| `statistics.lastWeekFullCycles` | number | Vollzyklen letzte Woche |
-| `statistics.lastWeekEmptyCycles` | number | Leerzyklen letzte Woche |
+| State | Type | Description |
+|-------|------|-------------|
+| `statistics.lastWeekProduction` | number | Production last week (kWh) |
+| `statistics.lastWeekConsumption` | number | Consumption last week (kWh) |
+| `statistics.lastWeekFeedIn` | number | Feed-in last week (kWh) |
+| `statistics.lastWeekGridPower` | number | Grid power last week (kWh) |
+| `statistics.lastWeekFullCycles` | number | Full cycles last week |
+| `statistics.lastWeekEmptyCycles` | number | Empty cycles last week |
 
-## Hinweis zur Monats- und Wochenstatistik
+## Note on Monthly and Weekly Statistics
 
-**Wichtig:** Der Adapter speichert automatisch die Daten vom letzten Monat und letzter Woche in den States.
+**Important:** The adapter automatically saves data from last month and last week in the states.
 
-### Monatsstatistik
+### Monthly Statistics
 
-- Die Monatsstatistik wird am **konfigurierten Tag** (Standard: 1. des Monats) gesendet
-- Der Adapter **speichert automatisch** die aktuellen Monatsdaten, bevor die Statistik zurückgesetzt wird
-- Die Statistik verwendet **gespeicherte Daten** aus `statistics.lastMonth*` States
-- **Konfiguration:** Stelle sicher, dass die Monatsstatistik **nach dem letzten Tag des Monats** gesendet wird (z.B. 1. um 09:00)
+- Monthly statistics are sent on the **configured day** (default: 1st of month)
+- The adapter **automatically saves** current monthly data before resetting statistics
+- Statistics use **saved data** from `statistics.lastMonth*` states
+- **Configuration:** Ensure monthly statistics are sent **after the last day of the month** (e.g. 1st at 09:00)
 
-### Wochenstatistik
+### Weekly Statistics
 
-- Die Wochenstatistik wird am **konfigurierten Wochentag** (Standard: Montag) gesendet
-- Der Adapter **speichert automatisch** die aktuellen Wochendaten, bevor die Statistik zurückgesetzt wird
-- Die Statistik verwendet **gespeicherte Daten** aus `statistics.lastWeek*` States
-- **Konfiguration:** Wochentag einstellen (0=Mo, 1=Di, ..., 6=So)
+- Weekly statistics are sent on the **configured weekday** (default: Monday)
+- The adapter **automatically saves** current weekly data before resetting statistics
+- Statistics use **saved data** from `statistics.lastWeek*` states
+- **Configuration:** Set weekday (0=Mon, 1=Tue, ..., 6=Sun)
 
-## Konfigurations-Beispiel (openweathermap)
+## Configuration Example (openweathermap)
 
-### Wetter-Datenpunkte konfigurieren
+### Configure Weather Data Points
 
-Wenn du den **openweathermap**-Adapter verwendest, konfiguriere folgende Felder:
-
-```
-Wetter heute:           openweathermap.0.forecast.0.text
-Temperatur heute:       openweathermap.0.forecast.0.temp
-Wetter morgen:          openweathermap.0.forecast.1.text
-Temperatur morgen:      openweathermap.0.forecast.1.temp
-```
-
-### Alternative: Daswetter-Adapter
+If you use the **openweathermap** adapter, configure the following fields:
 
 ```
-Wetter heute:           daswetter.0.Day0.forecast.currentSymbol
-Temperatur heute:       daswetter.0.Day0.forecast.maxTemp
-Wetter morgen:          daswetter.0.Day1.forecast.currentSymbol
-Temperatur morgen:      daswetter.0.Day1.forecast.maxTemp
+Weather Today:          openweathermap.0.forecast.0.text
+Temperature Today:      openweathermap.0.forecast.0.temp
+Weather Tomorrow:       openweathermap.0.forecast.1.text
+Temperature Tomorrow:   openweathermap.0.forecast.1.temp
 ```
 
-### Beispiel-Ausgabe mit Wetter
+### Alternative: Daswetter Adapter
 
-**Tagesstatistik:**
 ```
-📊 *Tagesstatistik PV-Anlage*
+Weather Today:          daswetter.0.Day0.forecast.currentSymbol
+Temperature Today:      daswetter.0.Day0.forecast.maxTemp
+Weather Tomorrow:       daswetter.0.Day1.forecast.currentSymbol
+Temperature Tomorrow:   daswetter.0.Day1.forecast.maxTemp
+```
+
+### Example Output with Weather
+
+**Daily Statistics:**
+```
+📊 *Daily Statistics PV System*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Aktueller Ladestand: 85%
-⚡ Aktuelle Energie: 17.9 kWh (21.0 kWh Gesamt)
+🔋 Current Charge Level: 85%
+⚡ Current Energy: 17.9 kWh (21.0 kWh Total)
 ━━━━━━━━━━━━━━━━━━━━━━
-☀️ Produktion: 45.2 kWh
-🏠 Eigenverbrauch: 32.1 kWh (71%)
-🔌 Einspeisung: 13 kWh
-⚡ Netzbezug: 2 kWh
+☀️ Production: 45.2 kWh
+🏠 Own Consumption: 32.1 kWh (71%)
+🔌 Feed-in: 13 kWh
+⚡ Grid Power: 2 kWh
 ━━━━━━━━━━━━━━━━━━━━━━
-🌤️ *Wetter morgen:* ☀️ sonnig 22.5°C
-☀️ Gute PV-Produktion erwartet!
+🌤️ *Weather Tomorrow:* ☀️ Sunny 22.5°C
+☀️ Good PV production expected!
 ```
 
-**Wochenstatistik:**
+**Weekly Statistics:**
 ```
-📊 *Wochenstatistik PV-Anlage*
+📊 *Weekly Statistics PV System*
 ━━━━━━━━━━━━━━━━━━━━━━
-🔋 Vollzyklen letzte Woche: 5
-📉 Leerzyklen letzte Woche: 3
+🔋 Full Cycles Last Week: 5
+📉 Empty Cycles Last Week: 3
 ━━━━━━━━━━━━━━━━━━━━━━
-☀️ Produktion: 312.5 kWh
-🏠 Eigenverbrauch: 224.8 kWh (72%)
-🔌 Einspeisung: 87.7 kWh
-⚡ Netzbezug: 45.3 kWh
+☀️ Production: 312.5 kWh
+🏠 Own Consumption: 224.8 kWh (72%)
+🔌 Feed-in: 87.7 kWh
+⚡ Grid Power: 45.3 kWh
 ━━━━━━━━━━━━━━━━━━━━━━
-💡 Ein gesunder Zyklus pro Tag ist normal.
-🔋 Bei vielen Zyklen: Batterie-Settings prüfen.
-```
-
-### Monatsstatistik (01. des Monats um 09:00)
-```
-09:00 - 📊 *Monatsstatistik PV-Anlage*
-━━━━━━━━━━━━━━━━━━━━━━
-🔋 Vollzyklen letzter Monat: 28
-📉 Leerzyklen letzter Monat: 15
-━━━━━━━━━━━━━━━━━━━━━━
-☀️ Produktion: 1245.7 kWh
-🏠 Eigenverbrauch: 897.3 kWh (72%)
-🔌 Einspeisung: 348.4 kWh
-⚡ Netzbezug: 185.2 kWh
-━━━━━━━━━━━━━━━━━━━━━━
+💡 A healthy cycle per day is normal.
+🔋 Check battery settings if many cycles.
 ```
 
-## Nachtmodus & Ruhemodus
+### Monthly Statistics (1st of month at 09:00)
+```
+09:00 - 📊 *Monthly Statistics PV System*
+━━━━━━━━━━━━━━━━━━━━━━
+🔋 Full Cycles Last Month: 28
+📉 Empty Cycles Last Month: 15
+━━━━━━━━━━━━━━━━━━━━━━
+☀️ Production: 1245.7 kWh
+🏠 Own Consumption: 897.3 kWh (72%)
+🔌 Feed-in: 348.4 kWh
+⚡ Grid Power: 185.2 kWh
+━━━━━━━━━━━━━━━━━━━━━━
+```
 
-### Nachtmodus (konfigurierbar)
+## Night Mode & Quiet Mode
 
-Zwischen **23:00 und 06:00** (konfigurierbar) werden folgende Benachrichtigungen unterdrückt:
-- ❌ Batterie VOLL (100%)
-- ❌ Intermediate-Stufen (20%, 40%, 60%, 80%)
+### Night Mode (configurable)
 
-Folgende Benachrichtigung wird **immer** gesendet:
-- ✅ Batterie LEER (0%) – wenn "Nachtmodus für 0% Batterie ignorieren" aktiviert ist
+Between **23:00 and 06:00** (configurable), the following notifications are suppressed:
+- ❌ Battery FULL (100%)
+- ❌ Intermediate Levels (20%, 40%, 60%, 80%)
 
-### Ruhemodus (konfigurierbar)
+The following notification is **always** sent:
+- ✅ Battery EMPTY (0%) – if "Ignore night mode for 0% battery" is enabled
 
-Zwischen **12:00 und 15:00** (konfigurierbar) werden **alle** Benachrichtigungen unterdrückt:
-- ❌ Batterie VOLL (100%)
-- ❌ Batterie LEER (0%)
-- ❌ Intermediate-Stufen (20%, 40%, 60%, 80%)
+### Quiet Mode (configurable)
 
-**Hinweis:** Der Ruhemodus unterdrückt alle Benachrichtigungen einschließlich 0% Batterie. Verwende ihn für Zeiten, in denen du gar nicht gestört werden möchtest (z.B. Mittagsschlaf, Meetings).
+Between **12:00 and 15:00** (configurable), **all** notifications are suppressed:
+- ❌ Battery FULL (100%)
+- ❌ Battery EMPTY (0%)
+- ❌ Intermediate Levels (20%, 40%, 60%, 80%)
 
-## Lizenz
+**Note:** Quiet mode suppresses all notifications including 0% battery. Use it for times when you don't want to be disturbed at all (e.g. nap time, meetings).
+
+## License
 
 MIT License
 
@@ -327,8 +326,14 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-## Autor
+## Author
 
 Alex1808 via LLM: Qwen
 
 sadam6752@gmail.com
+
+## Documentation in Other Languages
+
+- [🇬🇧 English](README.md)
+- [🇩🇪 Deutsch](doc/de/README.md)
+- [🇷🇺 Русский](doc/ru/README.md)
