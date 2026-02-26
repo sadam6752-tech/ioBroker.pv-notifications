@@ -1418,13 +1418,13 @@ ${statusText}`;
     async onUnload(callback) {
         try {
             this.log.info('PV Notifications Adapter is stopping');
-            
+
             // Clear interval timer
             if (this.scheduledInterval) {
                 clearInterval(this.scheduledInterval);
                 this.scheduledInterval = null;
             }
-            
+
             // Reset connection
             this.setState('info.connection', false, true);
             await this.saveStatistics();
