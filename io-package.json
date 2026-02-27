@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.88",
+    "version": "1.0.89",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -28,8 +28,15 @@
       "uk": "Надсилати Telegram-сповіщення про стан батареї PV",
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
-    "authors": ["Alex <alex@example.com>"],
-    "keywords": ["PV", "Solar", "Batterie", "Telegram"],
+    "authors": [
+      "Alex <alex@example.com>"
+    ],
+    "keywords": [
+      "PV",
+      "Solar",
+      "Batterie",
+      "Telegram"
+    ],
     "licenseInformation": {
       "license": "MIT",
       "type": "free"
