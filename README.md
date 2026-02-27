@@ -339,6 +339,11 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.0.93 (2026-02-27)
+
+* (FIX) size attributes (xs, xl) added for number fields in jsonConfig.json (E5507)
+* (FIX) VSCode schema definitions updated for io-package.json and jsonConfig.json (W4040, W4042)
+
 ### 1.0.92 (2026-02-27)
 
 * (ADD) VSCode settings added with JSON schema definitions (S4036)

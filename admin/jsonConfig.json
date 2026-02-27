@@ -184,9 +184,11 @@
     "batteryCapacityWh": {
       "type": "number",
       "label": "label_batteryCapacityWh",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "min": 1000,
       "max": 100000,
       "step": 100
@@ -194,36 +196,44 @@
     "thresholdFull": {
       "type": "number",
       "label": "label_thresholdFull",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "min": 0,
       "max": 100
     },
     "thresholdEmpty": {
       "type": "number",
       "label": "label_thresholdEmpty",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "min": 0,
       "max": 100
     },
     "thresholdResetFull": {
       "type": "number",
       "label": "label_thresholdResetFull",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "min": 0,
       "max": 100
     },
     "thresholdResetEmpty": {
       "type": "number",
       "label": "label_thresholdResetEmpty",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "min": 0,
       "max": 100
     },

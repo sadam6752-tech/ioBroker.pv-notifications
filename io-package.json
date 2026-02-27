@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.92",
+    "version": "1.0.93",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -67,6 +67,19 @@
       }
     ],
     "news": {
+      "1.0.93": {
+        "en": "Repository checker fixes: size attributes added for number fields (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), VSCode schema definitions updated",
+        "de": "Repository-Checker-Fixes: size-Attribute für number-Felder hinzugefügt (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), VSCode-Schema-Definitionen aktualisiert",
+        "ru": "Исправления репозитория: добавлены атрибуты size для числовых полей (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), обновлены определения схемы VSCode",
+        "pt": "Correções do repositório: atributos size adicionados para campos numéricos (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), definições de esquema VSCode atualizadas",
+        "nl": "Repository checker fixes: size-attributen toegevoegd voor nummervelden (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), VSCode-schema-definities bijgewerkt",
+        "fr": "Corrections du dépôt : attributs size ajoutés pour les champs numériques (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), définitions de schéma VSCode mises à jour",
+        "it": "Correzioni del repository: aggiunti attributi size per i campi numerici (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), aggiornate definizioni di schema VSCode",
+        "es": "Correcciones del repositorio: atributos size agregados para campos numéricos (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), definiciones de esquema VSCode actualizadas",
+        "pl": "Poprawki repozytorium: dodano atrybuty size dla pól liczbowych (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), zaktualizowano definicje schematu VSCode",
+        "uk": "Виправлення репозиторію: додано атрибути size для числових полів (batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty), оновлено визначення схеми VSCode",
+        "zh-cn": "仓库修复：已为数字字段添加 size 属性（batteryCapacityWh, thresholdFull/Empty/ResetFull/ResetEmpty），已更新 VSCode 架构定义"
+      },
       "1.0.92": {
         "en": "VSCode settings added with JSON schema definitions for better development experience",
         "de": "VSCode-Einstellungen mit JSON-Schema-Definitionen für bessere Entwicklungserfahrung hinzugefügt",
