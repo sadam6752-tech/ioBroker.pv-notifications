@@ -69,3 +69,6 @@ dist/
 # Environment
 .env
 .create-adapter.json
+
+# Release script
+.commitinfo

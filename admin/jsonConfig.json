@@ -69,86 +69,108 @@
     "feedIn": {
       "type": "objectId",
       "label": "label_feedIn",
+      "xs": 12,
       "sm": 6,
       "md": 6,
-      "lg": 6
+      "lg": 6,
+      "xl": 6
     },
     "consumption": {
       "type": "objectId",
       "label": "label_consumption",
+      "xs": 12,
       "sm": 6,
       "md": 6,
-      "lg": 6
+      "lg": 6,
+      "xl": 6
     },
     "gridPower": {
       "type": "objectId",
       "label": "label_gridPower",
+      "xs": 12,
       "sm": 6,
       "md": 6,
-      "lg": 6
+      "lg": 6,
+      "xl": 6
     },
     "weeklyProduction": {
       "type": "objectId",
       "label": "label_weeklyProduction",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_weeklyProduction"
     },
     "weeklyConsumption": {
       "type": "objectId",
       "label": "label_weeklyConsumption",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_weeklyConsumption"
     },
     "weeklyFeedIn": {
       "type": "objectId",
       "label": "label_weeklyFeedIn",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_weeklyFeedIn"
     },
     "weeklyGridPower": {
       "type": "objectId",
       "label": "label_weeklyGridPower",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_weeklyGridPower"
     },
     "monthlyProduction": {
       "type": "objectId",
       "label": "label_monthlyProduction",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_monthlyProduction"
     },
     "monthlyConsumption": {
       "type": "objectId",
       "label": "label_monthlyConsumption",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_monthlyConsumption"
     },
     "monthlyFeedIn": {
       "type": "objectId",
       "label": "label_monthlyFeedIn",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_monthlyFeedIn"
     },
     "monthlyGridPower": {
       "type": "objectId",
       "label": "label_monthlyGridPower",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_monthlyGridPower"
     },
     "_header_battery": {
@@ -395,33 +417,41 @@
     "weatherTodayText": {
       "type": "objectId",
       "label": "label_weatherTodayText",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_weatherTodayText"
     },
     "weatherTodayTemp": {
       "type": "objectId",
       "label": "label_weatherTodayTemp",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_weatherTodayTemp"
     },
     "weatherTomorrowText": {
       "type": "objectId",
       "label": "label_weatherTomorrowText",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_weatherTomorrowText"
     },
     "weatherTomorrowTemp": {
       "type": "objectId",
       "label": "label_weatherTomorrowTemp",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_weatherTomorrowTemp"
     },
     "_header_thresholds": {

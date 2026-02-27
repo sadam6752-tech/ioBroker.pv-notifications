@@ -339,6 +339,12 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.0.91 (2026-02-27)
+
+* (FIX) Old news removed from io-package.json (E2004, W1032)
+* (FIX) size attributes (xs, xl) added for all objectId fields in jsonConfig.json (E5507)
+* (FIX) .commitinfo added to .gitignore (S9006)
+
 ### 1.0.90 (2026-02-27)
 
 * (FIX) JSDoc parameter descriptions added for all functions
