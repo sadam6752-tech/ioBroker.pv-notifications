@@ -341,12 +341,13 @@ sadam6752@gmail.com
 
 ### **WORK IN PROGRESS**
 
-### 1.0.89 (2026-02-27)
 * (FIX) createState replaced with setObjectNotExists (W5034)
 * (FIX) size attributes (xs, xl) added to jsonConfig.json (E5507)
 * (FIX) Dependencies updated (@iobroker/adapter-core ^3.3.2, @alcalzone/release-script ^5.1.1)
 * (FIX) admin dependency updated to >=7.6.20 (W1056)
 * (FIX) Translations added for titleLang, desc, news (W1027, W1034, W1054)
+
+### 1.0.89 (2026-02-27)
 
 ### 1.0.85 (2026-02-26)
 * (FIX) Deprecated common.main removed from io-package.json (W1084)
