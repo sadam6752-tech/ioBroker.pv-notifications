@@ -9,7 +9,7 @@ const utils = require('@iobroker/adapter-core');
 
 class PvNotifications extends utils.Adapter {
     /**
-     * @param {Partial<utils.AdapterOptions>} [options]
+     * @param {Partial<utils.AdapterOptions>} [options] - Adapter options
      */
     constructor(options = {}) {
         super({
@@ -502,8 +502,8 @@ class PvNotifications extends utils.Adapter {
     /**
      * Is called if a subscribed state changes
      *
-     * @param id
-     * @param state
+     * @param {string} id - State ID
+     * @param {ioBroker.State | null | undefined} state - State object
      */
     async onStateChange(id, state) {
         if (state) {
@@ -552,7 +552,7 @@ class PvNotifications extends utils.Adapter {
     /**
      * Main function - called on SOC change
      *
-     * @param soc
+     * @param {number} soc - Battery state of charge in percent
      */
     async onBatterySOCChange(soc) {
         // Check for undefined/null values
@@ -700,7 +700,7 @@ class PvNotifications extends utils.Adapter {
     /**
      * Prüfe ob Mindestintervall eingehalten
      *
-     * @param type
+     * @param {string} type - Notification type (full, empty, intermediate)
      */
     canNotify(type) {
         const now = Date.now();
@@ -763,7 +763,7 @@ class PvNotifications extends utils.Adapter {
     /**
      * Sende Telegram-Nachricht mit Zeitstempel
      *
-     * @param message
+     * @param {string} message - Nachrichtentext
      */
     sendTelegram(message) {
         const timestamp = this.getTimeString();
@@ -813,7 +813,7 @@ class PvNotifications extends utils.Adapter {
     /**
      * Baue detaillierte Status-Nachricht bei vollem Akku
      *
-     * @param soc
+     * @param {number} soc - Battery state of charge in percent
      */
     buildFullMessage(soc) {
         const power = this.getStateValue(this.config.powerProduction);
@@ -861,7 +861,7 @@ class PvNotifications extends utils.Adapter {
     /**
      * Baue Nachricht bei leerem Akku
      *
-     * @param soc
+     * @param {number} soc - Battery state of charge in percent
      */
     buildEmptyMessage(soc) {
         const gridPower = this.getStateValue(this.config.gridPower);
@@ -905,8 +905,8 @@ class PvNotifications extends utils.Adapter {
     /**
      * Baue Intermediate-Nachricht (20%, 40%, 60%, 80%)
      *
-     * @param soc
-     * @param direction
+     * @param {number} soc - Battery state of charge in percent
+     * @param {string} direction - Charging direction ('up' or 'down')
      */
     async buildIntermediateMessage(soc, direction) {
         // Leistung aus State lesen (aktualisiert in Echtzeit)
@@ -1049,7 +1049,7 @@ ${statusText}`;
     /**
      * Hole Wetter-Description aus Text
      *
-     * @param weatherText
+     * @param {string} weatherText - Weather text from state
      */
     getWeatherDescription(weatherText) {
         if (!weatherText) {
@@ -1093,7 +1093,7 @@ ${statusText}`;
     /**
      * Prüfe ob Wetter gut ist
      *
-     * @param weatherText
+     * @param {string} weatherText - Weather text from state
      */
     isWeatherGood(weatherText) {
         if (!weatherText) {
@@ -1108,7 +1108,7 @@ ${statusText}`;
     /**
      * Prüfe ob Wetter schlecht ist
      *
-     * @param weatherText
+     * @param {string} weatherText - Weather text from state
      */
     isWeatherBad(weatherText) {
         if (!weatherText) {
@@ -1130,7 +1130,7 @@ ${statusText}`;
     /**
      * State-Wert holen
      *
-     * @param id
+     * @param {string} id - State ID
      */
     getStateValue(id) {
         if (!id) {
@@ -1147,8 +1147,8 @@ ${statusText}`;
     /**
      * Runde Zahl auf Dezimalstellen
      *
-     * @param value
-     * @param decimals
+     * @param {number} value - Wert zum Runden
+     * @param {number} decimals - Anzahl Dezimalstellen
      */
     round(value, decimals = 2) {
         if (value === null || value === undefined || isNaN(value)) {
@@ -1301,7 +1301,7 @@ ${statusText}`;
     /**
      * Text übersetzen
      *
-     * @param key
+     * @param {string} key - Translation key
      */
     translate(key) {
         const translations = {
@@ -1565,7 +1565,7 @@ ${statusText}`;
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
      *
-     * @param {() => void} callback
+     * @param {() => void} callback - Callback function
      */
     async onUnload(callback) {
         try {
@@ -1591,7 +1591,7 @@ ${statusText}`;
 if (require.main !== module) {
     // Export the constructor in compact mode
     /**
-     * @param {Partial<utils.AdapterOptions> | undefined} [options]
+     * @param {Partial<utils.AdapterOptions> | undefined} [options] - Adapter options
      */
     module.exports = options => new PvNotifications(options);
 } else {

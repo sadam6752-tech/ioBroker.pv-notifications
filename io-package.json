@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.89",
+    "version": "1.0.90",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -67,6 +67,19 @@
       }
     ],
     "news": {
+      "1.0.90": {
+        "en": "JSDoc parameter descriptions added for all functions",
+        "de": "JSDoc-Parameterbeschreibungen für alle Funktionen hinzugefügt",
+        "ru": "Добавлены описания параметров JSDoc для всех функций",
+        "pt": "Descrições de parâmetros JSDoc adicionadas para todas as funções",
+        "nl": "JSDoc-parameterbeschrijvingen toegevoegd voor alle functies",
+        "fr": "Descriptions de paramètres JSDoc ajoutées pour toutes les fonctions",
+        "it": "Aggiunte descrizioni parametri JSDoc per tutte le funzioni",
+        "es": "Descripciones de parámetros JSDoc agregadas para todas las funciones",
+        "pl": "Dodano opisy parametrów JSDoc dla wszystkich funkcji",
+        "uk": "Додано описи параметрів JSDoc для всіх функцій",
+        "zh-cn": "已为所有函数添加 JSDoc 参数描述"
+      },
       "1.0.89": {
         "en": "Repository checker fixes: createState replaced with setObjectNotExists, size attributes added to jsonConfig, dependencies updated, translations added for all languages",
         "de": "Repository-Checker-Fixes: createState durch setObjectNotExists ersetzt, size-Attribute zu jsonConfig hinzugefügt, Abhängigkeiten aktualisiert, Übersetzungen für alle Sprachen hinzugefügt",

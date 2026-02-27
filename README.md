@@ -339,6 +339,10 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.0.90 (2026-02-27)
+
+* (FIX) JSDoc parameter descriptions added for all functions
+
 ### 1.0.89 (2026-02-27)
 
 * (FIX) createState replaced with setObjectNotExists (W5034)
