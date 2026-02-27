@@ -334,8 +334,6 @@ sadam6752@gmail.com
 
 ## Changelog
 
-### **WORK IN PROGRESS**
-
 ### 1.0.89 (2026-02-27)
 * (FIX) createState replaced with setObjectNotExists (W5034)
 * (FIX) size attributes (xs, xl) added to jsonConfig.json (E5507)
