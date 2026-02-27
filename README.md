@@ -341,6 +341,8 @@ sadam6752@gmail.com
 * (FIX) admin dependency updated to >=7.6.20 (W1056)
 * (FIX) Translations added for titleLang, desc, news (W1027, W1034, W1054)
 
+### **WORK IN PROGRESS**
+
 ### 1.0.85 (2026-02-26)
 * (FIX) Deprecated common.main removed from io-package.json (W1084)
 
