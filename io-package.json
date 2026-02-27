@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.91",
+    "version": "1.0.92",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -67,6 +67,19 @@
       }
     ],
     "news": {
+      "1.0.92": {
+        "en": "VSCode settings added with JSON schema definitions for better development experience",
+        "de": "VSCode-Einstellungen mit JSON-Schema-Definitionen für bessere Entwicklungserfahrung hinzugefügt",
+        "ru": "Добавлены настройки VSCode с определениями JSON-схемы для улучшения разработки",
+        "pt": "Configurações do VSCode adicionadas com definições de esquema JSON para melhor experiência de desenvolvimento",
+        "nl": "VSCode-instellingen toegevoegd met JSON-schema-definities voor betere ontwikkelervaring",
+        "fr": "Paramètres VSCode ajoutés avec des définitions de schéma JSON pour une meilleure expérience de développement",
+        "it": "Aggiunte impostazioni VSCode con definizioni di schema JSON per una migliore esperienza di sviluppo",
+        "es": "Configuraciones de VSCode agregadas con definiciones de esquema JSON para mejor experiencia de desarrollo",
+        "pl": "Dodano ustawienia VSCode z definicjami schematu JSON dla lepszego doświadczenia programistycznego",
+        "uk": "Додано налаштування VSCode з визначеннями JSON-схеми для покращення розробки",
+        "zh-cn": "已添加 VSCode 设置与 JSON 架构定义，以提升开发体验"
+      },
       "1.0.91": {
         "en": "Repository checker fixes: old news removed, size attributes added for all objectId fields, .commitinfo added to .gitignore",
         "de": "Repository-Checker-Fixes: alte News entfernt, size-Attribute für alle objectId-Felder hinzugefügt, .commitinfo zu .gitignore hinzugefügt",

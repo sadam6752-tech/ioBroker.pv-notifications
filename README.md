@@ -339,6 +339,10 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.0.92 (2026-02-27)
+
+* (ADD) VSCode settings added with JSON schema definitions (S4036)
+
 ### 1.0.91 (2026-02-27)
 
 * (FIX) Old news removed from io-package.json (E2004, W1032)
