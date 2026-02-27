@@ -45,7 +45,6 @@ jspm_packages/
 
 # IDE
 .idea
-.vscode
 *.swp
 *.swo
 *~
