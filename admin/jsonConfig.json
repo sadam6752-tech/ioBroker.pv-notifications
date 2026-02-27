@@ -14,16 +14,20 @@
       "type": "instance",
       "label": "label_telegramInstance",
       "adapter": "telegram",
+      "xs": 12,
       "sm": 6,
       "md": 6,
-      "lg": 6
+      "lg": 6,
+      "xl": 6
     },
     "telegramUsers": {
       "type": "text",
       "label": "label_telegramUsers",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_telegramUsers"
     },
     "_header_datapoints": {
@@ -37,24 +41,30 @@
     "batterySOC": {
       "type": "objectId",
       "label": "label_batterySOC",
+      "xs": 12,
       "sm": 6,
       "md": 6,
       "lg": 6,
+      "xl": 6,
       "tooltip": "tooltip_batterySOC"
     },
     "powerProduction": {
       "type": "objectId",
       "label": "label_powerProduction",
+      "xs": 12,
       "sm": 6,
       "md": 6,
-      "lg": 6
+      "lg": 6,
+      "xl": 6
     },
     "totalProduction": {
       "type": "objectId",
       "label": "label_totalProduction",
+      "xs": 12,
       "sm": 6,
       "md": 6,
-      "lg": 6
+      "lg": 6,
+      "xl": 6
     },
     "feedIn": {
       "type": "objectId",

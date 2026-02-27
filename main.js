@@ -97,42 +97,123 @@ class PvNotifications extends utils.Adapter {
 
         // Create statistics states
         this.log.info('Creating statistics states...');
-        await this.createState('statistics.fullCyclesToday', 0, 'number', 'Vollzyklen heute');
-        await this.createState('statistics.emptyCyclesToday', 0, 'number', 'Leerzyklen heute');
-        await this.createState('statistics.maxSOCToday', 0, 'number', 'Max SOC heute');
-        await this.createState('statistics.minSOCToday', 100, 'number', 'Min SOC heute');
-        await this.createState('statistics.fullCyclesWeek', 0, 'number', 'Vollzyklen diese Woche');
-        await this.createState('statistics.emptyCyclesWeek', 0, 'number', 'Leerzyklen diese Woche');
-        await this.createState('statistics.currentSOC', 0, 'number', 'Aktueller SOC');
-        await this.createState('statistics.currentEnergyKWh', 0, 'number', 'Aktuelle Energie in kWh');
-        await this.createState('statistics.currentPower', 0, 'number', 'Aktuelle Leistung W');
-        await this.createState('statistics.currentTotalProduction', 0, 'number', 'Gesamtproduktion heute kWh');
-        await this.createState('statistics.currentFeedIn', 0, 'number', 'Einspeisung heute kWh');
-        await this.createState('statistics.currentConsumption', 0, 'number', 'Verbrauch heute kWh');
-        await this.createState('statistics.currentGridPower', 0, 'number', 'Netzbezug heute kWh');
+        await this.setObjectNotExists('statistics.fullCyclesToday', {
+            type: 'state',
+            common: { name: 'Vollzyklen heute', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.emptyCyclesToday', {
+            type: 'state',
+            common: { name: 'Leerzyklen heute', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.maxSOCToday', {
+            type: 'state',
+            common: { name: 'Max SOC heute', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.minSOCToday', {
+            type: 'state',
+            common: { name: 'Min SOC heute', type: 'number', role: 'value', read: true, write: false, def: 100 }
+        });
+        await this.setObjectNotExists('statistics.fullCyclesWeek', {
+            type: 'state',
+            common: { name: 'Vollzyklen diese Woche', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.emptyCyclesWeek', {
+            type: 'state',
+            common: { name: 'Leerzyklen diese Woche', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.currentSOC', {
+            type: 'state',
+            common: { name: 'Aktueller SOC', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.currentEnergyKWh', {
+            type: 'state',
+            common: { name: 'Aktuelle Energie in kWh', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.currentPower', {
+            type: 'state',
+            common: { name: 'Aktuelle Leistung W', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.currentTotalProduction', {
+            type: 'state',
+            common: { name: 'Gesamtproduktion heute kWh', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.currentFeedIn', {
+            type: 'state',
+            common: { name: 'Einspeisung heute kWh', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.currentConsumption', {
+            type: 'state',
+            common: { name: 'Verbrauch heute kWh', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.currentGridPower', {
+            type: 'state',
+            common: { name: 'Netzbezug heute kWh', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
 
         // States für letzte Monats-/Wochenstatistik
-        await this.createState('statistics.lastMonthProduction', 0, 'number', 'Produktion letzter Monat');
-        await this.createState('statistics.lastMonthConsumption', 0, 'number', 'Verbrauch letzter Monat');
-        await this.createState('statistics.lastMonthFeedIn', 0, 'number', 'Einspeisung letzter Monat');
-        await this.createState('statistics.lastMonthGridPower', 0, 'number', 'Netzbezug letzter Monat');
-        await this.createState('statistics.lastMonthFullCycles', 0, 'number', 'Vollzyklen letzter Monat');
-        await this.createState('statistics.lastMonthEmptyCycles', 0, 'number', 'Leerzyklen letzter Monat');
-        await this.createState('statistics.lastWeekProduction', 0, 'number', 'Produktion letzte Woche');
-        await this.createState('statistics.lastWeekConsumption', 0, 'number', 'Verbrauch letzte Woche');
-        await this.createState('statistics.lastWeekFeedIn', 0, 'number', 'Einspeisung letzte Woche');
-        await this.createState('statistics.lastWeekGridPower', 0, 'number', 'Netzbezug letzte Woche');
-        await this.createState('statistics.lastWeekFullCycles', 0, 'number', 'Vollzyklen letzte Woche');
-        await this.createState('statistics.lastWeekEmptyCycles', 0, 'number', 'Leerzyklen letzte Woche');
+        await this.setObjectNotExists('statistics.lastMonthProduction', {
+            type: 'state',
+            common: { name: 'Produktion letzter Monat', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastMonthConsumption', {
+            type: 'state',
+            common: { name: 'Verbrauch letzter Monat', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastMonthFeedIn', {
+            type: 'state',
+            common: { name: 'Einspeisung letzter Monat', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastMonthGridPower', {
+            type: 'state',
+            common: { name: 'Netzbezug letzter Monat', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastMonthFullCycles', {
+            type: 'state',
+            common: { name: 'Vollzyklen letzter Monat', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastMonthEmptyCycles', {
+            type: 'state',
+            common: { name: 'Leerzyklen letzter Monat', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastWeekProduction', {
+            type: 'state',
+            common: { name: 'Produktion letzte Woche', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastWeekConsumption', {
+            type: 'state',
+            common: { name: 'Verbrauch letzte Woche', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastWeekFeedIn', {
+            type: 'state',
+            common: { name: 'Einspeisung letzte Woche', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastWeekGridPower', {
+            type: 'state',
+            common: { name: 'Netzbezug letzte Woche', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastWeekFullCycles', {
+            type: 'state',
+            common: { name: 'Vollzyklen letzte Woche', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
+        await this.setObjectNotExists('statistics.lastWeekEmptyCycles', {
+            type: 'state',
+            common: { name: 'Leerzyklen letzte Woche', type: 'number', role: 'value', read: true, write: false, def: 0 }
+        });
 
         // Test-Button State erstellen
-        await this.createState('testButton', false, 'boolean', 'Test-Benachrichtigung senden');
+        await this.setObjectNotExists('testButton', {
+            type: 'state',
+            common: { name: 'Test-Benachrichtigung senden', type: 'boolean', role: 'button', read: true, write: true, def: false }
+        });
 
         // Explicitly subscribe (for js-controller 7+)
         this.subscribeStates('testButton');
         this.log.info('Subscription for testButton created');
 
-        await this.createState('info.connection', false, 'boolean', 'Adapter is connected to Telegram');
+        await this.setObjectNotExists('info.connection', {
+            type: 'state',
+            common: { name: 'Adapter is connected to Telegram', type: 'boolean', role: 'indicator.connected', read: true, write: false, def: false }
+        });
 
         // Register event handler for battery SOC
         if (this.config.batterySOC) {
@@ -215,33 +296,6 @@ class PvNotifications extends utils.Adapter {
                     this.log.warn(`Error accessing "${dp.id}" (${dp.name}): ${e.message}`);
                 }
             }
-        }
-    }
-
-    /**
-     * State erstellen
-     *
-     * @param name
-     * @param def
-     * @param type
-     * @param desc
-     */
-    async createState(name, def, type, desc) {
-        try {
-            await this.setObjectNotExists(name, {
-                type: 'state',
-                common: {
-                    name: desc,
-                    type: type,
-                    role: 'value',
-                    read: true,
-                    write: true,
-                    def: def,
-                },
-            });
-            this.log.debug(`State created: ${name}`);
-        } catch (e) {
-            this.log.error(`Error creating state ${name}: ${e.message}`);
         }
     }
 

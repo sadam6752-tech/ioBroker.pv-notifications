@@ -1,16 +1,32 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.0.88",
+    "version": "1.0.89",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
-      "ru": "PV-Уведомления"
+      "ru": "PV-Уведомления",
+      "pt": "Notificações PV",
+      "nl": "PV-meldingen",
+      "fr": "Notifications PV",
+      "it": "Notifiche PV",
+      "es": "Notificaciones PV",
+      "pl": "Powiadomienia PV",
+      "uk": "PV-Сповіщення",
+      "zh-cn": "PV 通知"
     },
     "desc": {
       "en": "Send Telegram notifications for PV battery status",
       "de": "Sende Telegram-Benachrichtigungen für PV-Batteriestatus",
-      "ru": "Отправка Telegram-уведомлений о состоянии батареи PV"
+      "ru": "Отправка Telegram-уведомлений о состоянии батареи PV",
+      "pt": "Enviar notificações Telegram para status da bateria PV",
+      "nl": "Verstuur Telegram-meldingen voor PV-batterijstatus",
+      "fr": "Envoyer des notifications Telegram pour l'état de la batterie PV",
+      "it": "Invia notifiche Telegram per lo stato della batteria PV",
+      "es": "Enviar notificaciones de Telegram para el estado de la batería PV",
+      "pl": "Wysyłaj powiadomienia Telegram o stanie baterii PV",
+      "uk": "Надсилати Telegram-сповіщення про стан батареї PV",
+      "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "authors": ["Alex <alex@example.com>"],
     "keywords": ["PV", "Solar", "Batterie", "Telegram"],
@@ -40,39 +56,100 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.6.17"
+        "admin": ">=7.6.20"
       }
     ],
     "news": {
+      "1.0.89": {
+        "en": "Repository checker fixes: createState replaced with setObjectNotExists, size attributes added to jsonConfig, dependencies updated, translations added for all languages",
+        "de": "Repository-Checker-Fixes: createState durch setObjectNotExists ersetzt, size-Attribute zu jsonConfig hinzugefügt, Abhängigkeiten aktualisiert, Übersetzungen für alle Sprachen hinzugefügt",
+        "ru": "Исправления репозитория: createState заменен на setObjectNotExists, добавлены атрибуты size в jsonConfig, обновлены зависимости, добавлены переводы для всех языков",
+        "pt": "Correções do verificador de repositório: createState substituído por setObjectNotExists, atributos size adicionados ao jsonConfig, dependências atualizadas, traduções adicionadas para todos os idiomas",
+        "nl": "Repository checker fixes: createState vervangen door setObjectNotExists, size-attributen toegevoegd aan jsonConfig, afhankelijkheden bijgewerkt, vertalingen toegevoegd voor alle talen",
+        "fr": "Corrections du vérificateur de dépôt : createState remplacé par setObjectNotExists, attributs size ajoutés à jsonConfig, dépendances mises à jour, traductions ajoutées pour toutes les langues",
+        "it": "Correzioni del repository checker: createState sostituito con setObjectNotExists, aggiunti attributi size a jsonConfig, dipendenze aggiornate, aggiunte traduzioni per tutte le lingue",
+        "es": "Correcciones del verificador de repositorio: createState reemplazado por setObjectNotExists, atributos size agregados a jsonConfig, dependencias actualizadas, traducciones agregadas para todos los idiomas",
+        "pl": "Poprawki checkera repozytorium: createState zastąpiono przez setObjectNotExists, dodano atrybuty size do jsonConfig, zaktualizowano zależności, dodano tłumaczenia dla wszystkich języków",
+        "uk": "Виправлення перевірки репозиторію: createState замінено на setObjectNotExists, додано атрибути size до jsonConfig, оновлено залежності, додано переклади для всіх мов",
+        "zh-cn": "仓库检查器修复：createState 已替换为 setObjectNotExists，size 属性已添加到 jsonConfig，已更新依赖，已添加所有语言的翻译"
+      },
       "1.0.85": {
         "en": "Deprecated common.main removed from io-package.json",
         "de": "Veraltetes common.main aus io-package.json entfernt",
-        "ru": "Удалено устаревшее common.main из io-package.json"
+        "ru": "Удалено устаревшее common.main из io-package.json",
+        "pt": "common.main preterido removido do io-package.json",
+        "nl": "Verouderde common.main verwijderd uit io-package.json",
+        "fr": "common.main obsolète supprimé de io-package.json",
+        "it": "common.main deprecato rimosso da io-package.json",
+        "es": "common.main obsoleto eliminado de io-package.json",
+        "pl": "Usunięto przestarzałe common.main z io-package.json",
+        "uk": "Застаріле common.main видалено з io-package.json",
+        "zh-cn": "已从 io-package.json 中删除已弃用的 common.main"
       },
       "1.0.84": {
         "en": "Repository checker fixes: Node.js >=18, dependencies updated, io-package schema fixed, licenseInformation added",
         "de": "Repository-Checker-Fixes: Node.js >=18, Abhängigkeiten aktualisiert, io-package-Schema korrigiert, licenseInformation hinzugefügt",
-        "ru": "Исправления репозитория: Node.js >=18, зависимости обновлены, схема io-package исправлена, добавлена licenseInformation"
+        "ru": "Исправления репозитория: Node.js >=18, зависимости обновлены, схема io-package исправлена, добавлена licenseInformation",
+        "pt": "Correções do verificador de repositório: Node.js >=18, dependências atualizadas, esquema io-package corrigido, licenseInformation adicionada",
+        "nl": "Repository checker fixes: Node.js >=18, afhankelijkheden bijgewerkt, io-package schema gecorrigeerd, licenseInformation toegevoegd",
+        "fr": "Corrections du vérificateur de dépôt : Node.js >=18, dépendances mises à jour, schéma io-package corrigé, licenseInformation ajouté",
+        "it": "Correzioni del repository checker: Node.js >=18, dipendenze aggiornate, schema io-package corretto, licenseInformation aggiunto",
+        "es": "Correcciones del verificador de repositorio: Node.js >=18, dependencias actualizadas, esquema io-package corregido, licenseInformation añadido",
+        "pl": "Poprawki checkera repozytorium: Node.js >=18, zaktualizowano zależności, poprawiono schemat io-package, dodano licenseInformation",
+        "uk": "Виправлення перевірки репозиторію: Node.js >=18, оновлено залежності, виправлено схему io-package, додано licenseInformation",
+        "zh-cn": "仓库检查器修复：Node.js >=18，已更新依赖，已修复 io-package 架构，已添加 licenseInformation"
       },
       "1.0.83": {
         "en": "GitHub Issues resolved: createState deprecated fixed (setObjectNotExists), all log messages translated to English, README.md translated (EN + doc/de/ structure), Node.js 24 added to test matrix, manual installation guide removed",
         "de": "GitHub Issues behoben: createState deprecated fix (setObjectNotExists), alle Log-Nachrichten ins Englische übersetzt, README.md übersetzt (EN + doc/de/ Struktur), Node.js 24 zur Test-Matrix hinzugefügt, manuelle Installationsanleitung entfernt",
-        "ru": "Решены проблемы GitHub: createState deprecated исправлено (setObjectNotExists), все сообщения лога переведены на английский, README.md переведен (EN + структура doc/de/), Node.js 24 добавлен в матрицу тестов, руководство по ручной установке удалено"
+        "ru": "Решены проблемы GitHub: createState deprecated исправлено (setObjectNotExists), все сообщения лога переведены на английский, README.md переведен (EN + структура doc/de/), Node.js 24 добавлен в матрицу тестов, руководство по ручной установке удалено",
+        "pt": "Problemas do GitHub resolvidos: createState deprecated corrigido (setObjectNotExists), todas as mensagens de log traduzidas para inglês, README.md traduzido (estrutura EN + doc/de/), Node.js 24 adicionado à matriz de teste, guia de instalação manual removido",
+        "nl": "GitHub Issues opgelost: createState deprecated gefixt (setObjectNotExists), alle logberichten vertaald naar het Engels, README.md vertaald (EN + doc/de/ structuur), Node.js 24 toegevoegd aan testmatrix, handleiding voor handmatige installatie verwijderd",
+        "fr": "Problèmes GitHub résolus : createState deprecated corrigé (setObjectNotExists), tous les messages de log traduits en anglais, README.md traduit (structure EN + doc/de/), Node.js 24 ajouté à la matrice de test, guide d'installation manuelle supprimé",
+        "it": "Problemi GitHub risolti: createState deprecated corretto (setObjectNotExists), tutti i messaggi di log tradotti in inglese, README.md tradotto (struttura EN + doc/de/), Node.js 24 aggiunto alla matrice di test, guida all'installazione manuale rimossa",
+        "es": "Problemas de GitHub resueltos: createState deprecated corregido (setObjectNotExists), todos los mensajes de registro traducidos al inglés, README.md traducido (estructura EN + doc/de/), Node.js 24 agregado a la matriz de prueba, guía de instalación manual eliminada",
+        "pl": "Rozwiązano problemy z GitHub: createState deprecated naprawiono (setObjectNotExists), wszystkie wiadomości logów przetłumaczone na język angielski, README.md przetłumaczono (struktura EN + doc/de/), Node.js 24 dodano do macierzy testów, usunięto instrukcję ręcznej instalacji",
+        "uk": "Вирішено проблеми GitHub: createState deprecated виправлено (setObjectNotExists), усі повідомлення логу перекладено англійською, README.md перекладено (структура EN + doc/de/), Node.js 24 додано до матриці тестів, посібник з ручного встановлення видалено",
+        "zh-cn": "GitHub 问题已解决：修复已弃用的 createState（setObjectNotExists），所有日志消息已翻译成英语，README.md 已翻译（EN + doc/de/ 结构），Node.js 24 已添加到测试矩阵，已删除手动安装指南"
       },
       "1.0.82": {
         "en": "Copilot infrastructure and AI assistant guidelines added",
         "de": "Copilot-Infrastruktur und AI-Assistent Richtlinien hinzugefügt",
-        "ru": "Добавлена инфраструктура Copilot и руководства по AI-ассистенту"
+        "ru": "Добавлена инфраструктура Copilot и руководства по AI-ассистенту",
+        "pt": "Infraestrutura Copilot e diretrizes de assistente de IA adicionadas",
+        "nl": "Copilot-infrastructuur en AI-assistent richtlijnen toegevoegd",
+        "fr": "Infrastructure Copilot et directives d'assistant AI ajoutées",
+        "it": "Aggiunta infrastruttura Copilot e linee guida assistente AI",
+        "es": "Infraestructura Copilot y directrices de asistente de IA agregadas",
+        "pl": "Dodano infrastrukturę Copilot i wytyczne asystenta AI",
+        "uk": "Додано інфраструктуру Copilot і настанови щодо асистента ШІ",
+        "zh-cn": "已添加 Copilot 基础设施和 AI 助手指南"
       },
       "1.0.81": {
         "en": "create-adapter infrastructure added (GitHub Actions, Dependabot, ESLint, Tests)",
         "de": "create-adapter Infrastruktur hinzugefügt (GitHub Actions, Dependabot, ESLint, Tests)",
-        "ru": "Добавлена инфраструктура create-adapter (GitHub Actions, Dependabot, ESLint, тесты)"
+        "ru": "Добавлена инфраструктура create-adapter (GitHub Actions, Dependabot, ESLint, тесты)",
+        "pt": "Infraestrutura create-adapter adicionada (GitHub Actions, Dependabot, ESLint, Testes)",
+        "nl": "create-adapter infrastructuur toegevoegd (GitHub Actions, Dependabot, ESLint, Tests)",
+        "fr": "Infrastructure create-adapter ajoutée (GitHub Actions, Dependabot, ESLint, Tests)",
+        "it": "Aggiunta infrastruttura create-adapter (GitHub Actions, Dependabot, ESLint, Test)",
+        "es": "Infraestructura create-adapter agregada (GitHub Actions, Dependabot, ESLint, Tests)",
+        "pl": "Dodano infrastrukturę create-adapter (GitHub Actions, Dependabot, ESLint, Testy)",
+        "uk": "Додано інфраструктуру create-adapter (GitHub Actions, Dependabot, ESLint, Тести)",
+        "zh-cn": "已添加 create-adapter 基础设施（GitHub Actions、Dependabot、ESLint、测试）"
       },
       "1.0.80": {
         "en": "Unified intermediate notifications format (all levels show charging/discharging status)",
         "de": "Vereinheitlichtes Intermediate-Nachrichtenformat (alle Stufen zeigen Lade-/Entlade-Status)",
-        "ru": "Унифицирован формат промежуточных уведомлений (все уровни показывают статус зарядки/разрядки)"
+        "ru": "Унифицирован формат промежуточных уведомлений (все уровни показывают статус зарядки/разрядки)",
+        "pt": "Formato unificado de notificações intermediárias (todos os níveis mostram status de carga/descarga)",
+        "nl": "Uniform intermediate meldingsformaat (alle niveaus tonen laad-/ontlaadstatus)",
+        "fr": "Format de notifications intermédiaires unifié (tous les niveaux affichent le statut de charge/décharge)",
+        "it": "Formato notifiche intermedie unificato (tutti i livelli mostrano stato carica/scarica)",
+        "es": "Formato de notificaciones intermedias unificado (todos los niveles muestran estado de carga/descarga)",
+        "pl": "Ujednolicony format powiadomień pośrednich (wszystkie poziomy pokazują status ładowania/rozładowania)",
+        "uk": "Уніфіковано формат проміжних сповіщень (усі рівні показують статус зарядки/розрядки)",
+        "zh-cn": "统一的中继通知格式（所有级别显示充电/放电状态）"
       }
     }
   },
