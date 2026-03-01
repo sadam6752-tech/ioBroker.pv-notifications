@@ -992,15 +992,17 @@ class PvNotifications extends utils.Adapter {
 ${statusText}`;
 
         // Wetter-Prognose für morgen hinzufügen (optional, nur wenn weatherInIntermediate aktiv)
-        this.log.debug(`Weather config: enabled=${this.config.weatherEnabled}, inIntermediate=${this.config.weatherInIntermediate}, tomorrowText=${this.config.weatherTomorrowText}, tomorrow=${this.config.weatherTomorrow}`);
+        const weatherConfigured = this.config.weatherTomorrowText || this.config.weatherTomorrow;
+        this.log.debug(`Weather config: enabled=${this.config.weatherEnabled}, inIntermediate=${this.config.weatherInIntermediate}, configured=${weatherConfigured}`);
+        this.log.debug(`Weather data points: tomorrowText="${this.config.weatherTomorrowText}", tomorrow="${this.config.weatherTomorrow}", tomorrowTemp="${this.config.weatherTomorrowTemp}"`);
         
-        if (this.config.weatherEnabled !== false && this.config.weatherInIntermediate !== false && 
-            (this.config.weatherTomorrowText || this.config.weatherTomorrow)) {
+        if (this.config.weatherEnabled !== false && this.config.weatherInIntermediate !== false && weatherConfigured) {
             try {
                 this.log.debug('Attempting to read weather data...');
-                const weatherTomorrowTextState = await this.getForeignStateAsync(this.config.weatherTomorrowText);
-                const weatherTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrow);
-                const tempTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrowTemp);
+                
+                const weatherTomorrowTextState = this.config.weatherTomorrowText ? await this.getForeignStateAsync(this.config.weatherTomorrowText) : null;
+                const weatherTomorrowState = this.config.weatherTomorrow ? await this.getForeignStateAsync(this.config.weatherTomorrow) : null;
+                const tempTomorrowState = this.config.weatherTomorrowTemp ? await this.getForeignStateAsync(this.config.weatherTomorrowTemp) : null;
 
                 const weatherTomorrowText = weatherTomorrowTextState && weatherTomorrowTextState.val !== null ? weatherTomorrowTextState.val : null;
                 const weatherTomorrow = weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
@@ -1015,13 +1017,22 @@ ${statusText}`;
                     message += `\n\n🌤️ ${this.translate('Weather tomorrow')}: ${weatherDesc}${tempText}`;
                     this.log.info(`Weather added to intermediate message: ${weatherDesc}${tempText}`);
                 } else {
-                    this.log.debug('No weather text found');
+                    this.log.debug('No weather text found (states may be null or empty)');
                 }
             } catch (e) {
                 this.log.error(`Weather data error: ${e.message}`);
+                this.log.error(`Config: weatherTomorrowText="${this.config.weatherTomorrowText}", weatherTomorrow="${this.config.weatherTomorrow}"`);
             }
         } else {
-            this.log.debug('Weather not enabled or config missing');
+            if (this.config.weatherEnabled === false) {
+                this.log.debug('Weather disabled (weatherEnabled=false)');
+            }
+            if (this.config.weatherInIntermediate === false) {
+                this.log.debug('Weather disabled for intermediate (weatherInIntermediate=false)');
+            }
+            if (!weatherConfigured) {
+                this.log.debug('Weather not configured (no weatherTomorrowText or weatherTomorrow)');
+            }
         }
 
         return message;

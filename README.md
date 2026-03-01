@@ -339,13 +339,14 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.1.7 (2026-03-01)
+
+* (FIX) Weather data reading: Added null checks before calling getForeignStateAsync() to prevent "id needs to be string" error
+* (FIX) Better error logging shows which weather data points are configured
+
 ### 1.1.6 (2026-03-01)
 
 * (ADD) Debug logging added to buildIntermediateMessage() for troubleshooting weather data issues
-
-### 1.1.5 (2026-03-01)
-
-* (FIX) Migration code added to set weatherInIntermediate and weatherInDailyStats to true by default for updates from < v1.1.3
 
 ### 1.1.1 (2026-03-01)
 
