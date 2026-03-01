@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.1.9",
+    "version": "1.2.0",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -27,6 +27,23 @@
       "pl": "Wysyłaj powiadomienia Telegram o stanie baterii PV",
       "uk": "Надсилати Telegram-сповіщення про стан батареї PV",
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
+    },
+    "news": {
+      "1.1.9": {
+        "en": "Weather today added to battery full (100%) and empty (0%) messages",
+        "de": "Wetter heute zu Batterie VOLL (100%) und LEER (0%) Nachrichten hinzugefügt",
+        "ru": "Погода сегодня добавлена в сообщения о полной (100%) и пустой (0%) батарее"
+      },
+      "1.1.8": {
+        "en": "Weather today added to intermediate messages",
+        "de": "Wetter heute zu Intermediate-Nachrichten hinzugefügt",
+        "ru": "Погода сегодня добавлена в промежуточные сообщения"
+      },
+      "1.1.7": {
+        "en": "Weather data null-check fix to prevent errors",
+        "de": "Wetterdaten null-check Fix um Fehler zu vermeiden",
+        "ru": "Исправлена проверка null для данных о погоде"
+      }
     },
     "authors": [
       "Alex <alex@example.com>"

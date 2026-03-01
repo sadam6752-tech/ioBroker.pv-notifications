@@ -339,14 +339,14 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.2.0 (2026-03-01)
+
+* (ADD) common.news section added to io-package.json for repository checker (E136 fix)
+* (ADD) News for versions 1.1.7, 1.1.8, 1.1.9 in multiple languages
+
 ### 1.1.9 (2026-03-01)
 
 * (ADD) Weather today added to battery full (100%) and empty (0%) messages
-* (ADD) Full and empty messages now show both today and tomorrow weather
-
-### 1.1.8 (2026-03-01)
-
-* (ADD) Weather today added to intermediate messages (when weatherTodayText or weatherTodayTemp is configured)
 
 ### 1.1.1 (2026-03-01)
 
