@@ -248,45 +248,55 @@
     "nightModeEnabled": {
       "type": "checkbox",
       "label": "label_nightModeEnabled",
+      "xs": 12,
       "sm": 4,
       "md": 4,
       "lg": 4,
+      "xl": 4,
       "default": true,
       "tooltip": "tooltip_nightModeEnabled"
     },
     "nightModeStart": {
       "type": "text",
       "label": "label_nightModeStart",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "default": "23:00",
       "tooltip": "tooltip_nightModeStart"
     },
     "nightModeEnd": {
       "type": "text",
       "label": "label_nightModeEnd",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "default": "06:00",
       "tooltip": "tooltip_nightModeEnd"
     },
     "nightModeIgnoreEmpty": {
       "type": "checkbox",
       "label": "label_nightModeIgnoreEmpty",
+      "xs": 12,
       "sm": 12,
       "md": 12,
       "lg": 12,
+      "xl": 12,
       "default": true,
       "tooltip": "tooltip_nightModeIgnoreEmpty"
     },
     "quietModeEnabled": {
       "type": "checkbox",
       "label": "label_quietModeEnabled",
+      "xs": 12,
       "sm": 4,
       "md": 4,
       "lg": 4,
+      "xl": 4,
       "default": false,
       "tooltip": "tooltip_quietModeEnabled"
     },

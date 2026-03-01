@@ -339,14 +339,13 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.2.1 (2026-03-01)
+
+* (FIX) Added size attributes (xs, xl) for night mode and quiet mode fields in admin UI (E5507 fix)
+
 ### 1.2.0 (2026-03-01)
 
 * (ADD) common.news section added to io-package.json for repository checker (E136 fix)
-* (ADD) News for versions 1.1.7, 1.1.8, 1.1.9 in multiple languages
-
-### 1.1.9 (2026-03-01)
-
-* (ADD) Weather today added to battery full (100%) and empty (0%) messages
 
 ### 1.1.1 (2026-03-01)
 

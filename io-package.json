@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,16 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.1": {
+        "en": "Added size attributes (xs, xl) for night mode and quiet mode fields in admin UI",
+        "de": "Größenattribute (xs, xl) für Nachtmodus und Ruhemodus-Felder im Admin-UI hinzugefügt",
+        "ru": "Добавлены атрибуты размеров (xs, xl) для полей ночного режима и тихого режима в админ-интерфейсе"
+      },
+      "1.2.0": {
+        "en": "Added common.news section for repository checker (E136 fix)",
+        "de": "common.news Sektion für Repository Checker hinzugefügt (E136 Fix)",
+        "ru": "Добавлен раздел common.news для проверки репозитория (исправление E136)"
+      },
       "1.1.9": {
         "en": "Weather today added to battery full (100%) and empty (0%) messages",
         "de": "Wetter heute zu Batterie VOLL (100%) und LEER (0%) Nachrichten hinzugefügt",
