@@ -1,6 +1,6 @@
 {
   "name": "iobroker.pv-notifications",
-  "version": "1.0.98",
+  "version": "1.0.99",
   "description": "PV-Anlage Batterie-Status Telegram Benachrichtigungen",
   "author": {
     "name": "Alex1808 via LLM: Qwen",

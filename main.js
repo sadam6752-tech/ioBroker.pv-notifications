@@ -1266,18 +1266,20 @@ ${statusText}`;
     }
 
     /**
-     * Reset weekly statistics
+     * Reset weekly statistics - AUTOMATISCH am Sonntag um 23:55 (vor sourceanalytix Reset)
      */
     async resetWeeklyStats() {
-        const jsDay = new Date().getDay(); // JavaScript: 0=So, 1=Mo, ..., 6=Sa
-        // Umwandeln in ioBroker-Format: 0=Mo, 1=Di, ..., 6=So
-        const today = jsDay === 0 ? 6 : jsDay - 1;
+        const now = new Date();
+        const jsDay = now.getDay(); // JavaScript: 0=So, 1=Mo, ..., 6=Sa
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
 
-        if (today === this.config.statsWeekDay && today !== this.stats.lastWeekReset) {
-            this.log.info('Resetting weekly statistics');
+        // Automatische Speicherung: Jeden Sonntag um 23:55 (vor Mitternacht)
+        // JavaScript: 0 = Sonntag → genau das wollen wir!
+        if (jsDay === 0 && hours === 23 && minutes === 55) {
+            this.log.info('Auto-saving weekly statistics (Sunday 23:55, before sourceanalytix reset)');
 
-            // Aktuelle Daten aus internen States lesen (aktualisiert in Echtzeit)
-            // Fallback: Wenn interne States leer, direkt aus externen States lesen
+            // Aktuelle Daten aus externen States lesen (direkter Zugriff)
             const totalProd = await this.getForeignStateAsync(this.config.totalProduction);
             const consumption = await this.getForeignStateAsync(this.config.consumption);
             const feedIn = await this.getForeignStateAsync(this.config.feedIn);
@@ -1293,32 +1295,33 @@ ${statusText}`;
             // Wöchentliche Statistik zurücksetzen
             this.stats.weekFullCycles = 0;
             this.stats.weekEmptyCycles = 0;
-            this.stats.lastWeekReset = today;
 
             this.saveStatistics();
-            this.log.info(`Weekly stats saved: Production=${this.stats.lastWeekProduction} kWh`);
+            this.log.info(`Weekly stats saved: Production=${this.stats.lastWeekProduction} kWh, FeedIn=${this.stats.lastWeekFeedIn} kWh`);
             // KEIN Senden hier - Senden erfolgt nur in startScheduledTasks() zur konfigurierten Zeit
         }
     }
 
     /**
-     * Monatsstatistik zurücksetzen
+     * Monatsstatistik zurücksetzen - AUTOMATISCH am letzten Tag des Monats um 23:55 (vor sourceanalytix Reset)
      */
     async resetMonthlyStats() {
         if (!this.config.monthlyStatsEnabled) {
             return;
         }
 
-        const today = new Date().getDate();
         const now = new Date();
+        const today = now.getDate();
         const hours = now.getHours();
         const minutes = now.getMinutes();
-        const [statHours, statMinutes] = this.config.monthlyStatsTime.split(':').map(Number);
 
-        // Daten am konfigurierten Tag zur konfigurierten Zeit speichern (nicht vorher)
-        if (today === this.config.monthlyStatsDay && this.stats.lastMonthReset !== today && 
-            (hours > statHours || (hours === statHours && minutes >= statMinutes))) {
-            this.log.info('Resetting monthly statistics');
+        // Letzten Tag des aktuellen Monats berechnen
+        // new Date(Jahr, Monat+1, 0) gibt den letzten Tag des aktuellen Monats zurück
+        const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+
+        // Automatische Speicherung: Letzter Tag des Monats um 23:55 (vor Mitternacht)
+        if (today === lastDayOfMonth && hours === 23 && minutes === 55) {
+            this.log.info(`Auto-saving monthly statistics (last day of month ${today}. ${now.getMonth()+1}.${now.getFullYear()} 23:55, before sourceanalytix reset)`);
 
             // Aktuelle Daten aus externen States lesen (direkter Zugriff)
             const totalProd = await this.getForeignStateAsync(this.config.monthlyProduction);
@@ -1335,7 +1338,7 @@ ${statusText}`;
 
             this.stats.lastMonthReset = today;
             this.saveStatistics();
-            this.log.info(`Monthly stats saved: Production=${this.stats.lastMonthProduction} kWh`);
+            this.log.info(`Monthly stats saved: Production=${this.stats.lastMonthProduction} kWh, FeedIn=${this.stats.lastMonthFeedIn} kWh`);
         }
     }
 

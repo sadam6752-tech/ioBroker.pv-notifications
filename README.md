@@ -339,13 +339,15 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.0.99 (2026-03-01)
+
+* (FIX) Weekly stats auto-saved every Sunday at 23:55 (before sourceanalytix reset at 00:00)
+* (FIX) Monthly stats auto-saved on last day of month at 23:55 (before sourceanalytix reset at 00:00)
+* (ADD) User can freely configure send time for weekly/monthly stats via statsWeekDay, statsWeekTime, monthlyStatsDay, monthlyStatsTime
+
 ### 1.0.98 (2026-03-01)
 
 * (FIX) Weekly/monthly stats now read directly from external states using getForeignStateAsync (not from internal states)
-
-### 1.0.97 (2026-03-01)
-
-* (FIX) Weekly/monthly statistics now read from internal states (statistics.currentTotalProduction, etc.) instead of external config
 
 ### 1.0.93 (2026-02-27)
 
