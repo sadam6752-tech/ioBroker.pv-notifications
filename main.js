@@ -992,9 +992,12 @@ class PvNotifications extends utils.Adapter {
 ${statusText}`;
 
         // Wetter-Prognose für morgen hinzufügen (optional, nur wenn weatherInIntermediate aktiv)
+        this.log.debug(`Weather config: enabled=${this.config.weatherEnabled}, inIntermediate=${this.config.weatherInIntermediate}, tomorrowText=${this.config.weatherTomorrowText}, tomorrow=${this.config.weatherTomorrow}`);
+        
         if (this.config.weatherEnabled !== false && this.config.weatherInIntermediate !== false && 
             (this.config.weatherTomorrowText || this.config.weatherTomorrow)) {
             try {
+                this.log.debug('Attempting to read weather data...');
                 const weatherTomorrowTextState = await this.getForeignStateAsync(this.config.weatherTomorrowText);
                 const weatherTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrow);
                 const tempTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrowTemp);
@@ -1004,14 +1007,21 @@ ${statusText}`;
                 const tempTomorrow = tempTomorrowState && tempTomorrowState.val !== null ? tempTomorrowState.val : null;
                 const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
 
+                this.log.debug(`Weather data read: text=${weatherTomorrowText}, temp=${weatherTomorrow}, tempValue=${tempTomorrow}`);
+
                 const weatherText = weatherTomorrowText || weatherTomorrow;
                 if (weatherText) {
                     const weatherDesc = this.getWeatherDescription(weatherText);
                     message += `\n\n🌤️ ${this.translate('Weather tomorrow')}: ${weatherDesc}${tempText}`;
+                    this.log.info(`Weather added to intermediate message: ${weatherDesc}${tempText}`);
+                } else {
+                    this.log.debug('No weather text found');
                 }
             } catch (e) {
-                this.log.debug(`Weather data not available: ${e.message}`);
+                this.log.error(`Weather data error: ${e.message}`);
             }
+        } else {
+            this.log.debug('Weather not enabled or config missing');
         }
 
         return message;
@@ -1447,7 +1457,7 @@ ${statusText}`;
             'Current charge level': {
                 de: 'Aktueller Ladestand',
                 en: 'Current charge level',
-                ru: 'Текущий уровень заряда',
+                ru: 'Текущий уровень за��яда',
             },
             'Current energy': {
                 de: 'Aktuelle Energie',
