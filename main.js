@@ -981,8 +981,9 @@ class PvNotifications extends utils.Adapter {
 ⚡ ${production}: ${this.round(power)} W
 ${statusText}`;
 
-        // Wetter-Prognose für morgen hinzufügen (optional)
-        if (this.config.weatherEnabled !== false && (this.config.weatherTomorrowText || this.config.weatherTomorrow)) {
+        // Wetter-Prognose für morgen hinzufügen (optional, nur wenn weatherInIntermediate aktiv)
+        if (this.config.weatherEnabled !== false && this.config.weatherInIntermediate !== false && 
+            (this.config.weatherTomorrowText || this.config.weatherTomorrow)) {
             try {
                 const weatherTomorrowTextState = await this.getForeignStateAsync(this.config.weatherTomorrowText);
                 const weatherTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrow);
@@ -1041,8 +1042,9 @@ ${statusText}`;
 🔌 ${this.translate('Feed-in')}: ${feedIn} kWh
 ⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh`;
 
-        // Wetter-Prognose für morgen hinzufügen
-        if (this.config.weatherEnabled !== false && (this.config.weatherTomorrowText || this.config.weatherTomorrow)) {
+        // Wetter-Prognose für morgen hinzufügen (optional, nur wenn weatherInDailyStats aktiv)
+        if (this.config.weatherEnabled !== false && this.config.weatherInDailyStats !== false && 
+            (this.config.weatherTomorrowText || this.config.weatherTomorrow)) {
             try {
                 const weatherTomorrowTextState = await this.getForeignStateAsync(this.config.weatherTomorrowText);
                 const weatherTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrow);

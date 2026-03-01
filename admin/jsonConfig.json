@@ -433,6 +433,26 @@
       "default": true,
       "tooltip": "tooltip_weatherEnabled"
     },
+    "weatherInIntermediate": {
+      "type": "checkbox",
+      "label": "label_weatherInIntermediate",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "default": true,
+      "tooltip": "tooltip_weatherInIntermediate",
+      "disabled": "!weatherEnabled"
+    },
+    "weatherInDailyStats": {
+      "type": "checkbox",
+      "label": "label_weatherInDailyStats",
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "default": true,
+      "tooltip": "tooltip_weatherInDailyStats",
+      "disabled": "!weatherEnabled"
+    },
     "weatherTodayText": {
       "type": "objectId",
       "label": "label_weatherTodayText",
