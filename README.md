@@ -339,14 +339,14 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.1.9 (2026-03-01)
+
+* (ADD) Weather today added to battery full (100%) and empty (0%) messages
+* (ADD) Full and empty messages now show both today and tomorrow weather
+
 ### 1.1.8 (2026-03-01)
 
 * (ADD) Weather today added to intermediate messages (when weatherTodayText or weatherTodayTemp is configured)
-* (ADD) Intermediate messages now show both today and tomorrow weather
-
-### 1.1.7 (2026-03-01)
-
-* (FIX) Weather data reading: Added null checks before calling getForeignStateAsync() to prevent "id needs to be string" error
 
 ### 1.1.1 (2026-03-01)
 

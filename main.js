@@ -881,21 +881,44 @@ class PvNotifications extends utils.Adapter {
 ☀️ ${this.translate('Production today')}: ${this.round(totalProd)} kWh
 🔌 ${this.translate('Feed-in today')}: ${this.round(Math.abs(feedIn), 0)} kWh`;
 
-        // Wetter-Prognose hinzufügen (optional)
-        if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
+        // Wetter-Prognose hinzufügen (heute und morgen)
+        const weatherConfigured = this.config.weatherTodayText || this.config.weatherTodayTemp || this.config.weatherTomorrowText || this.config.weatherTomorrow;
+        if (this.config.weatherEnabled !== false && weatherConfigured) {
             try {
-                const weatherTomorrowText = this.getStateValue(this.config.weatherTomorrowText);
-                const weatherTomorrow = this.getStateValue(this.config.weatherTomorrow);
-                const tempTomorrow = this.getStateValue(this.config.weatherTomorrowTemp);
-                const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                // Wetter heute
+                if (this.config.weatherTodayText || this.config.weatherTodayTemp) {
+                    const weatherTodayTextState = this.config.weatherTodayText ? await this.getForeignStateAsync(this.config.weatherTodayText) : null;
+                    const weatherTodayTempState = this.config.weatherTodayTemp ? await this.getForeignStateAsync(this.config.weatherTodayTemp) : null;
+                    
+                    const weatherTodayText = weatherTodayTextState && weatherTodayTextState.val !== null ? weatherTodayTextState.val : null;
+                    const weatherTodayTemp = weatherTodayTempState && weatherTodayTempState.val !== null ? weatherTodayTempState.val : null;
+                    const todayTempText = weatherTodayTemp ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
+                    
+                    if (weatherTodayText || weatherTodayTemp) {
+                        const weatherDesc = weatherTodayText ? this.getWeatherDescription(weatherTodayText) : '🌡️';
+                        message += `\n🌤️ Heute: ${weatherDesc}${todayTempText}`;
+                    }
+                }
+                
+                // Wetter morgen
+                if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
+                    const weatherTomorrowTextState = this.config.weatherTomorrowText ? await this.getForeignStateAsync(this.config.weatherTomorrowText) : null;
+                    const weatherTomorrowState = this.config.weatherTomorrow ? await this.getForeignStateAsync(this.config.weatherTomorrow) : null;
+                    const tempTomorrowState = this.config.weatherTomorrowTemp ? await this.getForeignStateAsync(this.config.weatherTomorrowTemp) : null;
+                    
+                    const weatherTomorrowText = weatherTomorrowTextState && weatherTomorrowTextState.val !== null ? weatherTomorrowTextState.val : null;
+                    const weatherTomorrow = weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
+                    const tempTomorrow = tempTomorrowState && tempTomorrowState.val !== null ? tempTomorrowState.val : null;
+                    const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                    
+                    const weatherText = weatherTomorrowText || weatherTomorrow;
+                    if (weatherText) {
+                        const weatherDesc = this.getWeatherDescription(weatherText);
+                        message += `\n🌤️ Morgen: ${weatherDesc}${tempText}`;
 
-                const weatherText = weatherTomorrowText || weatherTomorrow;
-                if (weatherText) {
-                    const weatherDesc = this.getWeatherDescription(weatherText);
-                    message += `\n🌤️ Morgen: ${weatherDesc}${tempText}`;
-
-                    if (this.isWeatherBad(weatherText)) {
-                        message += `\n💡 ${this.translate('Tip tomorrow little sun use consumers today')}`;
+                        if (this.isWeatherBad(weatherText)) {
+                            message += `\n💡 ${this.translate('Tip tomorrow little sun use consumers today')}`;
+                        }
                     }
                 }
             } catch (e) {
@@ -929,21 +952,44 @@ class PvNotifications extends utils.Adapter {
 ⚠️ ${this.translate('Grid consumption today')}: ${this.round(gridPower)} W
 🏠 ${this.translate('Consumption today')}: ${this.round(consumption)} W`;
 
-        // Wetter-Prognose
-        if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
+        // Wetter-Prognose hinzufügen (heute und morgen)
+        const weatherConfigured = this.config.weatherTodayText || this.config.weatherTodayTemp || this.config.weatherTomorrowText || this.config.weatherTomorrow;
+        if (this.config.weatherEnabled !== false && weatherConfigured) {
             try {
-                const weatherTomorrowText = this.getStateValue(this.config.weatherTomorrowText);
-                const weatherTomorrow = this.getStateValue(this.config.weatherTomorrow);
-                const tempTomorrow = this.getStateValue(this.config.weatherTomorrowTemp);
-                const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                // Wetter heute
+                if (this.config.weatherTodayText || this.config.weatherTodayTemp) {
+                    const weatherTodayTextState = this.config.weatherTodayText ? await this.getForeignStateAsync(this.config.weatherTodayText) : null;
+                    const weatherTodayTempState = this.config.weatherTodayTemp ? await this.getForeignStateAsync(this.config.weatherTodayTemp) : null;
+                    
+                    const weatherTodayText = weatherTodayTextState && weatherTodayTextState.val !== null ? weatherTodayTextState.val : null;
+                    const weatherTodayTemp = weatherTodayTempState && weatherTodayTempState.val !== null ? weatherTodayTempState.val : null;
+                    const todayTempText = weatherTodayTemp ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
+                    
+                    if (weatherTodayText || weatherTodayTemp) {
+                        const weatherDesc = weatherTodayText ? this.getWeatherDescription(weatherTodayText) : '🌡️';
+                        message += `\n🌤️ Heute: ${weatherDesc}${todayTempText}`;
+                    }
+                }
+                
+                // Wetter morgen
+                if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
+                    const weatherTomorrowTextState = this.config.weatherTomorrowText ? await this.getForeignStateAsync(this.config.weatherTomorrowText) : null;
+                    const weatherTomorrowState = this.config.weatherTomorrow ? await this.getForeignStateAsync(this.config.weatherTomorrow) : null;
+                    const tempTomorrowState = this.config.weatherTomorrowTemp ? await this.getForeignStateAsync(this.config.weatherTomorrowTemp) : null;
+                    
+                    const weatherTomorrowText = weatherTomorrowTextState && weatherTomorrowTextState.val !== null ? weatherTomorrowTextState.val : null;
+                    const weatherTomorrow = weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
+                    const tempTomorrow = tempTomorrowState && tempTomorrowState.val !== null ? tempTomorrowState.val : null;
+                    const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                    
+                    const weatherText = weatherTomorrowText || weatherTomorrow;
+                    if (weatherText) {
+                        const weatherDesc = this.getWeatherDescription(weatherText);
+                        message += `\n🌤️ Morgen: ${weatherDesc}${tempText}`;
 
-                const weatherText = weatherTomorrowText || weatherTomorrow;
-                if (weatherText) {
-                    const weatherDesc = this.getWeatherDescription(weatherText);
-                    message += `\n🌤️ Morgen: ${weatherDesc}${tempText}`;
-
-                    if (this.isWeatherGood(weatherText)) {
-                        message += `\n💡 ${this.translate('Good news tomorrow more sun')}`;
+                        if (this.isWeatherGood(weatherText)) {
+                            message += `\n💡 ${this.translate('Good news tomorrow more sun')}`;
+                        }
                     }
                 }
             } catch (e) {
