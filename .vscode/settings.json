@@ -32,5 +32,11 @@
       ],
       "url": "https://raw.githubusercontent.com/ioBroker/ioBroker.admin/master/packages/jsonConfig/schemas/jsonConfig.json"
     }
-  ]
+  ],
+  "json.schemaMappings": {
+    "io-package.json": "https://raw.githubusercontent.com/ioBroker/ioBroker.js-controller/main/schemas/io-package.json",
+    "admin/jsonConfig.json": "https://raw.githubusercontent.com/ioBroker/ioBroker.admin/master/packages/jsonConfig/schemas/jsonConfig.json",
+    "admin/jsonCustom.json": "https://raw.githubusercontent.com/ioBroker/ioBroker.admin/master/packages/jsonConfig/schemas/jsonConfig.json",
+    "admin/jsonTab.json": "https://raw.githubusercontent.com/ioBroker/ioBroker.admin/master/packages/jsonConfig/schemas/jsonConfig.json"
+  }
 }
