@@ -424,6 +424,15 @@
       "md": 12,
       "lg": 12
     },
+    "weatherEnabled": {
+      "type": "checkbox",
+      "label": "label_weatherEnabled",
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "default": true,
+      "tooltip": "tooltip_weatherEnabled"
+    },
     "weatherTodayText": {
       "type": "objectId",
       "label": "label_weatherTodayText",

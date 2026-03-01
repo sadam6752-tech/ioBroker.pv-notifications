@@ -68,6 +68,8 @@
     "label_monthlyStatsTime": "Uhrzeit",
     "tooltip_monthlyStatsTime": "Format: HH:MM (z.B. 09:00)",
     "header_weather": "Wetter (Optional)",
+    "label_weatherEnabled": "Wetterdaten in Nachrichten anzeigen",
+    "tooltip_weatherEnabled": "Wenn aktiviert, werden Wetterdaten in Tagesstatistik und Batterie-Status-Nachrichten angezeigt",
     "label_weatherTodayText": "Wetter heute",
     "tooltip_weatherTodayText": "Z.B. daswetter.0.Day0.forecast.currentSymbol",
     "label_weatherTodayTemp": "Temperatur heute (°C)",

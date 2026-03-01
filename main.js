@@ -977,9 +977,33 @@ class PvNotifications extends utils.Adapter {
         const batteryAt = this.translate('Battery at');
         const production = this.translate('Production');
 
-        return `🔋 ${batteryAt} ${soc}% (${currentKWh} kWh) ${trend}
+        let message = `🔋 ${batteryAt} ${soc}% (${currentKWh} kWh) ${trend}
 ⚡ ${production}: ${this.round(power)} W
 ${statusText}`;
+
+        // Wetter-Prognose für morgen hinzufügen (optional)
+        if (this.config.weatherEnabled !== false && (this.config.weatherTomorrowText || this.config.weatherTomorrow)) {
+            try {
+                const weatherTomorrowTextState = await this.getForeignStateAsync(this.config.weatherTomorrowText);
+                const weatherTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrow);
+                const tempTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrowTemp);
+
+                const weatherTomorrowText = weatherTomorrowTextState && weatherTomorrowTextState.val !== null ? weatherTomorrowTextState.val : null;
+                const weatherTomorrow = weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
+                const tempTomorrow = tempTomorrowState && tempTomorrowState.val !== null ? tempTomorrowState.val : null;
+                const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+
+                const weatherText = weatherTomorrowText || weatherTomorrow;
+                if (weatherText) {
+                    const weatherDesc = this.getWeatherDescription(weatherText);
+                    message += `\n\n🌤️ ${this.translate('Weather tomorrow')}: ${weatherDesc}${tempText}`;
+                }
+            } catch (e) {
+                this.log.debug(`Weather data not available: ${e.message}`);
+            }
+        }
+
+        return message;
     }
 
     /**
@@ -1018,11 +1042,15 @@ ${statusText}`;
 ⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh`;
 
         // Wetter-Prognose für morgen hinzufügen
-        if (this.config.weatherTomorrowText || this.config.weatherTomorrow) {
+        if (this.config.weatherEnabled !== false && (this.config.weatherTomorrowText || this.config.weatherTomorrow)) {
             try {
-                const weatherTomorrowText = this.getStateValue(this.config.weatherTomorrowText);
-                const weatherTomorrow = this.getStateValue(this.config.weatherTomorrow);
-                const tempTomorrow = this.getStateValue(this.config.weatherTomorrowTemp);
+                const weatherTomorrowTextState = await this.getForeignStateAsync(this.config.weatherTomorrowText);
+                const weatherTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrow);
+                const tempTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrowTemp);
+
+                const weatherTomorrowText = weatherTomorrowTextState && weatherTomorrowTextState.val !== null ? weatherTomorrowTextState.val : null;
+                const weatherTomorrow = weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
+                const tempTomorrow = tempTomorrowState && tempTomorrowState.val !== null ? tempTomorrowState.val : null;
                 const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
 
                 const weatherText = weatherTomorrowText || weatherTomorrow;

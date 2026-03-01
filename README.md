@@ -339,13 +339,15 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.1.2 (2026-03-01)
+
+* (FIX) Weather data now read correctly using getForeignStateAsync() instead of getStateValue()
+* (FIX) Weather data added to daily statistics (buildDailyStatsMessage) and intermediate messages (buildIntermediateMessage)
+* (ADD) New checkbox 'weatherEnabled' to enable/disable weather data in messages
+
 ### 1.1.1 (2026-03-01)
 
 * (FIX) Intermediate messages: Flag reset condition changed from `> 2` to `>= 2` for proper 2% tolerance
-
-### 1.1.0 (2026-03-01)
-
-* (FIX) buildFullMessage() and buildEmptyMessage() now read from INTERNAL states (statistics.currentPower, etc.) instead of external config states
 
 ### 1.0.93 (2026-02-27)
 
