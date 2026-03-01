@@ -1494,6 +1494,11 @@ ${statusText}`;
                 en: 'Weather tomorrow',
                 ru: 'Погода завтра',
             },
+            'Weather today': {
+                de: 'Wetter heute',
+                en: 'Weather today',
+                ru: 'Погода сегодня',
+            },
             'Good PV production expected': {
                 de: 'Gute PV-Produktion erwartet',
                 en: 'Good PV production expected',
@@ -1600,7 +1605,7 @@ ${statusText}`;
         const selfConsumption = this.round(totalProd - feedIn, 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
-        return `🧪 *${this.translate('Daily statistics PV system')} - TEST*
+        let message = `🧪 *${this.translate('Daily statistics PV system')} - TEST*
 ━━━━━━━━━━━━━━━━━━━━━━
 🔋 ${this.translate('Current charge level')}: ${soc}%
 ⚡ ${this.translate('Current energy')}: ${currentKWh} kWh (${batteryCapacityKWh} kWh ${this.translate('Total capacity')})
@@ -1610,9 +1615,48 @@ ${statusText}`;
 🔌 ${this.translate('Feed-in')}: ${feedIn} kWh
 ⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh
 ━━━━━━━━━━━━━━━━━━━━━━
-💡 ${this.translate('A healthy cycle per day is normal')}
+💡 ${this.translate('A healthy cycle per day is normal')}`;
 
-*${this.translate('Test Notification')} - pv-notifications v${this.version}*`;
+        // Wetterdaten hinzufügen (heute und morgen) für Test
+        if (this.config.weatherEnabled !== false) {
+            try {
+                // Wetter heute
+                if (this.config.weatherTodayText || this.config.weatherTodayTemp) {
+                    const weatherTodayTextState = await this.getForeignStateAsync(this.config.weatherTodayText);
+                    const weatherTodayState = await this.getForeignStateAsync(this.config.weatherTodayTemp);
+
+                    const weatherTodayText = weatherTodayTextState && weatherTodayTextState.val !== null ? weatherTodayTextState.val : null;
+                    const weatherTodayTemp = weatherTodayState && weatherTodayState.val !== null ? weatherTodayState.val : null;
+                    const tempText = weatherTodayTemp ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
+
+                    if (weatherTodayText || weatherTodayTemp) {
+                        const weatherDesc = weatherTodayText ? this.getWeatherDescription(weatherTodayText) : '🌡️';
+                        message += `\n\n🌤️ *${this.translate('Weather today')}:* ${weatherDesc}${tempText}`;
+                    }
+                }
+
+                // Wetter morgen
+                if (this.config.weatherTomorrowText || this.config.weatherTomorrowTemp) {
+                    const weatherTomorrowTextState = await this.getForeignStateAsync(this.config.weatherTomorrowText);
+                    const weatherTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrowTemp);
+
+                    const weatherTomorrowText = weatherTomorrowTextState && weatherTomorrowTextState.val !== null ? weatherTomorrowTextState.val : null;
+                    const weatherTomorrowTemp = weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
+                    const tempText = weatherTomorrowTemp ? ` ${this.round(weatherTomorrowTemp, 1)}°C` : '';
+
+                    if (weatherTomorrowText || weatherTomorrowTemp) {
+                        const weatherDesc = weatherTomorrowText ? this.getWeatherDescription(weatherTomorrowText) : '🌡️';
+                        message += `\n🌤️ *${this.translate('Weather tomorrow')}:* ${weatherDesc}${tempText}`;
+                    }
+                }
+            } catch (e) {
+                this.log.debug(`Weather data for test not available: ${e.message}`);
+            }
+        }
+
+        message += `\n\n*${this.translate('Test Notification')} - pv-notifications v${this.version}*`;
+
+        return message;
     }
 
     /**

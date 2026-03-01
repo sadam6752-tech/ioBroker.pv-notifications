@@ -339,15 +339,14 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.1.4 (2026-03-01)
+
+* (ADD) Weather data (today and tomorrow) added to test message (testButton)
+* (ADD) "Weather today" translation key added
+
 ### 1.1.3 (2026-03-01)
 
 * (ADD) Two separate checkboxes for weather data: 'weatherInIntermediate' and 'weatherInDailyStats'
-* (ADD) Users can now choose where to show weather: in intermediate messages, daily statistics, or both
-* (FIX) Weather data now respects individual checkbox settings
-
-### 1.1.2 (2026-03-01)
-
-* (FIX) Weather data now read correctly using getForeignStateAsync() instead of getStateValue()
 
 ### 1.1.1 (2026-03-01)
 
