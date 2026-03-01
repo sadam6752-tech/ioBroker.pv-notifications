@@ -639,7 +639,7 @@ class PvNotifications extends utils.Adapter {
             const allowNotification = (!nightTime || !nightModeActive) && (!quietTime || !quietModeActive);
 
             if (allowNotification && !this.status.full && this.canNotify('full')) {
-                const message = this.buildFullMessage(soc);
+                const message = await this.buildFullMessage(soc);
                 this.sendTelegram(message, 'high');
                 this.status.full = true;
                 this.status.lastNotification.full = Date.now();
@@ -668,7 +668,7 @@ class PvNotifications extends utils.Adapter {
                 const blockedByQuietTime = quietTime && quietModeActive;
 
                 if (allowEmptyNotification && !blockedByQuietTime) {
-                    const message = this.buildEmptyMessage(soc);
+                    const message = await this.buildEmptyMessage(soc);
                     this.sendTelegram(message, 'high');
                     this.status.empty = true;
                     this.status.lastNotification.empty = Date.now();
@@ -852,11 +852,17 @@ class PvNotifications extends utils.Adapter {
      *
      * @param {number} soc - Battery state of charge in percent
      */
-    buildFullMessage(soc) {
-        const power = this.getStateValue(this.config.powerProduction);
-        const totalProd = this.getStateValue(this.config.totalProduction);
-        const feedIn = this.getStateValue(this.config.feedIn);
-        const consumption = this.getStateValue(this.config.consumption);
+    async buildFullMessage(soc) {
+        // Werte aus INTERNEN States lesen (aktualisiert in Echtzeit durch onStateChange)
+        const powerState = await this.getStateAsync('statistics.currentPower');
+        const totalProdState = await this.getStateAsync('statistics.currentTotalProduction');
+        const feedInState = await this.getStateAsync('statistics.currentFeedIn');
+        const consumptionState = await this.getStateAsync('statistics.currentConsumption');
+
+        const power = powerState && powerState.val !== null ? powerState.val : 0;
+        const totalProd = totalProdState && totalProdState.val !== null ? totalProdState.val : 0;
+        const feedIn = feedInState && feedInState.val !== null ? feedInState.val : 0;
+        const consumption = consumptionState && consumptionState.val !== null ? consumptionState.val : 0;
 
         let message = `🔋 *${this.translate('Battery full')}* (${soc}%)
 
@@ -900,9 +906,13 @@ class PvNotifications extends utils.Adapter {
      *
      * @param {number} soc - Battery state of charge in percent
      */
-    buildEmptyMessage(soc) {
-        const gridPower = this.getStateValue(this.config.gridPower);
-        const consumption = this.getStateValue(this.config.consumption);
+    async buildEmptyMessage(soc) {
+        // Werte aus INTERNEN States lesen (aktualisiert in Echtzeit durch onStateChange)
+        const gridPowerState = await this.getStateAsync('statistics.currentGridPower');
+        const consumptionState = await this.getStateAsync('statistics.currentConsumption');
+
+        const gridPower = gridPowerState && gridPowerState.val !== null ? gridPowerState.val : 0;
+        const consumption = consumptionState && consumptionState.val !== null ? consumptionState.val : 0;
 
         let message = `🔋 *${this.translate('Battery empty')}* (${soc}%)
 
