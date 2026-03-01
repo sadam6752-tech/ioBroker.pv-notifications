@@ -339,14 +339,13 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.1.1 (2026-03-01)
+
+* (FIX) Intermediate messages: Flag reset condition changed from `> 2` to `>= 2` for proper 2% tolerance
+
 ### 1.1.0 (2026-03-01)
 
 * (FIX) buildFullMessage() and buildEmptyMessage() now read from INTERNAL states (statistics.currentPower, etc.) instead of external config states
-* (FIX) buildFullMessage() and buildEmptyMessage() converted to async functions with await
-
-### 1.0.99 (2026-03-01)
-
-* (FIX) Weekly stats auto-saved every Sunday at 23:55 (before sourceanalytix reset at 00:00)
 
 ### 1.0.93 (2026-02-27)
 

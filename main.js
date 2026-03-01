@@ -706,13 +706,13 @@ class PvNotifications extends utils.Adapter {
                     }
                 }
 
-                // Reset Intermediate-Flags wenn Stufe verlassen
+                // Reset Intermediate-Flags wenn Stufe verlassen (±2% Toleranz)
                 for (const step of intermediateSteps) {
-                    if (soc !== step && Math.abs(soc - step) > 2) {
+                    if (soc !== step && Math.abs(soc - step) >= 2) {
                         const idx = this.status.intermediateNotified.indexOf(step);
                         if (idx > -1) {
                             this.status.intermediateNotified.splice(idx, 1);
-                            this.log.debug(`Intermediate ${step}% flag reset`);
+                            this.log.debug(`Intermediate ${step}% flag reset (SOC=${soc}%)`);
                         }
                     }
                 }
