@@ -90,6 +90,16 @@ class PvNotifications extends utils.Adapter {
 
         this.log.info('PV Notifications Adapter started');
 
+        // Migration: Set weather checkboxes to true if not set (for updates from < v1.1.3)
+        if (this.config.weatherEnabled === true && 
+            (this.config.weatherInIntermediate === undefined || this.config.weatherInIntermediate === null)) {
+            this.log.info('Migration: Setting weatherInIntermediate to true (default)');
+        }
+        if (this.config.weatherEnabled === true && 
+            (this.config.weatherInDailyStats === undefined || this.config.weatherInDailyStats === null)) {
+            this.log.info('Migration: Setting weatherInDailyStats to true (default)');
+        }
+
         // Log configuration
         this.log.info(
             `Configuration: Full=${this.config.thresholdFull}%, Empty=${this.config.thresholdEmpty}%, Intermediate=[${this.config.intermediateSteps}]`,
@@ -1457,7 +1467,7 @@ ${statusText}`;
             'Own consumption': {
                 de: 'Eigenverbrauch',
                 en: 'Own consumption',
-                ru: 'Собственное потребление',
+                ru: 'Собственное потребле��ие',
             },
             'Feed-in': {
                 de: 'Einspeisung',

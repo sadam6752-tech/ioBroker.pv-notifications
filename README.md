@@ -339,14 +339,13 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.1.5 (2026-03-01)
+
+* (FIX) Migration code added to set weatherInIntermediate and weatherInDailyStats to true by default for updates from < v1.1.3
+
 ### 1.1.4 (2026-03-01)
 
 * (ADD) Weather data (today and tomorrow) added to test message (testButton)
-* (ADD) "Weather today" translation key added
-
-### 1.1.3 (2026-03-01)
-
-* (ADD) Two separate checkboxes for weather data: 'weatherInIntermediate' and 'weatherInDailyStats'
 
 ### 1.1.1 (2026-03-01)
 
