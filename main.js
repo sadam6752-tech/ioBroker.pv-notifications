@@ -414,6 +414,38 @@ class PvNotifications extends utils.Adapter {
                 this.stats.lastStatsReset = today;
                 await this.saveStatistics();
             }
+
+            // Load saved last week data from states
+            const lastWeekProduction = await this.getStateAsync('statistics.lastWeekProduction');
+            const lastWeekConsumption = await this.getStateAsync('statistics.lastWeekConsumption');
+            const lastWeekFeedIn = await this.getStateAsync('statistics.lastWeekFeedIn');
+            const lastWeekGridPower = await this.getStateAsync('statistics.lastWeekGridPower');
+            const lastWeekFullCycles = await this.getStateAsync('statistics.lastWeekFullCycles');
+            const lastWeekEmptyCycles = await this.getStateAsync('statistics.lastWeekEmptyCycles');
+
+            this.stats.lastWeekProduction = lastWeekProduction && lastWeekProduction.val !== null ? lastWeekProduction.val : 0;
+            this.stats.lastWeekConsumption = lastWeekConsumption && lastWeekConsumption.val !== null ? lastWeekConsumption.val : 0;
+            this.stats.lastWeekFeedIn = lastWeekFeedIn && lastWeekFeedIn.val !== null ? lastWeekFeedIn.val : 0;
+            this.stats.lastWeekGridPower = lastWeekGridPower && lastWeekGridPower.val !== null ? lastWeekGridPower.val : 0;
+            this.stats.lastWeekFullCycles = lastWeekFullCycles && lastWeekFullCycles.val !== null ? lastWeekFullCycles.val : 0;
+            this.stats.lastWeekEmptyCycles = lastWeekEmptyCycles && lastWeekEmptyCycles.val !== null ? lastWeekEmptyCycles.val : 0;
+
+            // Load saved last month data from states
+            const lastMonthProduction = await this.getStateAsync('statistics.lastMonthProduction');
+            const lastMonthConsumption = await this.getStateAsync('statistics.lastMonthConsumption');
+            const lastMonthFeedIn = await this.getStateAsync('statistics.lastMonthFeedIn');
+            const lastMonthGridPower = await this.getStateAsync('statistics.lastMonthGridPower');
+            const lastMonthFullCycles = await this.getStateAsync('statistics.lastMonthFullCycles');
+            const lastMonthEmptyCycles = await this.getStateAsync('statistics.lastMonthEmptyCycles');
+
+            this.stats.lastMonthProduction = lastMonthProduction && lastMonthProduction.val !== null ? lastMonthProduction.val : 0;
+            this.stats.lastMonthConsumption = lastMonthConsumption && lastMonthConsumption.val !== null ? lastMonthConsumption.val : 0;
+            this.stats.lastMonthFeedIn = lastMonthFeedIn && lastMonthFeedIn.val !== null ? lastMonthFeedIn.val : 0;
+            this.stats.lastMonthGridPower = lastMonthGridPower && lastMonthGridPower.val !== null ? lastMonthGridPower.val : 0;
+            this.stats.lastMonthFullCycles = lastMonthFullCycles && lastMonthFullCycles.val !== null ? lastMonthFullCycles.val : 0;
+            this.stats.lastMonthEmptyCycles = lastMonthEmptyCycles && lastMonthEmptyCycles.val !== null ? lastMonthEmptyCycles.val : 0;
+
+            this.log.info('Statistics loaded from states');
         } catch (e) {
             this.log.error(`Error loading statistics: ${e.message}`);
         }
@@ -528,24 +560,29 @@ class PvNotifications extends utils.Adapter {
                 return;
             }
 
-            // Update other data points (Production, Consumption, etc.)
-            // if (state.ack) {  // Only process status updates
-            if (id === this.config.totalProduction) {
-                await this.setStateAsync('statistics.currentTotalProduction', state.val, true);
+            // Update other data points (Production, Consumption, etc.) - only ack states
+            if (state.ack) {
+                if (id === this.config.totalProduction) {
+                    await this.setStateAsync('statistics.currentTotalProduction', state.val, true);
+                    this.log.debug(`Updated currentTotalProduction: ${state.val}`);
+                }
+                if (id === this.config.feedIn) {
+                    await this.setStateAsync('statistics.currentFeedIn', state.val, true);
+                    this.log.debug(`Updated currentFeedIn: ${state.val}`);
+                }
+                if (id === this.config.consumption) {
+                    await this.setStateAsync('statistics.currentConsumption', state.val, true);
+                    this.log.debug(`Updated currentConsumption: ${state.val}`);
+                }
+                if (id === this.config.gridPower) {
+                    await this.setStateAsync('statistics.currentGridPower', state.val, true);
+                    this.log.debug(`Updated currentGridPower: ${state.val}`);
+                }
+                if (id === this.config.powerProduction) {
+                    await this.setStateAsync('statistics.currentPower', state.val, true);
+                    this.log.debug(`Updated currentPower: ${state.val}`);
+                }
             }
-            if (id === this.config.feedIn) {
-                await this.setStateAsync('statistics.currentFeedIn', state.val, true);
-            }
-            if (id === this.config.consumption) {
-                await this.setStateAsync('statistics.currentConsumption', state.val, true);
-            }
-            if (id === this.config.gridPower) {
-                await this.setStateAsync('statistics.currentGridPower', state.val, true);
-            }
-            if (id === this.config.powerProduction) {
-                await this.setStateAsync('statistics.currentPower', state.val, true);
-            }
-            // }
         }
     }
 
@@ -1166,7 +1203,9 @@ ${statusText}`;
             const now = new Date();
             const hours = now.getHours();
             const minutes = now.getMinutes();
-            const day = now.getDay(); // 0=So, 1=Mo, ..., 6=Sa
+            const jsDay = now.getDay(); // JavaScript: 0=So, 1=Mo, ..., 6=Sa
+            // Umwandeln in ioBroker-Format: 0=Mo, 1=Di, ..., 6=So
+            const day = jsDay === 0 ? 6 : jsDay - 1;
             const date = now.getDate();
 
             // Alle 5 Minuten: Statistik prüfen (um :00, :05, :10, ...)
@@ -1229,16 +1268,25 @@ ${statusText}`;
     /**
      * Reset weekly statistics
      */
-    resetWeeklyStats() {
-        const today = new Date().getDay();
+    async resetWeeklyStats() {
+        const jsDay = new Date().getDay(); // JavaScript: 0=So, 1=Mo, ..., 6=Sa
+        // Umwandeln in ioBroker-Format: 0=Mo, 1=Di, ..., 6=So
+        const today = jsDay === 0 ? 6 : jsDay - 1;
+
         if (today === this.config.statsWeekDay && today !== this.stats.lastWeekReset) {
             this.log.info('Resetting weekly statistics');
 
-            // Aktuelle Daten als "letzte Woche" speichern
-            this.stats.lastWeekProduction = this.getStateValue(this.config.weeklyProduction);
-            this.stats.lastWeekConsumption = this.getStateValue(this.config.weeklyConsumption);
-            this.stats.lastWeekFeedIn = this.getStateValue(this.config.weeklyFeedIn);
-            this.stats.lastWeekGridPower = this.getStateValue(this.config.weeklyGridPower);
+            // Aktuelle Daten aus internen States lesen (aktualisiert in Echtzeit)
+            // Fallback: Wenn interne States leer, direkt aus externen States lesen
+            const totalProd = await this.getForeignStateAsync(this.config.totalProduction);
+            const consumption = await this.getForeignStateAsync(this.config.consumption);
+            const feedIn = await this.getForeignStateAsync(this.config.feedIn);
+            const gridPower = await this.getForeignStateAsync(this.config.gridPower);
+
+            this.stats.lastWeekProduction = totalProd && totalProd.val !== null ? totalProd.val : 0;
+            this.stats.lastWeekConsumption = consumption && consumption.val !== null ? consumption.val : 0;
+            this.stats.lastWeekFeedIn = feedIn && feedIn.val !== null ? feedIn.val : 0;
+            this.stats.lastWeekGridPower = gridPower && gridPower.val !== null ? gridPower.val : 0;
             this.stats.lastWeekFullCycles = this.stats.weekFullCycles;
             this.stats.lastWeekEmptyCycles = this.stats.weekEmptyCycles;
 
@@ -1248,14 +1296,15 @@ ${statusText}`;
             this.stats.lastWeekReset = today;
 
             this.saveStatistics();
-            this.sendTelegram(this.buildWeeklyStatsMessage());
+            this.log.info(`Weekly stats saved: Production=${this.stats.lastWeekProduction} kWh`);
+            // KEIN Senden hier - Senden erfolgt nur in startScheduledTasks() zur konfigurierten Zeit
         }
     }
 
     /**
      * Monatsstatistik zurücksetzen
      */
-    resetMonthlyStats() {
+    async resetMonthlyStats() {
         if (!this.config.monthlyStatsEnabled) {
             return;
         }
@@ -1263,23 +1312,30 @@ ${statusText}`;
         const today = new Date().getDate();
         const now = new Date();
         const hours = now.getHours();
-        const [statHours] = this.config.monthlyStatsTime.split(':').map(Number);
-        // const [statMinutes] = ...  // ESLint: unused
+        const minutes = now.getMinutes();
+        const [statHours, statMinutes] = this.config.monthlyStatsTime.split(':').map(Number);
 
-        // Daten am konfigurierten Tag nach der Sendezeit speichern
-        if (today === this.config.monthlyStatsDay && this.stats.lastMonthReset !== today && hours >= statHours) {
+        // Daten am konfigurierten Tag zur konfigurierten Zeit speichern (nicht vorher)
+        if (today === this.config.monthlyStatsDay && this.stats.lastMonthReset !== today && 
+            (hours > statHours || (hours === statHours && minutes >= statMinutes))) {
             this.log.info('Resetting monthly statistics');
 
-            // Aktuelle Daten als "letzter Monat" speichern
-            this.stats.lastMonthProduction = this.getStateValue(this.config.monthlyProduction);
-            this.stats.lastMonthConsumption = this.getStateValue(this.config.monthlyConsumption);
-            this.stats.lastMonthFeedIn = this.getStateValue(this.config.monthlyFeedIn);
-            this.stats.lastMonthGridPower = this.getStateValue(this.config.monthlyGridPower);
+            // Aktuelle Daten aus externen States lesen (direkter Zugriff)
+            const totalProd = await this.getForeignStateAsync(this.config.monthlyProduction);
+            const consumption = await this.getForeignStateAsync(this.config.monthlyConsumption);
+            const feedIn = await this.getForeignStateAsync(this.config.monthlyFeedIn);
+            const gridPower = await this.getForeignStateAsync(this.config.monthlyGridPower);
+
+            this.stats.lastMonthProduction = totalProd && totalProd.val !== null ? totalProd.val : 0;
+            this.stats.lastMonthConsumption = consumption && consumption.val !== null ? consumption.val : 0;
+            this.stats.lastMonthFeedIn = feedIn && feedIn.val !== null ? feedIn.val : 0;
+            this.stats.lastMonthGridPower = gridPower && gridPower.val !== null ? gridPower.val : 0;
             this.stats.lastMonthFullCycles = this.stats.fullCycles;
             this.stats.lastMonthEmptyCycles = this.stats.emptyCycles;
 
             this.stats.lastMonthReset = today;
             this.saveStatistics();
+            this.log.info(`Monthly stats saved: Production=${this.stats.lastMonthProduction} kWh`);
         }
     }
 

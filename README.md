@@ -339,6 +339,14 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.0.98 (2026-03-01)
+
+* (FIX) Weekly/monthly stats now read directly from external states using getForeignStateAsync (not from internal states)
+
+### 1.0.97 (2026-03-01)
+
+* (FIX) Weekly/monthly statistics now read from internal states (statistics.currentTotalProduction, etc.) instead of external config
+
 ### 1.0.93 (2026-02-27)
 
 * (FIX) size attributes (xs, xl) added for number fields in jsonConfig.json (E5507)
