@@ -318,9 +318,14 @@ Between **12:00 and 15:00** (configurable), **all** notifications are suppressed
 
 MIT License
 
-Copyright (c) 2025-2026  sadam6752-tech    sadam6752@gmail.com
+Copyright (c) 2025-2026  sadam6752-tech    sadam6752@gmail.com  
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
@@ -338,6 +343,11 @@ sadam6752@gmail.com
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### 1.2.4 (2026-03-02)
+
+* (FIX) Added LICENSE file (E190 fix)
+* (FIX) Copyright formatting: Added two trailing spaces to copyright lines in README.md, doc/de/README.md, doc/ru/README.md (W6009/W6011/W7004 fix)
 
 ### 1.2.3 (2026-03-02)
 

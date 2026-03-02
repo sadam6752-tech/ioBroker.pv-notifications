@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,11 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.4": {
+        "en": "Added LICENSE file and fixed copyright formatting (W6009/W6011/W7004 fixes)",
+        "de": "LICENSE-Datei hinzugefügt und Copyright-Formatierung korrigiert (W6009/W6011/W7004 Fixes)",
+        "ru": "Добавлен файл LICENSE и исправлено форматирование авторских прав (исправления W6009/W6011/W7004)"
+      },
       "1.2.3": {
         "en": "Added size attributes (xs, xl) for minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd fields in admin UI (E5507 fix)",
         "de": "Größenattribute (xs, xl) für minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd Felder im Admin-UI hinzugefügt (E5507 Fix)",
