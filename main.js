@@ -1412,15 +1412,17 @@ ${statusText}`;
             this.log.info('Auto-saving weekly statistics (Sunday 23:55, before sourceanalytix reset)');
 
             // Aktuelle Daten aus externen States lesen (direkter Zugriff)
-            const totalProd = await this.getForeignStateAsync(this.config.totalProduction);
-            const consumption = await this.getForeignStateAsync(this.config.consumption);
-            const feedIn = await this.getForeignStateAsync(this.config.feedIn);
-            const gridPower = await this.getForeignStateAsync(this.config.gridPower);
+            // WICHTIG: weeklyProduction/weeklyConsumption/etc. verwenden (sourceanalytix Wochenwerte)
+            // NICHT totalProduction/consumption/etc. (das sind Tageswerte!)
+            const weeklyProd = await this.getForeignStateAsync(this.config.weeklyProduction);
+            const weeklyConsumption = await this.getForeignStateAsync(this.config.weeklyConsumption);
+            const weeklyFeedIn = await this.getForeignStateAsync(this.config.weeklyFeedIn);
+            const weeklyGridPower = await this.getForeignStateAsync(this.config.weeklyGridPower);
 
-            this.stats.lastWeekProduction = totalProd && totalProd.val !== null ? totalProd.val : 0;
-            this.stats.lastWeekConsumption = consumption && consumption.val !== null ? consumption.val : 0;
-            this.stats.lastWeekFeedIn = feedIn && feedIn.val !== null ? feedIn.val : 0;
-            this.stats.lastWeekGridPower = gridPower && gridPower.val !== null ? gridPower.val : 0;
+            this.stats.lastWeekProduction = weeklyProd && weeklyProd.val !== null ? weeklyProd.val : 0;
+            this.stats.lastWeekConsumption = weeklyConsumption && weeklyConsumption.val !== null ? weeklyConsumption.val : 0;
+            this.stats.lastWeekFeedIn = weeklyFeedIn && weeklyFeedIn.val !== null ? weeklyFeedIn.val : 0;
+            this.stats.lastWeekGridPower = weeklyGridPower && weeklyGridPower.val !== null ? weeklyGridPower.val : 0;
             this.stats.lastWeekFullCycles = this.stats.weekFullCycles;
             this.stats.lastWeekEmptyCycles = this.stats.weekEmptyCycles;
 

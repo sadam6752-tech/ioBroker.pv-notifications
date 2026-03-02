@@ -339,6 +339,10 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.2.2 (2026-03-02)
+
+* (FIX) Weekly statistics: Now uses weeklyProduction/weeklyConsumption/weeklyFeedIn/weeklyGridPower fields instead of daily values
+
 ### 1.2.1 (2026-03-01)
 
 * (FIX) Added size attributes (xs, xl) for night mode and quiet mode fields in admin UI (E5507 fix)
