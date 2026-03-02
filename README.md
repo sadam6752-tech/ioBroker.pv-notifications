@@ -344,11 +344,11 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.2.10 (2026-03-02)
+
+* (FIX) Fixed W4040/W4042: Updated schema definitions in .vscode/settings.json
+
 ### 1.2.9 (2026-03-02)
-
-* (FIX) Fixed ESLint formatting issues (75 prettier/prettier errors auto-fixed with lint:fix)
-
-### 1.2.8 (2026-03-02)
 
 * (FIX) Fixed duplicate news entry in io-package.json (E1036/E2005 fix)
 * (FIX) Added full translations for common.news (pt, nl, fr, it, es, pl, uk, zh-cn)

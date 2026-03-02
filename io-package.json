@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.9",
+    "version": "1.2.10",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.10": {
+        "en": "Fixed W4040/W4042: Updated schema definitions in .vscode/settings.json (fileMatch without leading slashes, URLs with /master/)",
+        "de": "W4040/W4042 behoben: Schema-Definitionen in .vscode/settings.json aktualisiert (fileMatch ohne führende Slashes, URLs mit /master/)",
+        "ru": "Исправлено W4040/W4042: обновлены определения схем в .vscode/settings.json (fileMatch без начальных слешей, URL с /master/)",
+        "pt": "Corrigido W4040/W4042: Atualizadas definições de esquema em .vscode/settings.json (fileMatch sem barras iniciais, URLs com /master/)",
+        "nl": "W4040/W4042 opgelost: Schema-definities bijgewerkt in .vscode/settings.json (fileMatch zonder voorloopslashes, URL's met /master/)",
+        "fr": "Correction W4040/W4042 : Définitions de schéma mises à jour dans .vscode/settings.json (fileMatch sans barres obliques, URLs avec /master/)",
+        "it": "Corretto W4040/W4042: Aggiornate definizioni di schema in .vscode/settings.json (fileMatch senza barre iniziali, URL con /master/)",
+        "es": "Corregido W4040/W4042: Actualizadas definiciones de esquema en .vscode/settings.json (fileMatch sin barras iniciales, URLs con /master/)",
+        "pl": "Naprawiono W4040/W4042: Zaktualizowano definicje schematu w .vscode/settings.json (fileMatch bez wiodących ukośników, adresy URL z /master/)",
+        "uk": "Виправлено W4040/W4042: Оновлено визначення схеми в .vscode/settings.json (fileMatch без початкових скісних рисок, URL-адреси з /master/)",
+        "zh-cn": "已修复 W4040/W4042：已更新 .vscode/settings.json 中的架构定义（fileMatch 无前导斜杠，URL 使用 /master/）"
+      },
       "1.2.9": {
         "en": "Fixed ESLint formatting issues (75 prettier/prettier errors auto-fixed with lint:fix)",
         "de": "ESLint-Formatierungsfehler behoben (75 prettier/prettier Fehler mit lint:fix automatisch korrigiert)",
@@ -106,19 +119,6 @@
         "pl": "Dodano plik LICENSE i poprawiono formatowanie praw autorskich (poprawki W6009/W6011/W7004)",
         "uk": "Додано файл LICENSE та виправлено форматування авторських прав (виправлення W6009/W6011/W7004)",
         "zh-cn": "已添加 LICENSE 文件并修复版权格式（W6009/W6011/W7004 修复）"
-      },
-      "1.2.3": {
-        "en": "Added size attributes (xs, xl) for minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd fields in admin UI (E5507 fix)",
-        "de": "Größenattribute (xs, xl) für minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd Felder im Admin-UI hinzugefügt (E5507 Fix)",
-        "ru": "Добавлены атрибуты размеров (xs, xl) для полей minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd в админ-интерфейсе (исправление E5507)",
-        "pt": "Atributos de tamanho (xs, xl) adicionados para os campos minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd na interface de administração (correção E5507)",
-        "nl": "Grootte-attributen (xs, xl) toegevoegd voor minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd velden in admin UI (E5507 fix)",
-        "fr": "Attributs de taille (xs, xl) ajoutés pour les champs minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd dans l'interface d'administration (correction E5507)",
-        "it": "Aggiunti attributi di dimensione (xs, xl) per i campi minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd nell'interfaccia di amministrazione (correzione E5507)",
-        "es": "Atributos de tamaño (xs, xl) agregados para los campos minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd en la interfaz de administración (corrección E5507)",
-        "pl": "Dodano atrybuty rozmiaru (xs, xl) dla pól minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd w interfejsie administracyjnym (poprawka E5507)",
-        "uk": "Додано атрибути розміру (xs, xl) для полів minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd в адмін-інтерфейсі (виправлення E5507)",
-        "zh-cn": "已为管理界面中的 minIntervalFull、minIntervalEmpty、intermediateSteps、quietModeStart、quietModeEnd 字段添加大小属性（xs, xl）（E5507 修复）"
       }
     },
     "authors": [
