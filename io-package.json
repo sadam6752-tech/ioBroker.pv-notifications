@@ -39,10 +39,12 @@
         "de": "Größenattribute (xs, xl) für monthlyStatsEnabled, minIntervalIntermediate, statsDayTime, statsWeekDay, statsWeekTime Felder hinzugefügt (E5507 Fix)",
         "ru": "Добавлены атрибуты размеров (xs, xl) для полей monthlyStatsEnabled, minIntervalIntermediate, statsDayTime, statsWeekDay, statsWeekTime (исправление E5507)"
       },
+      "1.2.4": {
         "en": "Added LICENSE file and fixed copyright formatting (W6009/W6011/W7004 fixes)",
         "de": "LICENSE-Datei hinzugefügt und Copyright-Formatierung korrigiert (W6009/W6011/W7004 Fixes)",
         "ru": "Добавлен файл LICENSE и исправлено форматирование авторских прав (исправления W6009/W6011/W7004)"
       },
+      "1.2.3": {
         "en": "Added size attributes (xs, xl) for minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd fields in admin UI (E5507 fix)",
         "de": "Größenattribute (xs, xl) für minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd Felder im Admin-UI hinzugefügt (E5507 Fix)",
         "ru": "Добавлены атрибуты размеров (xs, xl) для полей minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd в админ-интерфейсе (исправление E5507)"
