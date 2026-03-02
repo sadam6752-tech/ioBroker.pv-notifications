@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,11 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.3": {
+        "en": "Added size attributes (xs, xl) for minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd fields in admin UI (E5507 fix)",
+        "de": "Größenattribute (xs, xl) für minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd Felder im Admin-UI hinzugefügt (E5507 Fix)",
+        "ru": "Добавлены атрибуты размеров (xs, xl) для полей minIntervalFull, minIntervalEmpty, intermediateSteps, quietModeStart, quietModeEnd в админ-интерфейсе (исправление E5507)"
+      },
       "1.2.2": {
         "en": "Fixed weekly statistics: Now uses weeklyProduction/weeklyConsumption/weeklyFeedIn/weeklyGridPower fields instead of daily values",
         "de": "Wochenstatistik fixiert: Verwendet jetzt weeklyProduction/weeklyConsumption/weeklyFeedIn/weeklyGridPower Felder statt Tageswerten",

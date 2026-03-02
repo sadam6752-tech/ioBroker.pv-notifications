@@ -303,44 +303,54 @@
     "quietModeStart": {
       "type": "text",
       "label": "label_quietModeStart",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "default": "12:00",
       "tooltip": "tooltip_quietModeStart"
     },
     "quietModeEnd": {
       "type": "text",
       "label": "label_quietModeEnd",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "default": "15:00",
       "tooltip": "tooltip_quietModeEnd"
     },
     "intermediateSteps": {
       "type": "text",
       "label": "label_intermediateSteps",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "tooltip": "tooltip_intermediateSteps"
     },
     "minIntervalFull": {
       "type": "number",
       "label": "label_minIntervalFull",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "min": 1,
       "max": 120
     },
     "minIntervalEmpty": {
       "type": "number",
       "label": "label_minIntervalEmpty",
+      "xs": 12,
       "sm": 3,
       "md": 3,
       "lg": 3,
+      "xl": 3,
       "min": 1,
       "max": 120
     },
