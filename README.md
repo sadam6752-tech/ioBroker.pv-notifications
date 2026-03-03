@@ -346,6 +346,7 @@ sadam6752@gmail.com
 
 ### 1.2.13 (2026-03-03)
 * (ADD) Added current production (W) to test message, daily statistics and intermediate messages with improved layout
+* (FIX) README.md Changelog updated for repository checker (E6006 fix)
 
 ### 1.2.11 (2026-03-02)
 
