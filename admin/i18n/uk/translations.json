@@ -82,5 +82,7 @@
     "label_testButton": "Тестове Сповіщення",
     "buttonText_testButton": "Надіслати Тест",
     "tooltip_testButton": "Надсилає тестове сповіщення всім налаштованим користувачам Telegram",
-    "Test Notification": "Тестове Сповіщення"
+    "Test Notification": "Тестове Сповіщення",
+    "Production today": "Виробництво сьогодні",
+    "Current production": "Поточне виробництво"
 }

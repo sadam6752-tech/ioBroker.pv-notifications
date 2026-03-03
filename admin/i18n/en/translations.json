@@ -88,5 +88,7 @@
     "label_testButton": "Test Notification",
     "buttonText_testButton": "Send Test",
     "tooltip_testButton": "Sends a test notification to all configured Telegram users",
-    "Test Notification": "Test Notification"
+    "Test Notification": "Test Notification",
+    "Production today": "Production today",
+    "Current production": "Current production"
 }

@@ -82,5 +82,7 @@
     "label_testButton": "Testmelding",
     "buttonText_testButton": "Verstuur Test",
     "tooltip_testButton": "Verstuurt een testmelding naar alle geconfigureerde Telegram-gebruikers",
-    "Test Notification": "Testmelding"
+    "Test Notification": "Testmelding",
+    "Production today": "Productie vandaag",
+    "Current production": "Huidige productie"
 }

@@ -1072,6 +1072,16 @@ class PvNotifications extends utils.Adapter {
         const powerState = await this.getStateAsync('statistics.currentPower');
         const power = powerState && powerState.val !== null ? powerState.val : 0;
 
+        // Gesamtproduktion heute lesen
+        const totalProdState = await this.getStateAsync('statistics.currentTotalProduction');
+        const totalProd = totalProdState && totalProdState.val !== null ? this.round(totalProdState.val, 1) : 0;
+
+        // Eigenverbrauch berechnen
+        const feedInState = await this.getStateAsync('statistics.currentFeedIn');
+        const feedIn = feedInState && feedInState.val !== null ? Math.abs(feedInState.val) : 0;
+        const selfConsumption = this.round(Math.max(0, totalProd - feedIn), 1);
+        const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
+
         const trend = direction === 'up' ? '⬆️' : '⬇️';
         const currentKWh = this.round(((soc / 100) * this.config.batteryCapacityWh) / 1000, 1);
 
@@ -1088,10 +1098,16 @@ class PvNotifications extends utils.Adapter {
         // Einheitliche Nachricht für alle Stufen (20, 40, 60, 80)
         const batteryAt = this.translate('Battery at');
         const production = this.translate('Production');
+        const productionToday = this.translate('Production today');
+        const ownConsumption = this.translate('Own consumption');
 
         let message = `🔋 ${batteryAt} ${soc}% (${currentKWh} kWh) ${trend}
-⚡ ${production}: ${this.round(power)} W
-${statusText}`;
+${statusText}
+━━━━━━━━━━━━━━━━━━━━━━
+⚡️ ${production}: ${this.round(power)} W
+✅ ${productionToday}: ${totalProd} kWh
+🏠 ${ownConsumption}: ${selfConsumption} kWh (${selfConsumptionRate}%)
+━━━━━━━━━━━━━━━━━━━━━━`;
 
         // Wetter-Prognose für morgen hinzufügen (optional, nur wenn weatherInIntermediate aktiv)
         const weatherConfigured =
@@ -1205,6 +1221,10 @@ ${statusText}`;
         const gridPowerState = await this.getStateAsync('statistics.currentGridPower');
         const gridPower = gridPowerState && gridPowerState.val !== null ? this.round(gridPowerState.val, 0) : 0;
 
+        // Aktuelle Leistung (W) lesen
+        const powerState = await this.getStateAsync('statistics.currentPower');
+        const power = powerState && powerState.val !== null ? this.round(powerState.val, 0) : 0;
+
         // Eigenverbrauch berechnen (kann nicht negativ sein)
         const selfConsumption = this.round(Math.max(0, totalProd - feedIn), 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
@@ -1215,6 +1235,7 @@ ${statusText}`;
 ⚡ ${this.translate('Current energy')}: ${currentKWh} kWh (${batteryCapacityKWh} kWh ${this.translate('Total capacity')})
 ━━━━━━━━━━━━━━━━━━━━━━
 ☀️ ${this.translate('Production')}: ${totalProd} kWh
+⚡️ ${this.translate('Current production')}: ${power} W
 🏠 ${this.translate('Own consumption')}: ${selfConsumption} kWh (${selfConsumptionRate}%)
 🔌 ${this.translate('Feed-in')}: ${feedIn} kWh
 ⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh`;
@@ -1847,6 +1868,10 @@ ${statusText}`;
         const gridPowerState = await this.getStateAsync('statistics.currentGridPower');
         const gridPower = gridPowerState && gridPowerState.val !== null ? this.round(gridPowerState.val, 0) : 0;
 
+        // Aktuelle Leistung (W) lesen
+        const powerState = await this.getStateAsync('statistics.currentPower');
+        const power = powerState && powerState.val !== null ? this.round(powerState.val, 0) : 0;
+
         // Eigenverbrauch berechnen
         const selfConsumption = this.round(totalProd - feedIn, 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
@@ -1857,6 +1882,7 @@ ${statusText}`;
 ⚡ ${this.translate('Current energy')}: ${currentKWh} kWh (${batteryCapacityKWh} kWh ${this.translate('Total capacity')})
 ━━━━━━━━━━━━━━━━━━━━━━
 ✅ ${this.translate('Production')}: ${totalProd} kWh
+⚡️ ${this.translate('Current production')}: ${power} W
 🏠 ${this.translate('Own consumption')}: ${selfConsumption} kWh (${selfConsumptionRate}%)
 🔌 ${this.translate('Feed-in')}: ${feedIn} kWh
 ⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh

@@ -82,5 +82,7 @@
     "label_testButton": "测试通知",
     "buttonText_testButton": "发送测试",
     "tooltip_testButton": "向所有配置的 Telegram 用户发送测试通知",
-    "Test Notification": "测试通知"
+    "Test Notification": "测试通知",
+    "Production today": "今日发电量",
+    "Current production": "当前发电量"
 }
