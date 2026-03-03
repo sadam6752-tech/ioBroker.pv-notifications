@@ -344,6 +344,9 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.2.12 (2026-03-03)
+* (ADD) Added current production (W) to test message, daily statistics and intermediate messages with improved layout
+
 ### 1.2.11 (2026-03-02)
 
 * (FIX) Daily statistics: Self-consumption cannot be negative (Math.max(0, totalProd - feedIn))
