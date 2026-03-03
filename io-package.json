@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.12",
+    "version": "1.2.13",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,7 +29,7 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
-      "1.2.12": {
+      "1.2.13": {
         "en": "Added current production (W) to test message, daily statistics and intermediate messages with improved layout",
         "de": "Aktuelle Produktion (W) zu Test-Nachricht, Tagesstatistik und Zwischenmeldungen mit verbessertem Layout hinzugefügt",
         "ru": "Добавлена текущая выработка (Вт) в тестовое сообщение, дневную статистику и промежуточные уведомления с улучшенным макетом",
@@ -41,6 +41,19 @@
         "pl": "Dodano aktualną produkcję (W) do wiadomości testowej, statystyk dziennych i wiadomości pośrednich z ulepszonym układem",
         "uk": "Додано поточне виробництво (Вт) до тестового повідомлення, денної статистики та проміжних повідомлень з покращеним макетом",
         "zh-cn": "已添加当前发电量（W）到测试消息、每日统计和中间消息，并改进了布局"
+      },
+      "1.2.12": {
+        "en": "README.md Changelog updated for repository checker (E6006 fix)",
+        "de": "README.md Changelog für Repository Checker aktualisiert (E6006 Fix)",
+        "ru": "Обновлен Changelog в README.md для проверки репозитория (исправление E6006)",
+        "pt": "Changelog do README.md atualizado para verificação do repositório (correção E6006)",
+        "nl": "README.md Changelog bijgewerkt voor repository checker (E6006 fix)",
+        "fr": "Changelog README.md mis à jour pour la vérification du dépôt (correction E6006)",
+        "it": "Changelog di README.md aggiornato per il controllo del repository (correzione E6006)",
+        "es": "Changelog de README.md actualizado para la verificación del repositorio (corrección E6006)",
+        "pl": "Changelog w README.md zaktualizowany dla sprawdzania repozytorium (poprawka E6006)",
+        "uk": "Changelog у README.md оновлено для перевірки репозиторію (виправлення E6006)",
+        "zh-cn": "已更新 README.md Changelog 用于仓库检查器（E6006 修复）"
       },
       "1.2.11": {
         "en": "Fixed daily statistics: self-consumption cannot be negative (Math.max), added weather today to daily stats message",
@@ -106,19 +119,6 @@
         "pl": "Naprawiono błąd składni JSON w io-package.json (usunięto podwójną sekcję wiadomości)",
         "uk": "Виправлено помилку синтаксису JSON у io-package.json (видалено подвійний розділ новин)",
         "zh-cn": "已修复 io-package.json JSON 语法错误（已删除无效的重复新闻部分）"
-      },
-      "1.2.6": {
-        "en": "Added size attributes (xs, xl) for monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption fields (E5507 fix)",
-        "de": "Größenattribute (xs, xl) für monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption Felder hinzugefügt (E5507 Fix)",
-        "ru": "Добавлены атрибуты размеров (xs, xl) для полей monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption (исправление E5507)",
-        "pt": "Atributos de tamanho (xs, xl) adicionados para os campos monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption (correção E5507)",
-        "nl": "Grootte-attributen (xs, xl) toegevoegd voor monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption velden (E5507 fix)",
-        "fr": "Attributs de taille (xs, xl) ajoutés pour les champs monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption (correction E5507)",
-        "it": "Aggiunti attributi di dimensione (xs, xl) per i campi monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption (correzione E5507)",
-        "es": "Atributos de tamaño (xs, xl) agregados para los campos monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption (corrección E5507)",
-        "pl": "Dodano atrybuty rozmiaru (xs, xl) dla pól monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption (poprawka E5507)",
-        "uk": "Додано атрибути розміру (xs, xl) для полів monthlyStatsDay, monthlyStatsTime, weatherEnabled, weatherInIntermediate, weatherInDailyStats, highProduction, highConsumption (виправлення E5507)",
-        "zh-cn": "已为 monthlyStatsDay、monthlyStatsTime、weatherEnabled、weatherInIntermediate、weatherInDailyStats、highProduction、highConsumption 字段添加大小属性（xs, xl）（E5507 修复）"
       }
     },
     "authors": [
