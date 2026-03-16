@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.18",
+    "version": "1.2.19",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,32 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.19": {
+        "en": "Added v1.2.18 entry to news section in io-package.json",
+        "de": "Eintrag v1.2.18 zur news-Sektion in io-package.json hinzugefügt",
+        "ru": "Добавлена запись v1.2.18 в секцию news в io-package.json",
+        "pt": "Adicionada entrada v1.2.18 à seção news em io-package.json",
+        "nl": "Vermelding v1.2.18 toegevoegd aan news-sectie in io-package.json",
+        "fr": "Ajout de l'entrée v1.2.18 à la section news dans io-package.json",
+        "it": "Aggiunta voce v1.2.18 alla sezione news in io-package.json",
+        "es": "Añadida entrada v1.2.18 a la sección news en io-package.json",
+        "pl": "Dodano wpis v1.2.18 do sekcji news w io-package.json",
+        "uk": "Додано запис v1.2.18 до секції news в io-package.json",
+        "zh-cn": "在 io-package.json 的 news 部分添加了 v1.2.18 条目"
+      },
+      "1.2.18": {
+        "en": "Fix missing await in onBatterySOCChange, null-check in buildTestMessage, safe intermediateSteps parsing, remove dead code",
+        "de": "Fehlenden await in onBatterySOCChange behoben, Null-Check in buildTestMessage, sichere intermediateSteps-Verarbeitung, toten Code entfernt",
+        "ru": "Исправлен отсутствующий await в onBatterySOCChange, null-проверка в buildTestMessage, безопасный парсинг intermediateSteps, удалён мёртвый код",
+        "pt": "Corrigido await ausente em onBatterySOCChange, verificação null em buildTestMessage, análise segura de intermediateSteps, código morto removido",
+        "nl": "Ontbrekende await in onBatterySOCChange hersteld, null-check in buildTestMessage, veilige intermediateSteps-verwerking, dode code verwijderd",
+        "fr": "Correction du await manquant dans onBatterySOCChange, vérification null dans buildTestMessage, analyse sécurisée des intermediateSteps, code mort supprimé",
+        "it": "Corretto await mancante in onBatterySOCChange, controllo null in buildTestMessage, parsing sicuro di intermediateSteps, codice morto rimosso",
+        "es": "Corregido await faltante en onBatterySOCChange, verificación null en buildTestMessage, análisis seguro de intermediateSteps, código muerto eliminado",
+        "pl": "Naprawiono brakujący await w onBatterySOCChange, sprawdzanie null w buildTestMessage, bezpieczne parsowanie intermediateSteps, usunięto martwy kod",
+        "uk": "Виправлено відсутній await в onBatterySOCChange, перевірка null в buildTestMessage, безпечний парсинг intermediateSteps, видалено мертвий код",
+        "zh-cn": "修复 onBatterySOCChange 中缺少的 await，buildTestMessage 中的 null 检查，安全的 intermediateSteps 解析，删除死代码"
+      },
       "1.2.17": {
         "en": "Removed old versions from common.news to comply with W1032 (maximum 7 versions)",
         "de": "Alte Versionen aus common.news entfernt zur Einhaltung von W1032 (maximal 7 Versionen)",
@@ -94,33 +120,7 @@
         "uk": "Додано поточне виробництво (Вт) до тестового повідомлення, денної статистики та проміжних повідомлень з покращеним макетом",
         "zh-cn": "已添加当前发电量（W）到测试消息、每日统计和中间消息，并改进了布局"
       },
-      "1.2.12": {
-        "en": "README.md Changelog updated for repository checker (E6006 fix)",
-        "de": "README.md Changelog für Repository Checker aktualisiert (E6006 Fix)",
-        "ru": "Обновлен Changelog в README.md для проверки репозитория (исправление E6006)",
-        "pt": "Changelog do README.md atualizado para verificação do repositório (correção E6006)",
-        "nl": "README.md Changelog bijgewerkt voor repository checker (E6006 fix)",
-        "fr": "Changelog README.md mis à jour pour la vérification du dépôt (correction E6006)",
-        "it": "Changelog di README.md aggiornato per il controllo del repository (correzione E6006)",
-        "es": "Changelog de README.md actualizado para la verificación del repositorio (corrección E6006)",
-        "pl": "Changelog w README.md zaktualizowany dla sprawdzania repozytorium (poprawka E6006)",
-        "uk": "Changelog у README.md оновлено для перевірки репозиторію (виправлення E6006)",
-        "zh-cn": "已更新 README.md Changelog 用于仓库检查器（E6006 修复）"
-      },
-      "1.2.11": {
-        "en": "Fixed daily statistics: self-consumption cannot be negative (Math.max), added weather today to daily stats message",
-        "de": "Tagesstatistik fixiert: Eigenverbrauch kann nicht negativ sein (Math.max), Wetter heute zur Tagesstatistik hinzugefügt",
-        "ru": "Исправлена дневная статистика: собственное потребление не может быть отрицательным (Math.max), добавлена погода сегодня в дневную статистику",
-        "pt": "Estatísticas diárias corrigidas: autoconsumo não pode ser negativo (Math.max), adicionado clima de hoje às estatísticas diárias",
-        "nl": "Dagelijkse statistieken hersteld: eigen verbruik kan niet negatief zijn (Math.max), weer vandaag toegevoegd aan dagelijkse statistieken",
-        "fr": "Statistiques quotidiennes corrigées : l'autoconsommation ne peut pas être négative (Math.max), météo d'aujourd'hui ajoutée aux statistiques quotidiennes",
-        "it": "Statistiche giornaliere corrette: l'autoconsumo non può essere negativo (Math.max), aggiunto meteo di oggi alle statistiche giornaliere",
-        "es": "Estadísticas diarias corregidas: el autoconsumo no puede ser negativo (Math.max), agregado clima de hoy a las estadísticas diarias",
-        "pl": "Naprawiono statystyki dzienne: zużycie własne nie może być ujemne (Math.max), dodano pogodę dzisiaj do statystyk dziennych",
-        "uk": "Виправлено денну статистику: власне споживання не може бути від'ємним (Math.max), додано погоду сьогодні до денної статистики",
-        "zh-cn": "已修复每日统计：自用电量不能为负数（Math.max），已添加今日天气到每日统计"
-      }
-    },
+      "1.2.13": {
     "authors": [
       "Alex <alex@example.com>"
     ],
