@@ -331,6 +331,9 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### **WORK IN PROGRESS**
+- (copilot) Adapter requires node.js >= 22 now
+
 ### 1.2.24 (2026-03-17)
 * (FIX) Added missing uk translations to news entries, fixed prettier formatting in main.js
 
