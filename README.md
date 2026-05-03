@@ -469,6 +469,8 @@ sadam6752@gmail.com
 ### 1.0.80 (2026-02-25)
 * (FIX) Unified intermediate notifications format (all levels show charging/discharging status)
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## Documentation in Other Languages
 
 - [🇬🇧 English](README.md)
