@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.24",
+    "version": "1.2.25",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.25": {
+        "en": "Fix W5604: add missing weather i18n keys in 8 languages; update engines.node to >=22; fix workflow node versions; update devDependencies; add tsconfig.json, prettier.config.mjs",
+        "de": "W5604 behoben: fehlende Wetter-i18n-Schlüssel in 8 Sprachen ergänzt; engines.node auf >=22 aktualisiert; Workflow-Node-Versionen korrigiert; devDependencies aktualisiert; tsconfig.json, prettier.config.mjs hinzugefügt",
+        "ru": "Исправление W5604: добавлены отсутствующие weather i18n ключи в 8 языках; engines.node обновлён до >=22; исправлены версии node в workflow; обновлены devDependencies; добавлены tsconfig.json, prettier.config.mjs",
+        "fr": "Fix W5604: clés i18n météo manquantes ajoutées dans 8 langues; engines.node mis à jour à >=22; versions node workflow corrigées; devDependencies mis à jour; tsconfig.json, prettier.config.mjs ajoutés",
+        "it": "Fix W5604: chiavi i18n meteo mancanti aggiunte in 8 lingue; engines.node aggiornato a >=22; versioni node workflow corrette; devDependencies aggiornati; tsconfig.json, prettier.config.mjs aggiunti",
+        "es": "Fix W5604: claves i18n clima faltantes añadidas en 8 idiomas; engines.node actualizado a >=22; versiones node workflow corregidas; devDependencies actualizados; tsconfig.json, prettier.config.mjs añadidos",
+        "pl": "Naprawa W5604: dodano brakujące klucze i18n pogody w 8 językach; engines.node zaktualizowano do >=22; poprawiono wersje node w workflow; zaktualizowano devDependencies; dodano tsconfig.json, prettier.config.mjs",
+        "pt": "Fix W5604: chaves i18n meteorologia em falta adicionadas em 8 idiomas; engines.node atualizado para >=22; versões node workflow corrigidas; devDependencies atualizados; tsconfig.json, prettier.config.mjs adicionados",
+        "nl": "Fix W5604: ontbrekende weer-i18n-sleutels in 8 talen toegevoegd; engines.node bijgewerkt naar >=22; node-versies workflow gecorrigeerd; devDependencies bijgewerkt; tsconfig.json, prettier.config.mjs toegevoegd",
+        "uk": "Виправлення W5604: додано відсутні weather i18n ключі у 8 мовах; engines.node оновлено до >=22; виправлено версії node у workflow; оновлено devDependencies; додано tsconfig.json, prettier.config.mjs",
+        "zh-cn": "修复W5604：在8种语言中添加缺失的weather i18n键；将engines.node更新为>=22；修复workflow中的node版本；更新devDependencies；添加tsconfig.json、prettier.config.mjs"
+      },
       "1.2.24": {
         "en": "Add missing uk translations to news, fix prettier formatting in main.js",
         "de": "Fehlende uk-Uebersetzungen in news ergaenzt, Prettier-Formatierung in main.js korrigiert",

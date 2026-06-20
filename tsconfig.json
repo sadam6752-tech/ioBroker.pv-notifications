@@ -1,0 +1,13 @@
+{
+  "extends": "@tsconfig/node22/tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "outDir": "./build"
+  },
+  "include": ["**/*.js", "**/*.ts"],
+  "exclude": ["node_modules/**", "build/**", "test/**", "admin/**"]
+}
