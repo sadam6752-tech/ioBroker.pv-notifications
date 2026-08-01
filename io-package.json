@@ -119,19 +119,6 @@
         "pl": "Dodano wpis v1.2.18 do sekcji news w io-package.json",
         "uk": "Додано запис v1.2.18 до секції news в io-package.json",
         "zh-cn": "在 io-package.json 的 news 部分添加了 v1.2.18 条目"
-      },
-      "1.2.18": {
-        "en": "Fix missing await in onBatterySOCChange, null-check in buildTestMessage, safe intermediateSteps parsing, remove dead code",
-        "de": "Fehlenden await in onBatterySOCChange behoben, Null-Check in buildTestMessage, sichere intermediateSteps-Verarbeitung, toten Code entfernt",
-        "ru": "Исправлен отсутствующий await в onBatterySOCChange, null-проверка в buildTestMessage, безопасный парсинг intermediateSteps, удалён мёртвый код",
-        "pt": "Corrigido await ausente em onBatterySOCChange, verificação null em buildTestMessage, análise segura de intermediateSteps, código morto removido",
-        "nl": "Ontbrekende await in onBatterySOCChange hersteld, null-check in buildTestMessage, veilige intermediateSteps-verwerking, dode code verwijderd",
-        "fr": "Correction du await manquant dans onBatterySOCChange, vérification null dans buildTestMessage, analyse sécurisée des intermediateSteps, code mort supprimé",
-        "it": "Corretto await mancante in onBatterySOCChange, controllo null in buildTestMessage, parsing sicuro di intermediateSteps, codice morto rimosso",
-        "es": "Corregido await faltante en onBatterySOCChange, verificación null en buildTestMessage, análisis seguro de intermediateSteps, código muerto eliminado",
-        "pl": "Naprawiono brakujący await w onBatterySOCChange, sprawdzanie null w buildTestMessage, bezpieczne parsowanie intermediateSteps, usunięto martwy kod",
-        "uk": "Виправлено відсутній await в onBatterySOCChange, перевірка null в buildTestMessage, безпечний парсинг intermediateSteps, видалено мертвий код",
-        "zh-cn": "修复 onBatterySOCChange 中缺少的 await，buildTestMessage 中的 null 检查，安全的 intermediateSteps 解析，删除死代码"
       }
     },
     "authors": [
