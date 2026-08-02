@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.25",
+    "version": "1.2.26",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.26": {
+        "en": "Fix W5604: add missing i18n keys for sunset stats in 8 languages; move old changelog to CHANGELOG_OLD.md; fix README structure",
+        "de": "W5604: fehlende i18n-Schluessel fuer Sonnenuntergangs-Statistik in 8 Sprachen ergaenzt; alten Changelog in CHANGELOG_OLD.md verschoben; README-Struktur korrigiert",
+        "ru": "W5604: добавлены отсутствующие i18n ключи для статистики заката в 8 языках; старый changelog перенесён в CHANGELOG_OLD.md; исправлена структура README",
+        "fr": "W5604: clés i18n manquantes pour stats coucher du soleil ajoutées dans 8 langues; ancien changelog déplacé dans CHANGELOG_OLD.md; structure README corrigée",
+        "it": "W5604: chiavi i18n mancanti per stats tramonto aggiunte in 8 lingue; vecchio changelog spostato in CHANGELOG_OLD.md; struttura README corretta",
+        "es": "W5604: claves i18n faltantes para stats atardecer añadidas en 8 idiomas; changelog antiguo movido a CHANGELOG_OLD.md; estructura README corregida",
+        "pl": "W5604: brakujące klucze i18n dla statystyk zachodu słońca dodane w 8 językach; stary changelog przeniesiony do CHANGELOG_OLD.md; poprawiona struktura README",
+        "pt": "W5604: chaves i18n em falta para stats pôr do sol adicionadas em 8 idiomas; changelog antigo movido para CHANGELOG_OLD.md; estrutura README corrigida",
+        "nl": "W5604: ontbrekende i18n-sleutels voor zonsondergang-statistieken in 8 talen toegevoegd; oud changelog verplaatst naar CHANGELOG_OLD.md; README-structuur gecorrigeerd",
+        "uk": "W5604: додано відсутні i18n ключі для статистики заходу сонця у 8 мовах; старий changelog перенесено до CHANGELOG_OLD.md; виправлено структуру README",
+        "zh-cn": "修复W5604：在8种语言中添加日落统计缺失的i18n键；将旧changelog移至CHANGELOG_OLD.md；修复README结构"
+      },
       "1.2.25": {
         "en": "Fix W5604: add missing weather i18n keys in 8 languages; update engines.node to >=22; fix workflow node versions; update devDependencies; add tsconfig.json, prettier.config.mjs",
         "de": "W5604 behoben: fehlende Wetter-i18n-Schlüssel in 8 Sprachen ergänzt; engines.node auf >=22 aktualisiert; Workflow-Node-Versionen korrigiert; devDependencies aktualisiert; tsconfig.json, prettier.config.mjs hinzugefügt",
@@ -106,19 +119,6 @@
         "nl": "Fix PR#5576: ongebruikte admin-bestanden verwijderd, info-logs teruggebracht naar debug, Engelse state-namen met eenheden, channel-objecten voor statistics/info, button read:false, this.setInterval, translate fallback naar Engels",
         "zh-cn": "修复 PR#5576：删除未使用的 admin 文件，将 info 日志降级为 debug，英文 state 名称带单位，statistics/info 的 channel 对象，button read:false，this.setInterval，translate 回退到英文",
         "uk": "Fix PR#5576: видалено невикористані файли admin, info-логи знижено до debug, англійські імена states з одиницями, channel-обєкти для statistics/info, button read:false, this.setInterval, fallback translate на англійську"
-      },
-      "1.2.19": {
-        "en": "Added v1.2.18 entry to news section in io-package.json",
-        "de": "Eintrag v1.2.18 zur news-Sektion in io-package.json hinzugefügt",
-        "ru": "Добавлена запись v1.2.18 в секцию news в io-package.json",
-        "pt": "Adicionada entrada v1.2.18 à seção news em io-package.json",
-        "nl": "Vermelding v1.2.18 toegevoegd aan news-sectie in io-package.json",
-        "fr": "Ajout de l'entrée v1.2.18 à la section news dans io-package.json",
-        "it": "Aggiunta voce v1.2.18 alla sezione news in io-package.json",
-        "es": "Añadida entrada v1.2.18 a la sección news en io-package.json",
-        "pl": "Dodano wpis v1.2.18 do sekcji news w io-package.json",
-        "uk": "Додано запис v1.2.18 до секції news в io-package.json",
-        "zh-cn": "在 io-package.json 的 news 部分添加了 v1.2.18 条目"
       }
     },
     "authors": [
