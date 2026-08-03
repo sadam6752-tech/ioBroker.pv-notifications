@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.27",
+    "version": "1.2.28",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.28": {
+        "en": "Migrate i18n to short format ({lang}.json); trim news to 7 entries",
+        "de": "i18n auf Kurzformat ({lang}.json) migriert; News auf 7 Einträge gekürzt",
+        "ru": "Миграция i18n на короткий формат ({lang}.json); news сокращены до 7 записей",
+        "fr": "Migration i18n vers format court ({lang}.json); news réduit à 7 entrées",
+        "it": "Migrazione i18n a formato breve ({lang}.json); news ridotte a 7 voci",
+        "es": "Migración i18n a formato corto ({lang}.json); news reducidas a 7 entradas",
+        "pl": "Migracja i18n do krótkiego formatu ({lang}.json); news skrócone do 7 wpisów",
+        "pt": "Migração i18n para formato curto ({lang}.json); news reduzidas a 7 entradas",
+        "nl": "i18n gemigreerd naar kort formaat ({lang}.json); news ingekort tot 7 items",
+        "uk": "Міграція i18n на короткий формат ({lang}.json); news скорочено до 7 записів",
+        "zh-cn": "将i18n迁移到短格式（{lang}.json）；news缩减至7条"
+      },
       "1.2.27": {
         "en": "Fix CI: update package-lock.json to include all eslint peer dependencies",
         "de": "CI behoben: package-lock.json aktualisiert um alle eslint Peer-Dependencies einzuschließen",
@@ -106,19 +119,6 @@
         "nl": "Dagelijkse statistieken bij zonsondergang: optioneel selectievakje om dagelijkse statistieken te sturen op zonsondergangtijd van een configureerbaar object in plaats van vaste tijd",
         "zh-cn": "日落时发送每日统计：可选复选框，在可配置对象的日落时间发送每日统计，而非固定时间",
         "uk": "Додано відправку денної статистики за заходом сонця: опціональний чекбокс для відправки статистики в момент заходу сонця з обєкта що налаштовується замість фіксованого часу"
-      },
-      "1.2.21": {
-        "en": "Fix: use extendObject instead of setObjectNotExists for states with unit/role to update existing instances",
-        "de": "Fix: extendObject statt setObjectNotExists fuer States mit unit/role, um bestehende Instanzen zu aktualisieren",
-        "ru": "Fix: extendObject вместо setObjectNotExists для states с unit/role, чтобы обновить существующие инстанции",
-        "fr": "Fix: extendObject au lieu de setObjectNotExists pour les states avec unit/role afin de mettre a jour les instances existantes",
-        "it": "Fix: extendObject invece di setObjectNotExists per states con unit/role per aggiornare le istanze esistenti",
-        "es": "Fix: extendObject en lugar de setObjectNotExists para states con unit/role para actualizar instancias existentes",
-        "pl": "Fix: extendObject zamiast setObjectNotExists dla states z unit/role aby zaktualizowac istniejace instancje",
-        "pt": "Fix: extendObject em vez de setObjectNotExists para states com unit/role para atualizar instancias existentes",
-        "nl": "Fix: extendObject in plaats van setObjectNotExists voor states met unit/role om bestaande instanties bij te werken",
-        "zh-cn": "修复：对带有 unit/role 的 state 使用 extendObject 而非 setObjectNotExists，以更新现有实例",
-        "uk": "Виправлено: extendObject замість setObjectNotExists для states з unit/role для оновлення існуючих екземплярів"
       }
     },
     "authors": [
