@@ -314,6 +314,9 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.2.27
+* (FIX) CI: update package-lock.json to include all eslint peer dependencies
+
 ### 1.2.26 (2026-08-01)
 * (FIX) W5604: add missing i18n keys for sunset stats in 8 languages (es, fr, it, nl, pl, pt, uk, zh-cn)
 * (FIX) W6019: move old changelog entries to CHANGELOG_OLD.md

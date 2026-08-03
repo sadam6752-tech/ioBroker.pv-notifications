@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.26",
+    "version": "1.2.27",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.27": {
+        "en": "Fix CI: update package-lock.json to include all eslint peer dependencies",
+        "de": "CI behoben: package-lock.json aktualisiert um alle eslint Peer-Dependencies einzuschließen",
+        "ru": "Исправлен CI: обновлён package-lock.json для включения всех peer-зависимостей eslint",
+        "fr": "Fix CI: package-lock.json mis à jour pour inclure toutes les peer dependencies eslint",
+        "it": "Fix CI: package-lock.json aggiornato per includere tutte le peer dependencies eslint",
+        "es": "Fix CI: package-lock.json actualizado para incluir todas las peer dependencies de eslint",
+        "pl": "Naprawa CI: zaktualizowano package-lock.json aby zawierał wszystkie peer dependencies eslint",
+        "pt": "Fix CI: package-lock.json atualizado para incluir todas as peer dependencies do eslint",
+        "nl": "Fix CI: package-lock.json bijgewerkt om alle eslint peer dependencies op te nemen",
+        "uk": "Виправлено CI: оновлено package-lock.json для включення всіх peer-залежностей eslint",
+        "zh-cn": "修复CI：更新package-lock.json以包含所有eslint对等依赖项"
+      },
       "1.2.26": {
         "en": "Fix W5604: add missing i18n keys for sunset stats in 8 languages; move old changelog to CHANGELOG_OLD.md; fix README structure",
         "de": "W5604: fehlende i18n-Schluessel fuer Sonnenuntergangs-Statistik in 8 Sprachen ergaenzt; alten Changelog in CHANGELOG_OLD.md verschoben; README-Struktur korrigiert",
@@ -106,19 +119,6 @@
         "nl": "Fix: extendObject in plaats van setObjectNotExists voor states met unit/role om bestaande instanties bij te werken",
         "zh-cn": "修复：对带有 unit/role 的 state 使用 extendObject 而非 setObjectNotExists，以更新现有实例",
         "uk": "Виправлено: extendObject замість setObjectNotExists для states з unit/role для оновлення існуючих екземплярів"
-      },
-      "1.2.20": {
-        "en": "Fix PR#5576: remove unused admin files, reduce info logs to debug, English state names with units, channel objects for statistics/info, button read:false, this.setInterval, translate fallback to English",
-        "de": "Fix PR#5576: ungenutzte Admin-Dateien entfernt, Info-Logs auf Debug reduziert, englische State-Namen mit Einheiten, Channel-Objekte fuer statistics/info, button read:false, this.setInterval, translate Fallback auf Englisch",
-        "ru": "Fix PR#5576: удалены неиспользуемые файлы admin, info-логи снижены до debug, английские имена states с единицами, channel-объекты для statistics/info, button read:false, this.setInterval, fallback translate на английский",
-        "fr": "Fix PR#5576: suppression fichiers admin inutiles, logs info reduits en debug, noms etats anglais avec unites, objets channel pour statistics/info, button read:false, this.setInterval, fallback translate en anglais",
-        "it": "Fix PR#5576: rimossi file admin inutilizzati, log info ridotti a debug, nomi stati inglesi con unita, oggetti channel per statistics/info, button read:false, this.setInterval, fallback translate in inglese",
-        "es": "Fix PR#5576: eliminados archivos admin no usados, logs info reducidos a debug, nombres estados ingles con unidades, objetos channel para statistics/info, button read:false, this.setInterval, fallback translate a ingles",
-        "pl": "Fix PR#5576: usunieto nieuzywane pliki admin, logi info zredukowane do debug, angielskie nazwy stanow z jednostkami, obiekty channel dla statistics/info, button read:false, this.setInterval, fallback translate na angielski",
-        "pt": "Fix PR#5576: removidos ficheiros admin nao usados, logs info reduzidos a debug, nomes estados ingles com unidades, objetos channel para statistics/info, button read:false, this.setInterval, fallback translate para ingles",
-        "nl": "Fix PR#5576: ongebruikte admin-bestanden verwijderd, info-logs teruggebracht naar debug, Engelse state-namen met eenheden, channel-objecten voor statistics/info, button read:false, this.setInterval, translate fallback naar Engels",
-        "zh-cn": "修复 PR#5576：删除未使用的 admin 文件，将 info 日志降级为 debug，英文 state 名称带单位，statistics/info 的 channel 对象，button read:false，this.setInterval，translate 回退到英文",
-        "uk": "Fix PR#5576: видалено невикористані файли admin, info-логи знижено до debug, англійські імена states з одиницями, channel-обєкти для statistics/info, button read:false, this.setInterval, fallback translate на англійську"
       }
     },
     "authors": [
