@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.28",
+    "version": "1.2.29",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.29": {
+        "en": "Fix corrupted UTF-8 separator lines in the monthly stats message (showed as question marks in Telegram). Fix corrupted Russian translations for 'Current charge level' and 'Own consumption'. Weather today in daily stats now shows the temperature reading as '(currently: X°C)' instead of implying a daily value.",
+        "de": "Beschädigte UTF-8-Trennzeilen in der Monatsstatistik-Nachricht behoben (erschienen als Fragezeichen in Telegram). Beschädigte russische Übersetzungen für 'Aktueller Ladestand' und 'Eigenverbrauch' behoben. Wetter heute in der Tagesstatistik zeigt den Temperaturwert jetzt als '(aktuell: X°C)' statt einen Tageswert zu suggerieren.",
+        "ru": "Исправлены повреждённые UTF-8 разделители в сообщении месячной статистики (отображались как знаки вопроса в Telegram). Исправлены повреждённые русские переводы 'Текущий уровень заряда' и 'Собственное потребление'. Погода сегодня в дневной статистике теперь показывает температуру как '(сейчас: X°C)' вместо намёка на дневное значение.",
+        "fr": "Correction des lignes de séparation UTF-8 corrompues dans le message de statistiques mensuelles (affichées comme des points d'interrogation dans Telegram). Correction des traductions russes corrompues.",
+        "it": "Corrette le righe separatore UTF-8 danneggiate nel messaggio delle statistiche mensili (apparivano come punti interrogativi in Telegram). Corrette le traduzioni russe danneggiate.",
+        "es": "Corregidas las líneas separadoras UTF-8 dañadas en el mensaje de estadísticas mensuales (aparecían como signos de interrogación en Telegram). Corregidas las traducciones rusas dañadas.",
+        "pl": "Naprawiono uszkodzone linie separatora UTF-8 w wiadomości statystyk miesięcznych (wyświetlane jako znaki zapytania w Telegramie). Naprawiono uszkodzone tłumaczenia rosyjskie.",
+        "pt": "Corrigidas as linhas separadoras UTF-8 corrompidas na mensagem de estatísticas mensais (apareciam como pontos de interrogação no Telegram). Corrigidas as traduções russas corrompidas.",
+        "nl": "Beschadigde UTF-8-scheidingsregels in het maandstatistiekbericht gecorrigeerd (werden weergegeven als vraagtekens in Telegram). Beschadigde Russische vertalingen gecorrigeerd.",
+        "uk": "Виправлено пошкоджені UTF-8 роздільники в повідомленні місячної статистики (відображалися як знаки питання в Telegram). Виправлено пошкоджені російські переклади.",
+        "zh-cn": "修复了月度统计消息中损坏的UTF-8分隔线（在Telegram中显示为问号）。修复了损坏的俄语翻译。"
+      },
       "1.2.28": {
         "en": "Migrate i18n to short format ({lang}.json); trim news to 7 entries",
         "de": "i18n auf Kurzformat ({lang}.json) migriert; News auf 7 Einträge gekürzt",
@@ -106,19 +119,6 @@
         "nl": "Lay-out statistieksectie gecorrigeerd: tijd, zonsondergang-checkbox en object op een rij",
         "zh-cn": "修复统计部分布局：将时间、日落复选框和对象放在同一行",
         "uk": "Виправлено макет секції статистики: час, чекбокс заходу сонця та обєкт в одному рядку"
-      },
-      "1.2.22": {
-        "en": "Add sunset-based daily statistics: optional checkbox to send daily stats at sunset time from a configurable object instead of fixed time",
-        "de": "Sonnenuntergang-basierte Tagesstatistik: optionale Checkbox um Tagesstatistik zur Sonnenuntergangszeit aus einem konfigurierbaren Objekt zu senden statt zur festen Uhrzeit",
-        "ru": "Отправка дневной статистики по закату: опциональный чекбокс для отправки статистики в момент заката из настраиваемого объекта вместо фиксированного времени",
-        "fr": "Statistiques quotidiennes au coucher du soleil: case optionnelle pour envoyer les stats au coucher du soleil depuis un objet configurable au lieu d une heure fixe",
-        "it": "Statistiche giornaliere al tramonto: checkbox opzionale per inviare le statistiche all ora del tramonto da un oggetto configurabile invece di un orario fisso",
-        "es": "Estadisticas diarias al atardecer: casilla opcional para enviar estadisticas a la hora del atardecer desde un objeto configurable en lugar de hora fija",
-        "pl": "Statystyki dzienne o zachodzie slonca: opcjonalne pole wyboru do wysylania statystyk o zachodzie slonca z konfigurowalnego obiektu zamiast stalej godziny",
-        "pt": "Estatisticas diarias ao por do sol: caixa opcional para enviar estatisticas na hora do por do sol de um objeto configuravel em vez de hora fixa",
-        "nl": "Dagelijkse statistieken bij zonsondergang: optioneel selectievakje om dagelijkse statistieken te sturen op zonsondergangtijd van een configureerbaar object in plaats van vaste tijd",
-        "zh-cn": "日落时发送每日统计：可选复选框，在可配置对象的日落时间发送每日统计，而非固定时间",
-        "uk": "Додано відправку денної статистики за заходом сонця: опціональний чекбокс для відправки статистики в момент заходу сонця з обєкта що налаштовується замість фіксованого часу"
       }
     },
     "authors": [

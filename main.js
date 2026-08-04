@@ -1344,11 +1344,13 @@ ${statusText}
                         weatherTodayTextState && weatherTodayTextState.val !== null ? weatherTodayTextState.val : null;
                     const weatherTodayTemp =
                         weatherTodayTempState && weatherTodayTempState.val !== null ? weatherTodayTempState.val : null;
-                    const todayTempText = weatherTodayTemp ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
 
                     if (weatherTodayText || weatherTodayTemp) {
                         const weatherDesc = weatherTodayText ? this.getWeatherDescription(weatherTodayText) : '🌡️';
-                        message += `\n━━━━━━━━━━━━━━━━━━━━━━\n🌤️ *${this.translate('Weather today')}:* ${weatherDesc}${todayTempText}`;
+                        const todayTempSuffix = weatherTodayTemp
+                            ? ` (${this.translate('Currently')}: ${this.round(weatherTodayTemp, 1)}°C)`
+                            : '';
+                        message += `\n━━━━━━━━━━━━━━━━━━━━━━\n🌤️ *${this.translate('Weather today')}:* ${weatherDesc}${todayTempSuffix}`;
                         weatherAdded = true;
                     }
                 }
@@ -1452,12 +1454,12 @@ ${statusText}
 ━━━━━━━━━━━━━━━━━━━━━━
 🔋 ${this.translate('Full cycles last month')}: ${this.stats.lastMonthFullCycles}
 📉 ${this.translate('Empty cycles last month')}: ${this.stats.lastMonthEmptyCycles}
-���━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━
 ☀️ ${this.translate('Production')}: ${totalProd} kWh
 🏠 ${this.translate('Own consumption')}: ${selfConsumption} kWh (${selfConsumptionRate}%)
 🔌 ${this.translate('Feed-in')}: ${feedIn} kWh
 ⚡ ${this.translate('Grid consumption')}: ${gridPower} kWh
-━━━━━━━━━━━━���━━━━━━━━━`;
+━━━━━━━━━━━━━━━━━━━━━━`;
     }
 
     /**
@@ -1785,7 +1787,7 @@ ${statusText}
             'Current charge level': {
                 de: 'Aktueller Ladestand',
                 en: 'Current charge level',
-                ru: 'Текущий уровень за��яда',
+                ru: 'Текущий уровень заряда',
             },
             'Current energy': {
                 de: 'Aktuelle Energie',
@@ -1805,7 +1807,7 @@ ${statusText}
             'Own consumption': {
                 de: 'Eigenverbrauch',
                 en: 'Own consumption',
-                ru: 'Собственное потребле��ие',
+                ru: 'Собственное потребление',
             },
             'Feed-in': {
                 de: 'Einspeisung',
@@ -1846,6 +1848,11 @@ ${statusText}
                 de: 'Wetter heute',
                 en: 'Weather today',
                 ru: 'Погода сегодня',
+            },
+            Currently: {
+                de: 'aktuell',
+                en: 'currently',
+                ru: 'сейчас',
             },
             'Good PV production expected': {
                 de: 'Gute PV-Produktion erwartet',

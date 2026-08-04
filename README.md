@@ -314,6 +314,11 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.2.29
+* (FIX) Corrupted UTF-8 separator lines in the monthly stats message (showed as question marks in Telegram)
+* (FIX) Corrupted Russian translations for "Current charge level" and "Own consumption"
+* (FIX) Weather today in daily stats now shows the temperature as "(currently: X°C)" instead of implying a daily value
+
 ### 1.2.28
 * (FIX) Migrate i18n to short format ({lang}.json); trim news to 7 entries
 
