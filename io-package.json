@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.30",
+    "version": "1.2.31",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.31": {
+        "en": "CI: Node.js 26 added to the test matrix and a new deploy job using npm Trusted Publishing (OIDC) with provenance. Added the missing changelog entry for 1.2.30 and completed the short 1.2.29 news translations. Dependencies: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "de": "CI: Node.js 26 in die Test-Matrix aufgenommen und neuer Deploy-Job mit npm Trusted Publishing (OIDC) samt Provenance. Fehlender Changelog-Eintrag fuer 1.2.30 ergaenzt und zu kurze 1.2.29-News-Uebersetzungen vervollstaendigt. Abhaengigkeiten: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "ru": "CI: Node.js 26 добавлен в тестовую матрицу и новый job deploy с npm Trusted Publishing (OIDC) и provenance. Добавлена отсутствующая запись чейнджлога для 1.2.30 и дополнены короткие переводы новостей 1.2.29. Зависимости: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "fr": "CI : Node.js 26 ajoute a la matrice de tests et nouveau job deploy avec npm Trusted Publishing (OIDC) et provenance. Ajout de l'entree de changelog manquante pour 1.2.30 et traductions courtes des nouveautes 1.2.29 completees. Dependances : @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "it": "CI: Node.js 26 aggiunto alla matrice di test e nuovo job deploy con npm Trusted Publishing (OIDC) e provenance. Aggiunta la voce di changelog mancante per 1.2.30 e completate le traduzioni brevi delle novita 1.2.29. Dipendenze: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "es": "CI: Node.js 26 anadido a la matriz de pruebas y nuevo job deploy con npm Trusted Publishing (OIDC) y provenance. Anadida la entrada de changelog que faltaba para 1.2.30 y completadas las traducciones cortas de novedades 1.2.29. Dependencias: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "pl": "CI: Node.js 26 dodany do macierzy testow i nowy job deploy z npm Trusted Publishing (OIDC) oraz provenance. Dodano brakujacy wpis changeloga dla 1.2.30 i uzupelniono krotkie tlumaczenia nowosci 1.2.29. Zaleznosci: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "pt": "CI: Node.js 26 adicionado a matriz de testes e novo job deploy com npm Trusted Publishing (OIDC) e provenance. Adicionada a entrada de changelog em falta para 1.2.30 e completadas as traducoes curtas das novidades 1.2.29. Dependencias: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "nl": "CI: Node.js 26 toegevoegd aan de testmatrix en nieuwe deploy-job met npm Trusted Publishing (OIDC) en provenance. Ontbrekende changelog-regel voor 1.2.30 toegevoegd en korte 1.2.29-nieuwsteksten aangevuld. Afhankelijkheden: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "uk": "CI: Node.js 26 додано до тестової матриці та новий job deploy із npm Trusted Publishing (OIDC) і provenance. Додано відсутній запис журналу змін для 1.2.30 та доповнено короткі переклади новин 1.2.29. Залежності: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
+        "zh-cn": "CI：将 Node.js 26 加入测试矩阵，并新增使用 npm Trusted Publishing (OIDC) 的 deploy 作业（含 provenance）。补充了 1.2.30 缺失的变更日志条目并完善了 1.2.29 新闻的简短翻译。依赖：@iobroker/testing 6.2.x、@alcalzone/release-script-plugin-license 5.2.2。"
+      },
       "1.2.30": {
         "en": "Add optional data point for current house consumption in W. Battery full/empty messages now use this live value instead of the daily kWh total (fixes #74). If not configured, PV power minus feed-in is used as a fallback.",
         "de": "Optionalen Datenpunkt für den aktuellen Hausverbrauch in W hinzugefügt. Batterie-Voll/Leer-Meldungen verwenden jetzt diesen Live-Wert statt des Tages-kWh-Werts (behebt #74). Wenn nicht konfiguriert, wird ersatzweise PV-Leistung minus Einspeisung genutzt.",
@@ -47,12 +60,12 @@
         "de": "Beschädigte UTF-8-Trennzeilen in der Monatsstatistik-Nachricht behoben (erschienen als Fragezeichen in Telegram). Beschädigte russische Übersetzungen für 'Aktueller Ladestand' und 'Eigenverbrauch' behoben. Wetter heute in der Tagesstatistik zeigt den Temperaturwert jetzt als '(aktuell: X°C)' statt einen Tageswert zu suggerieren.",
         "ru": "Исправлены повреждённые UTF-8 разделители в сообщении месячной статистики (отображались как знаки вопроса в Telegram). Исправлены повреждённые русские переводы 'Текущий уровень заряда' и 'Собственное потребление'. Погода сегодня в дневной статистике теперь показывает температуру как '(сейчас: X°C)' вместо намёка на дневное значение.",
         "fr": "Correction des lignes de séparation UTF-8 corrompues dans le message de statistiques mensuelles (affichées comme des points d'interrogation dans Telegram). Correction des traductions russes corrompues.",
-        "it": "Corrette le righe separatore UTF-8 danneggiate nel messaggio delle statistiche mensili (apparivano come punti interrogativi in Telegram). Corrette le traduzioni russe danneggiate.",
-        "es": "Corregidas las líneas separadoras UTF-8 dañadas en el mensaje de estadísticas mensuales (aparecían como signos de interrogación en Telegram). Corregidas las traducciones rusas dañadas.",
-        "pl": "Naprawiono uszkodzone linie separatora UTF-8 w wiadomości statystyk miesięcznych (wyświetlane jako znaki zapytania w Telegramie). Naprawiono uszkodzone tłumaczenia rosyjskie.",
-        "pt": "Corrigidas as linhas separadoras UTF-8 corrompidas na mensagem de estatísticas mensais (apareciam como pontos de interrogação no Telegram). Corrigidas as traduções russas corrompidas.",
-        "nl": "Beschadigde UTF-8-scheidingsregels in het maandstatistiekbericht gecorrigeerd (werden weergegeven als vraagtekens in Telegram). Beschadigde Russische vertalingen gecorrigeerd.",
-        "uk": "Виправлено пошкоджені UTF-8 роздільники в повідомленні місячної статистики (відображалися як знаки питання в Telegram). Виправлено пошкоджені російські переклади.",
+        "it": "Corrette le righe separatore UTF-8 danneggiate nel messaggio delle statistiche mensili (apparivano come punti interrogativi in Telegram). Corrette le traduzioni russe danneggiate. Il meteo di oggi nelle statistiche giornaliere ora mostra la temperatura come \"(attualmente: X deg C)\" invece di suggerire un valore giornaliero.",
+        "es": "Corregidas las líneas separadoras UTF-8 dañadas en el mensaje de estadísticas mensuales (aparecían como signos de interrogación en Telegram). Corregidas las traducciones rusas dañadas. El tiempo de hoy en las estadisticas diarias ahora muestra la temperatura como \"(actualmente: X deg C)\" en lugar de sugerir un valor diario.",
+        "pl": "Naprawiono uszkodzone linie separatora UTF-8 w wiadomości statystyk miesięcznych (wyświetlane jako znaki zapytania w Telegramie). Naprawiono uszkodzone tłumaczenia rosyjskie. Pogoda na dzis w statystykach dziennych pokazuje teraz temperature jako \"(aktualnie: X deg C)\" zamiast sugerowac wartosc dzienna.",
+        "pt": "Corrigidas as linhas separadoras UTF-8 corrompidas na mensagem de estatísticas mensais (apareciam como pontos de interrogação no Telegram). Corrigidas as traduções russas corrompidas. O tempo de hoje nas estatisticas diarias agora mostra a temperatura como \"(atualmente: X deg C)\" em vez de sugerir um valor diario.",
+        "nl": "Beschadigde UTF-8-scheidingsregels in het maandstatistiekbericht gecorrigeerd (werden weergegeven als vraagtekens in Telegram). Beschadigde Russische vertalingen gecorrigeerd. Het weer van vandaag in de dagstatistieken toont de temperatuur nu als \"(momenteel: X deg C)\" in plaats van een dagwaarde te suggereren.",
+        "uk": "Виправлено пошкоджені UTF-8 роздільники в повідомленні місячної статистики (відображалися як знаки питання в Telegram). Виправлено пошкоджені російські переклади. Погода на сьогодні в денній статистиці тепер показує температуру як \"(наразі: X deg C)\" замість того, щоб натякати на денне значення.",
         "zh-cn": "修复了月度统计消息中损坏的UTF-8分隔线（在Telegram中显示为问号）。修复了损坏的俄语翻译。"
       },
       "1.2.28": {
@@ -106,19 +119,6 @@
         "nl": "Fix W5604: ontbrekende weer-i18n-sleutels in 8 talen toegevoegd; engines.node bijgewerkt naar >=22; node-versies workflow gecorrigeerd; devDependencies bijgewerkt; tsconfig.json, prettier.config.mjs toegevoegd",
         "uk": "Виправлення W5604: додано відсутні weather i18n ключі у 8 мовах; engines.node оновлено до >=22; виправлено версії node у workflow; оновлено devDependencies; додано tsconfig.json, prettier.config.mjs",
         "zh-cn": "修复W5604：在8种语言中添加缺失的weather i18n键；将engines.node更新为>=22；修复workflow中的node版本；更新devDependencies；添加tsconfig.json、prettier.config.mjs"
-      },
-      "1.2.24": {
-        "en": "Add missing uk translations to news, fix prettier formatting in main.js",
-        "de": "Fehlende uk-Uebersetzungen in news ergaenzt, Prettier-Formatierung in main.js korrigiert",
-        "ru": "Добавлены недостающие uk-переводы в news, исправлено форматирование prettier в main.js",
-        "fr": "Ajout des traductions uk manquantes dans news, correction formatage prettier dans main.js",
-        "it": "Aggiunte traduzioni uk mancanti in news, corretta formattazione prettier in main.js",
-        "es": "Anadidas traducciones uk faltantes en news, corregido formato prettier en main.js",
-        "pl": "Dodano brakujace tlumaczenia uk w news, poprawiono formatowanie prettier w main.js",
-        "pt": "Adicionadas traducoes uk em falta em news, corrigida formatacao prettier em main.js",
-        "nl": "Ontbrekende uk-vertalingen toegevoegd aan news, prettier-opmaak gecorrigeerd in main.js",
-        "uk": "Додано відсутні uk-переклади до news, виправлено форматування prettier у main.js",
-        "zh-cn": "添加 news 中缺失的 uk 翻译，修复 main.js 中的 prettier 格式"
       }
     },
     "authors": [

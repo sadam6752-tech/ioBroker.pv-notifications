@@ -1,5 +1,8 @@
 # Old Changelog
 
+### 1.2.24 (2026-03-17)
+* (FIX) Added missing uk translations to news, fixed prettier formatting in main.js
+
 ### 1.2.17 (2026-03-15)
 * (FIX) Removed old versions from common.news to comply with W1032 (maximum 7 versions)
 
