@@ -1,5 +1,9 @@
 # Old Changelog
 
+### 1.2.25 (2026-08-01)
+* (FIX) Update @iobroker/adapter-core to 3.4.3
+* (FIX) Remove old news entry 1.2.18 (max 7 entries allowed)
+
 ### 1.2.24 (2026-03-17)
 * (FIX) Added missing uk translations to news, fixed prettier formatting in main.js
 

@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.31",
+    "version": "1.2.32",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.32": {
+        "en": "Fix: daily, weekly and monthly statistics are no longer lost on adapter restart. Fix: monthly statistics now report real monthly cycle counts. Fix: weekly/monthly saving no longer fails with empty data points. Fix: SOC delivered as text is accepted. Fix: test message with partially configured weather. Added unit tests and README badges.",
+        "de": "Fix: Tages-, Wochen- und Monatsstatistik gehen beim Neustart des Adapters nicht mehr verloren. Fix: Die Monatsstatistik zeigt jetzt die echten Monatszyklen. Fix: Wochen-/Monatsspeicherung schlaegt bei leeren Datenpunkten nicht mehr fehl. Fix: SOC als Text wird akzeptiert. Fix: Testnachricht bei teilweise konfiguriertem Wetter. Unit-Tests und README-Badges hinzugefuegt.",
+        "ru": "Исправлено: дневная, недельная и месячная статистика больше не теряется при перезапуске адаптера. Исправлено: месячная статистика показывает реальное число месячных циклов. Исправлено: сохранение недельных/месячных данных больше не падает при пустых точках данных. Исправлено: SOC в виде текста принимается. Исправлено: тестовое сообщение при частично настроенной погоде. Добавлены юнит-тесты и бейджи в README.",
+        "fr": "Correction : les statistiques journalieres, hebdomadaires et mensuelles ne sont plus perdues au redemarrage de l'adaptateur. Correction : les statistiques mensuelles indiquent les vrais cycles mensuels. Correction : l'enregistrement hebdomadaire/mensuel n'echoue plus avec des points de donnees vides. Correction : SOC fourni en texte accepte. Correction : message de test avec meteo partiellement configuree. Tests unitaires et badges README ajoutes.",
+        "it": "Correzione: le statistiche giornaliere, settimanali e mensili non vengono piu perse al riavvio dell'adattatore. Correzione: le statistiche mensili mostrano i veri cicli mensili. Correzione: il salvataggio settimanale/mensile non fallisce piu con punti dati vuoti. Correzione: SOC fornito come testo accettato. Correzione: messaggio di test con meteo configurato parzialmente. Aggiunti test unitari e badge README.",
+        "es": "Correccion: las estadisticas diarias, semanales y mensuales ya no se pierden al reiniciar el adaptador. Correccion: las estadisticas mensuales muestran los ciclos mensuales reales. Correccion: el guardado semanal/mensual ya no falla con puntos de datos vacios. Correccion: se acepta SOC entregado como texto. Correccion: mensaje de prueba con clima configurado parcialmente. Anadidas pruebas unitarias e insignias en README.",
+        "pl": "Poprawka: statystyki dzienne, tygodniowe i miesieczne nie sa juz tracone po restarcie adaptera. Poprawka: statystyki miesieczne pokazuja prawdziwe cykle miesieczne. Poprawka: zapis tygodniowy/miesieczny nie konczy sie juz bledem przy pustych punktach danych. Poprawka: SOC dostarczony jako tekst jest akceptowany. Poprawka: wiadomosc testowa przy czesciowo skonfigurowanej pogodzie. Dodano testy jednostkowe i odznaki w README.",
+        "pt": "Correcao: as estatisticas diarias, semanais e mensais ja nao se perdem ao reiniciar o adaptador. Correcao: as estatisticas mensais mostram os ciclos mensais reais. Correcao: a gravacao semanal/mensal ja nao falha com pontos de dados vazios. Correcao: SOC entregue como texto e aceite. Correcao: mensagem de teste com meteorologia parcialmente configurada. Adicionados testes unitarios e emblemas no README.",
+        "nl": "Fix: dag-, week- en maandstatistieken gaan niet meer verloren bij het herstarten van de adapter. Fix: maandstatistieken tonen de echte maandcycli. Fix: week-/maandopslag mislukt niet meer bij lege datapunten. Fix: SOC als tekst wordt geaccepteerd. Fix: testbericht bij gedeeltelijk geconfigureerd weer. Unit-tests en README-badges toegevoegd.",
+        "uk": "Виправлено: денна, тижнева та місячна статистика більше не втрачається під час перезапуску адаптера. Виправлено: місячна статистика показує реальну кількість місячних циклів. Виправлено: збереження тижневих/місячних даних більше не падає з порожніми точками даних. Виправлено: SOC у вигляді тексту приймається. Виправлено: тестове повідомлення при частково налаштованій погоді. Додано модульні тести та бейджі в README.",
+        "zh-cn": "修复：适配器重启后日、周、月统计数据不再丢失。修复：月统计现在显示真实的月循环次数。修复：数据点为空时每周/每月保存不再失败。修复：接受文本形式的SOC。修复：天气部分配置时的测试消息。新增单元测试和README徽章。"
+      },
       "1.2.31": {
         "en": "CI: Node.js 26 added to the test matrix and a new deploy job using npm Trusted Publishing (OIDC) with provenance. Added the missing changelog entry for 1.2.30 and completed the short 1.2.29 news translations. Dependencies: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
         "de": "CI: Node.js 26 in die Test-Matrix aufgenommen und neuer Deploy-Job mit npm Trusted Publishing (OIDC) samt Provenance. Fehlender Changelog-Eintrag fuer 1.2.30 ergaenzt und zu kurze 1.2.29-News-Uebersetzungen vervollstaendigt. Abhaengigkeiten: @iobroker/testing 6.2.x, @alcalzone/release-script-plugin-license 5.2.2.",
@@ -106,19 +119,6 @@
         "nl": "W5604: ontbrekende i18n-sleutels voor zonsondergang-statistieken in 8 talen toegevoegd; oud changelog verplaatst naar CHANGELOG_OLD.md; README-structuur gecorrigeerd",
         "uk": "W5604: додано відсутні i18n ключі для статистики заходу сонця у 8 мовах; старий changelog перенесено до CHANGELOG_OLD.md; виправлено структуру README",
         "zh-cn": "修复W5604：在8种语言中添加日落统计缺失的i18n键；将旧changelog移至CHANGELOG_OLD.md；修复README结构"
-      },
-      "1.2.25": {
-        "en": "Fix W5604: add missing weather i18n keys in 8 languages; update engines.node to >=22; fix workflow node versions; update devDependencies; add tsconfig.json, prettier.config.mjs",
-        "de": "W5604 behoben: fehlende Wetter-i18n-Schlüssel in 8 Sprachen ergänzt; engines.node auf >=22 aktualisiert; Workflow-Node-Versionen korrigiert; devDependencies aktualisiert; tsconfig.json, prettier.config.mjs hinzugefügt",
-        "ru": "Исправление W5604: добавлены отсутствующие weather i18n ключи в 8 языках; engines.node обновлён до >=22; исправлены версии node в workflow; обновлены devDependencies; добавлены tsconfig.json, prettier.config.mjs",
-        "fr": "Fix W5604: clés i18n météo manquantes ajoutées dans 8 langues; engines.node mis à jour à >=22; versions node workflow corrigées; devDependencies mis à jour; tsconfig.json, prettier.config.mjs ajoutés",
-        "it": "Fix W5604: chiavi i18n meteo mancanti aggiunte in 8 lingue; engines.node aggiornato a >=22; versioni node workflow corrette; devDependencies aggiornati; tsconfig.json, prettier.config.mjs aggiunti",
-        "es": "Fix W5604: claves i18n clima faltantes añadidas en 8 idiomas; engines.node actualizado a >=22; versiones node workflow corregidas; devDependencies actualizados; tsconfig.json, prettier.config.mjs añadidos",
-        "pl": "Naprawa W5604: dodano brakujące klucze i18n pogody w 8 językach; engines.node zaktualizowano do >=22; poprawiono wersje node w workflow; zaktualizowano devDependencies; dodano tsconfig.json, prettier.config.mjs",
-        "pt": "Fix W5604: chaves i18n meteorologia em falta adicionadas em 8 idiomas; engines.node atualizado para >=22; versões node workflow corrigidas; devDependencies atualizados; tsconfig.json, prettier.config.mjs adicionados",
-        "nl": "Fix W5604: ontbrekende weer-i18n-sleutels in 8 talen toegevoegd; engines.node bijgewerkt naar >=22; node-versies workflow gecorrigeerd; devDependencies bijgewerkt; tsconfig.json, prettier.config.mjs toegevoegd",
-        "uk": "Виправлення W5604: додано відсутні weather i18n ключі у 8 мовах; engines.node оновлено до >=22; виправлено версії node у workflow; оновлено devDependencies; додано tsconfig.json, prettier.config.mjs",
-        "zh-cn": "修复W5604：在8种语言中添加缺失的weather i18n键；将engines.node更新为>=22；修复workflow中的node版本；更新devDependencies；添加tsconfig.json、prettier.config.mjs"
       }
     },
     "authors": [

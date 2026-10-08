@@ -42,6 +42,8 @@ class PvNotifications extends utils.Adapter {
             minSOC: 100,
             weekFullCycles: 0,
             weekEmptyCycles: 0,
+            monthFullCycles: 0,
+            monthEmptyCycles: 0,
             lastStatsReset: new Date().getDate(),
             lastWeekReset: new Date().getDay(),
             lastMonthReset: 0,
@@ -154,6 +156,32 @@ class PvNotifications extends utils.Adapter {
         await this.setObjectNotExists('statistics.emptyCyclesWeek', {
             type: 'state',
             common: { name: 'Empty cycles this week', type: 'number', role: 'value', read: true, write: false, def: 0 },
+        });
+        await this.setObjectNotExists('statistics.fullCyclesMonth', {
+            type: 'state',
+            common: { name: 'Full cycles this month', type: 'number', role: 'value', read: true, write: false, def: 0 },
+        });
+        await this.setObjectNotExists('statistics.emptyCyclesMonth', {
+            type: 'state',
+            common: {
+                name: 'Empty cycles this month',
+                type: 'number',
+                role: 'value',
+                read: true,
+                write: false,
+                def: 0,
+            },
+        });
+        await this.setObjectNotExists('statistics.lastStatsReset', {
+            type: 'state',
+            common: {
+                name: 'Day of last daily reset',
+                type: 'number',
+                role: 'value',
+                read: true,
+                write: false,
+                def: 0,
+            },
         });
         await this.extendObject('statistics.currentSOC', {
             type: 'state',
@@ -516,8 +544,27 @@ class PvNotifications extends utils.Adapter {
         try {
             const today = new Date().getDate();
             const lastReset = await this.getStateAsync('statistics.lastStatsReset');
+            const num = async id => {
+                const st = await this.getStateAsync(id);
+                return st && typeof st.val === 'number' ? st.val : 0;
+            };
 
-            if (!lastReset || lastReset.val !== today) {
+            // Week/month counters survive restarts
+            this.stats.weekFullCycles = await num('statistics.fullCyclesWeek');
+            this.stats.weekEmptyCycles = await num('statistics.emptyCyclesWeek');
+            this.stats.monthFullCycles = await num('statistics.fullCyclesMonth');
+            this.stats.monthEmptyCycles = await num('statistics.emptyCyclesMonth');
+
+            if (lastReset && lastReset.val === today) {
+                // Same day - restore daily values (a restart must not wipe them)
+                this.stats.fullCycles = await num('statistics.fullCyclesToday');
+                this.stats.emptyCycles = await num('statistics.emptyCyclesToday');
+                const max = await this.getStateAsync('statistics.maxSOCToday');
+                const min = await this.getStateAsync('statistics.minSOCToday');
+                this.stats.maxSOC = max && typeof max.val === 'number' ? max.val : 0;
+                this.stats.minSOC = min && typeof min.val === 'number' ? min.val : 100;
+                this.stats.lastStatsReset = today;
+            } else {
                 // New day - reset statistics
                 this.stats.fullCycles = 0;
                 this.stats.emptyCycles = 0;
@@ -586,7 +633,7 @@ class PvNotifications extends utils.Adapter {
                 const socState = await this.getForeignStateAsync(this.config.batterySOC);
                 if (socState && socState.val !== null) {
                     this.log.debug(`SOC read: ${socState.val}%`);
-                    this.onBatterySOCChange(socState.val);
+                    await this.onBatterySOCChange(socState.val);
                 } else {
                     this.log.warn('SOC state is null or undefined');
                     this.log.warn(`Please check: Does "${this.config.batterySOC}" exist in Objects?`);
@@ -618,6 +665,25 @@ class PvNotifications extends utils.Adapter {
     }
 
     /**
+     * Read a numeric foreign state; returns 0 for empty id, missing state or read error
+     *
+     * @param {string} id - Foreign state ID (may be empty)
+     */
+    async readForeignNumber(id) {
+        if (!id) {
+            return 0;
+        }
+        try {
+            const state = await this.getForeignStateAsync(id);
+            const val = state ? Number(state.val) : NaN;
+            return state && state.val !== null && !isNaN(val) ? val : 0;
+        } catch (e) {
+            this.log.warn(`Could not read "${id}": ${e.message}`);
+            return 0;
+        }
+    }
+
+    /**
      * Save statistics to states
      */
     async saveStatistics() {
@@ -628,6 +694,9 @@ class PvNotifications extends utils.Adapter {
             await this.setStateAsync('statistics.minSOCToday', this.stats.minSOC, true);
             await this.setStateAsync('statistics.fullCyclesWeek', this.stats.weekFullCycles, true);
             await this.setStateAsync('statistics.emptyCyclesWeek', this.stats.weekEmptyCycles, true);
+            await this.setStateAsync('statistics.fullCyclesMonth', this.stats.monthFullCycles, true);
+            await this.setStateAsync('statistics.emptyCyclesMonth', this.stats.monthEmptyCycles, true);
+            await this.setStateAsync('statistics.lastStatsReset', this.stats.lastStatsReset, true);
 
             // Save last month/week data
             await this.setStateAsync('statistics.lastMonthProduction', this.stats.lastMonthProduction, true);
@@ -713,10 +782,12 @@ class PvNotifications extends utils.Adapter {
      */
     async onBatterySOCChange(soc) {
         // Check for undefined/null values
-        if (soc === null || soc === undefined || isNaN(soc)) {
+        if (soc === null || soc === undefined || soc === '' || isNaN(soc)) {
             this.log.warn(`Invalid SOC value received: ${soc}`);
             return;
         }
+        // Some adapters deliver the SOC as string - strict comparisons below need a number
+        soc = Number(soc);
 
         // Update current states
         await this.setStateAsync('statistics.currentSOC', soc, true);
@@ -765,6 +836,7 @@ class PvNotifications extends utils.Adapter {
                 this.status.lastNotification.full = Date.now();
                 this.stats.fullCycles++;
                 this.stats.weekFullCycles++;
+                this.stats.monthFullCycles++;
                 this.saveStatistics();
                 this.log.info('Battery full - Telegram sent');
             } else if (this.status.full && !this.canNotify('full')) {
@@ -794,6 +866,7 @@ class PvNotifications extends utils.Adapter {
                     this.status.lastNotification.empty = Date.now();
                     this.stats.emptyCycles++;
                     this.stats.weekEmptyCycles++;
+                    this.stats.monthEmptyCycles++;
                     this.saveStatistics();
                     this.log.info('Battery empty - Telegram sent');
                 } else if (blockedByQuietTime) {
@@ -839,8 +912,8 @@ class PvNotifications extends utils.Adapter {
                         }
                     }
                 }
-            } else if (nightModeActive) {
-                this.log.debug('Night time (00:00-08:00) - intermediate notifications suppressed');
+            } else {
+                this.log.debug('Night/quiet time - intermediate notifications suppressed');
             }
         }
 
@@ -1469,7 +1542,7 @@ ${statusText}
         // const consumption = this.round(this.stats.lastWeekConsumption, 1);  // ESLint: unused
         const feedIn = this.round(Math.abs(this.stats.lastWeekFeedIn), 1);
         const gridPower = this.round(this.stats.lastWeekGridPower, 1);
-        const selfConsumption = this.round(totalProd - feedIn, 1);
+        const selfConsumption = this.round(Math.max(0, totalProd - feedIn), 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
         return `📊 *${this.translate('Weekly statistics PV system')}*
@@ -1494,7 +1567,7 @@ ${statusText}
         // const consumption = this.round(this.stats.lastMonthConsumption, 1);  // ESLint: unused
         const feedIn = this.round(Math.abs(this.stats.lastMonthFeedIn), 1);
         const gridPower = this.round(this.stats.lastMonthGridPower, 1);
-        const selfConsumption = this.round(totalProd - feedIn, 1);
+        const selfConsumption = this.round(Math.max(0, totalProd - feedIn), 1);
         const selfConsumptionRate = totalProd > 0 ? this.round((selfConsumption / totalProd) * 100, 1) : 0;
 
         return `📊 *${this.translate('Monthly statistics PV system')}*
@@ -1620,8 +1693,8 @@ ${statusText}
             // Alle 5 Minuten: Statistik prüfen (um :00, :05, :10, ...)
             if (minutes % 5 === 0) {
                 this.resetDailyStats();
-                this.resetWeeklyStats();
-                this.resetMonthlyStats();
+                this.resetWeeklyStats().catch(e => this.log.error(`Weekly reset failed: ${e.message}`));
+                this.resetMonthlyStats().catch(e => this.log.error(`Monthly reset failed: ${e.message}`));
             }
 
             // Tägliche Statistik — entweder zur konfigurierten Zeit oder zum Sonnenuntergang
@@ -1710,16 +1783,10 @@ ${statusText}
             // Aktuelle Daten aus externen States lesen (direkter Zugriff)
             // WICHTIG: weeklyProduction/weeklyConsumption/etc. verwenden (sourceanalytix Wochenwerte)
             // NICHT totalProduction/consumption/etc. (das sind Tageswerte!)
-            const weeklyProd = await this.getForeignStateAsync(this.config.weeklyProduction);
-            const weeklyConsumption = await this.getForeignStateAsync(this.config.weeklyConsumption);
-            const weeklyFeedIn = await this.getForeignStateAsync(this.config.weeklyFeedIn);
-            const weeklyGridPower = await this.getForeignStateAsync(this.config.weeklyGridPower);
-
-            this.stats.lastWeekProduction = weeklyProd && weeklyProd.val !== null ? weeklyProd.val : 0;
-            this.stats.lastWeekConsumption =
-                weeklyConsumption && weeklyConsumption.val !== null ? weeklyConsumption.val : 0;
-            this.stats.lastWeekFeedIn = weeklyFeedIn && weeklyFeedIn.val !== null ? weeklyFeedIn.val : 0;
-            this.stats.lastWeekGridPower = weeklyGridPower && weeklyGridPower.val !== null ? weeklyGridPower.val : 0;
+            this.stats.lastWeekProduction = await this.readForeignNumber(this.config.weeklyProduction);
+            this.stats.lastWeekConsumption = await this.readForeignNumber(this.config.weeklyConsumption);
+            this.stats.lastWeekFeedIn = await this.readForeignNumber(this.config.weeklyFeedIn);
+            this.stats.lastWeekGridPower = await this.readForeignNumber(this.config.weeklyGridPower);
             this.stats.lastWeekFullCycles = this.stats.weekFullCycles;
             this.stats.lastWeekEmptyCycles = this.stats.weekEmptyCycles;
 
@@ -1759,17 +1826,15 @@ ${statusText}
             );
 
             // Aktuelle Daten aus externen States lesen (direkter Zugriff)
-            const totalProd = await this.getForeignStateAsync(this.config.monthlyProduction);
-            const consumption = await this.getForeignStateAsync(this.config.monthlyConsumption);
-            const feedIn = await this.getForeignStateAsync(this.config.monthlyFeedIn);
-            const gridPower = await this.getForeignStateAsync(this.config.monthlyGridPower);
-
-            this.stats.lastMonthProduction = totalProd && totalProd.val !== null ? totalProd.val : 0;
-            this.stats.lastMonthConsumption = consumption && consumption.val !== null ? consumption.val : 0;
-            this.stats.lastMonthFeedIn = feedIn && feedIn.val !== null ? feedIn.val : 0;
-            this.stats.lastMonthGridPower = gridPower && gridPower.val !== null ? gridPower.val : 0;
-            this.stats.lastMonthFullCycles = this.stats.fullCycles;
-            this.stats.lastMonthEmptyCycles = this.stats.emptyCycles;
+            this.stats.lastMonthProduction = await this.readForeignNumber(this.config.monthlyProduction);
+            this.stats.lastMonthConsumption = await this.readForeignNumber(this.config.monthlyConsumption);
+            this.stats.lastMonthFeedIn = await this.readForeignNumber(this.config.monthlyFeedIn);
+            this.stats.lastMonthGridPower = await this.readForeignNumber(this.config.monthlyGridPower);
+            // Monthly cycle counters (previously the daily counters were stored by mistake)
+            this.stats.lastMonthFullCycles = this.stats.monthFullCycles;
+            this.stats.lastMonthEmptyCycles = this.stats.monthEmptyCycles;
+            this.stats.monthFullCycles = 0;
+            this.stats.monthEmptyCycles = 0;
 
             this.stats.lastMonthReset = today;
             this.saveStatistics();
@@ -2065,8 +2130,12 @@ ${statusText}
 
                 // Wetter morgen
                 if (this.config.weatherTomorrowText || this.config.weatherTomorrowTemp) {
-                    const weatherTomorrowTextState = await this.getForeignStateAsync(this.config.weatherTomorrowText);
-                    const weatherTomorrowState = await this.getForeignStateAsync(this.config.weatherTomorrowTemp);
+                    const weatherTomorrowTextState = this.config.weatherTomorrowText
+                        ? await this.getForeignStateAsync(this.config.weatherTomorrowText)
+                        : null;
+                    const weatherTomorrowState = this.config.weatherTomorrowTemp
+                        ? await this.getForeignStateAsync(this.config.weatherTomorrowTemp)
+                        : null;
 
                     const weatherTomorrowText =
                         weatherTomorrowTextState && weatherTomorrowTextState.val !== null

@@ -2,6 +2,16 @@
 
 ![Logo](admin/pv-notifications.png)
 
+![Stable](https://iobroker.live/badges/pv-notifications-stable.svg)
+[![NPM version](https://img.shields.io/npm/v/iobroker.pv-notifications.svg)](https://www.npmjs.com/package/iobroker.pv-notifications)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.pv-notifications.svg)](https://www.npmjs.com/package/iobroker.pv-notifications)
+[![License](https://img.shields.io/github/license/sadam6752-tech/ioBroker.pv-notifications.svg)](LICENSE)
+
+[![NPM](https://nodei.co/npm/iobroker.pv-notifications.png?downloads=true)](https://nodei.co/npm/iobroker.pv-notifications/)
+
+[![Test and Release](https://github.com/sadam6752-tech/ioBroker.pv-notifications/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/sadam6752-tech/ioBroker.pv-notifications/actions/workflows/test-and-release.yml)
+![Number of Installations](https://iobroker.live/badges/pv-notifications-installed.svg)
+
 Sends Telegram notifications for PV battery status (full, empty, intermediate levels).
 
 ## Features
@@ -313,6 +323,15 @@ sadam6752@gmail.com
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### 1.2.32 (2026-10-08)
+* (FIX) Daily, weekly and monthly statistics (cycles, min/max SOC) are no longer reset on every adapter restart
+* (FIX) Monthly statistics reported the daily cycle counters; there are now real monthly counters (`statistics.fullCyclesMonth`, `statistics.emptyCyclesMonth`)
+* (FIX) Weekly/monthly auto-save no longer fails with an unhandled error when the weekly/monthly data points are empty
+* (FIX) SOC delivered as a string (e.g. "100") now triggers the full/empty/intermediate notifications
+* (FIX) Test message: tomorrow's weather no longer breaks when only text or only temperature is configured
+* (FIX) Weekly/monthly own consumption can no longer be negative
+* (ADD) Unit tests (`npm run test:js`), README badges, `.gitattributes` (LF line endings)
 
 ### 1.2.31 (2026-09-21)
 * (ADD) CI: Node.js 26 in the test matrix and a new deploy job using npm Trusted Publishing (OIDC) with provenance
