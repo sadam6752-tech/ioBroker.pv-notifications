@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.32",
+    "version": "1.2.33",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.33": {
+        "en": "Fix: Telegram messages were sent to all users of the bot instead of only the configured users. Fix: bold text was shown with literal asterisks (messages now use HTML formatting). Thresholds and intermediate steps are now detected when reached or crossed (e.g. SOC jumps 39 -> 41 or decimal values). Fix: statistics were not saved on adapter stop; last week/month values were reset on the first start of a day; daily reset now happens at midnight; weekly/monthly saving is more robust. Fix: 0 °C was not shown.",
+        "de": "Fix: Telegram-Nachrichten gingen an alle Benutzer des Bots statt nur an die konfigurierten Benutzer. Fix: Fettschrift wurde mit sichtbaren Sternchen angezeigt (Nachrichten nutzen jetzt HTML-Formatierung). Schwellwerte und Zwischenstufen werden jetzt erkannt, wenn sie erreicht oder ueberschritten werden (z. B. SOC springt von 39 auf 41 oder Dezimalwerte). Fix: Statistik wurde beim Stoppen nicht gespeichert; Werte der letzten Woche/des letzten Monats wurden beim ersten Start eines Tages zurueckgesetzt; Tagesreset jetzt um Mitternacht; Wochen-/Monatsspeicherung robuster. Fix: 0 °C wurde nicht angezeigt.",
+        "ru": "Исправлено: сообщения Telegram отправлялись всем пользователям бота, а не только настроенным. Исправлено: жирный текст отображался с видимыми звёздочками (теперь используется HTML-форматирование). Пороги и промежуточные ступени теперь срабатывают при достижении или пересечении (например, скачок SOC с 39 на 41 или дробные значения). Исправлено: статистика не сохранялась при остановке адаптера; значения прошлой недели/месяца сбрасывались при первом запуске за день; дневной сброс теперь в полночь; сохранение недели/месяца надёжнее. Исправлено: 0 °C не отображался.",
+        "fr": "Correction : les messages Telegram etaient envoyes a tous les utilisateurs du bot au lieu des seuls utilisateurs configures. Correction : le texte en gras s'affichait avec des asterisques visibles (les messages utilisent maintenant le format HTML). Les seuils et paliers intermediaires sont detectes lorsqu'ils sont atteints ou franchis (p. ex. SOC passant de 39 a 41 ou valeurs decimales). Correction : statistiques non enregistrees a l'arret ; valeurs de la semaine/du mois precedent reinitialisees au premier demarrage du jour ; remise a zero quotidienne a minuit ; enregistrement hebdomadaire/mensuel plus robuste. Correction : 0 °C n'etait pas affiche.",
+        "it": "Correzione: i messaggi Telegram venivano inviati a tutti gli utenti del bot invece che solo agli utenti configurati. Correzione: il grassetto veniva mostrato con asterischi visibili (ora i messaggi usano la formattazione HTML). Soglie e livelli intermedi vengono ora rilevati quando raggiunti o superati (ad es. SOC che salta da 39 a 41 o valori decimali). Correzione: statistiche non salvate all'arresto; valori della settimana/mese precedente azzerati al primo avvio del giorno; azzeramento giornaliero ora a mezzanotte; salvataggio settimanale/mensile piu robusto. Correzione: 0 °C non veniva mostrato.",
+        "es": "Correccion: los mensajes de Telegram se enviaban a todos los usuarios del bot en lugar de solo a los usuarios configurados. Correccion: la negrita se mostraba con asteriscos visibles (los mensajes ahora usan formato HTML). Los umbrales y niveles intermedios ahora se detectan al alcanzarse o superarse (p. ej. SOC que salta de 39 a 41 o valores decimales). Correccion: las estadisticas no se guardaban al detener el adaptador; los valores de la semana/mes anterior se reiniciaban en el primer inicio del dia; reinicio diario ahora a medianoche; guardado semanal/mensual mas robusto. Correccion: 0 °C no se mostraba.",
+        "pl": "Poprawka: wiadomosci Telegram byly wysylane do wszystkich uzytkownikow bota zamiast tylko do skonfigurowanych. Poprawka: pogrubienie wyswietlalo sie z widocznymi gwiazdkami (wiadomosci uzywaja teraz formatowania HTML). Progi i stopnie posrednie sa teraz wykrywane po osiagnieciu lub przekroczeniu (np. skok SOC z 39 na 41 lub wartosci dziesietne). Poprawka: statystyki nie byly zapisywane przy zatrzymaniu adaptera; wartosci z poprzedniego tygodnia/miesiaca byly zerowane przy pierwszym uruchomieniu w danym dniu; dzienny reset teraz o polnocy; zapis tygodniowy/miesieczny bardziej niezawodny. Poprawka: 0 °C nie bylo wyswietlane.",
+        "pt": "Correcao: as mensagens do Telegram eram enviadas a todos os utilizadores do bot em vez de apenas aos utilizadores configurados. Correcao: o negrito aparecia com asteriscos visiveis (as mensagens usam agora formatacao HTML). Os limites e niveis intermedios sao agora detetados quando atingidos ou ultrapassados (p. ex. SOC a saltar de 39 para 41 ou valores decimais). Correcao: as estatisticas nao eram guardadas ao parar o adaptador; os valores da semana/mes anterior eram repostos no primeiro arranque do dia; reposicao diaria agora a meia-noite; gravacao semanal/mensal mais robusta. Correcao: 0 °C nao era mostrado.",
+        "nl": "Fix: Telegram-berichten werden naar alle gebruikers van de bot gestuurd in plaats van alleen naar de geconfigureerde gebruikers. Fix: vetgedrukte tekst werd met zichtbare sterretjes getoond (berichten gebruiken nu HTML-opmaak). Drempels en tussenstappen worden nu herkend wanneer ze bereikt of overschreden worden (bijv. SOC springt van 39 naar 41 of decimale waarden). Fix: statistieken werden niet opgeslagen bij het stoppen van de adapter; waarden van vorige week/maand werden bij de eerste start van een dag gereset; dagelijkse reset nu om middernacht; week-/maandopslag robuuster. Fix: 0 °C werd niet getoond.",
+        "uk": "Виправлено: повідомлення Telegram надсилалися всім користувачам бота, а не лише налаштованим. Виправлено: жирний текст показувався з видимими зірочками (тепер використовується HTML-форматування). Пороги та проміжні рівні тепер спрацьовують при досягненні або перетині (наприклад, стрибок SOC з 39 на 41 або дробові значення). Виправлено: статистика не зберігалася під час зупинки адаптера; значення минулого тижня/місяця скидалися під час першого запуску за день; щоденне скидання тепер опівночі; збереження тижня/місяця надійніше. Виправлено: 0 °C не відображався.",
+        "zh-cn": "修复：Telegram 消息会发送给机器人的所有用户，而不仅是已配置的用户。修复：粗体文字显示为可见的星号（消息现在使用 HTML 格式）。阈值和中间级别现在在达到或越过时触发（例如 SOC 从 39 跳到 41 或小数值）。修复：停止适配器时未保存统计数据；上周/上月数值在当天首次启动时被重置；每日重置改为午夜；周/月保存更可靠。修复：0 °C 未显示。"
+      },
       "1.2.32": {
         "en": "Fix: daily, weekly and monthly statistics are no longer lost on adapter restart. Fix: monthly statistics now report real monthly cycle counts. Fix: weekly/monthly saving no longer fails with empty data points. Fix: SOC delivered as text is accepted. Fix: test message with partially configured weather. Added unit tests and README badges.",
         "de": "Fix: Tages-, Wochen- und Monatsstatistik gehen beim Neustart des Adapters nicht mehr verloren. Fix: Die Monatsstatistik zeigt jetzt die echten Monatszyklen. Fix: Wochen-/Monatsspeicherung schlaegt bei leeren Datenpunkten nicht mehr fehl. Fix: SOC als Text wird akzeptiert. Fix: Testnachricht bei teilweise konfiguriertem Wetter. Unit-Tests und README-Badges hinzugefuegt.",
@@ -106,19 +119,6 @@
         "nl": "Fix CI: package-lock.json bijgewerkt om alle eslint peer dependencies op te nemen",
         "uk": "Виправлено CI: оновлено package-lock.json для включення всіх peer-залежностей eslint",
         "zh-cn": "修复CI：更新package-lock.json以包含所有eslint对等依赖项"
-      },
-      "1.2.26": {
-        "en": "Fix W5604: add missing i18n keys for sunset stats in 8 languages; move old changelog to CHANGELOG_OLD.md; fix README structure",
-        "de": "W5604: fehlende i18n-Schluessel fuer Sonnenuntergangs-Statistik in 8 Sprachen ergaenzt; alten Changelog in CHANGELOG_OLD.md verschoben; README-Struktur korrigiert",
-        "ru": "W5604: добавлены отсутствующие i18n ключи для статистики заката в 8 языках; старый changelog перенесён в CHANGELOG_OLD.md; исправлена структура README",
-        "fr": "W5604: clés i18n manquantes pour stats coucher du soleil ajoutées dans 8 langues; ancien changelog déplacé dans CHANGELOG_OLD.md; structure README corrigée",
-        "it": "W5604: chiavi i18n mancanti per stats tramonto aggiunte in 8 lingue; vecchio changelog spostato in CHANGELOG_OLD.md; struttura README corretta",
-        "es": "W5604: claves i18n faltantes para stats atardecer añadidas en 8 idiomas; changelog antiguo movido a CHANGELOG_OLD.md; estructura README corregida",
-        "pl": "W5604: brakujące klucze i18n dla statystyk zachodu słońca dodane w 8 językach; stary changelog przeniesiony do CHANGELOG_OLD.md; poprawiona struktura README",
-        "pt": "W5604: chaves i18n em falta para stats pôr do sol adicionadas em 8 idiomas; changelog antigo movido para CHANGELOG_OLD.md; estrutura README corrigida",
-        "nl": "W5604: ontbrekende i18n-sleutels voor zonsondergang-statistieken in 8 talen toegevoegd; oud changelog verplaatst naar CHANGELOG_OLD.md; README-structuur gecorrigeerd",
-        "uk": "W5604: додано відсутні i18n ключі для статистики заходу сонця у 8 мовах; старий changelog перенесено до CHANGELOG_OLD.md; виправлено структуру README",
-        "zh-cn": "修复W5604：在8种语言中添加日落统计缺失的i18n键；将旧changelog移至CHANGELOG_OLD.md；修复README结构"
       }
     },
     "authors": [

@@ -324,6 +324,19 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.2.33 (2026-10-08)
+* (FIX) Telegram messages were sent to **all** users of the bot instead of only the configured users (`user` instead of the ignored `users` parameter)
+* (FIX) Bold text was shown with literal asterisks - messages are now sent with HTML formatting (values from other adapters are escaped)
+* (CHANGE) Full/empty thresholds and intermediate steps are detected when reached or crossed (e.g. SOC jumps from 39 to 41, decimal SOC values, battery stopping at 99 % with a 98 % threshold); a jump over several steps sends one message
+* (FIX) Statistics were not saved when the adapter was stopped (unload handler was not registered)
+* (FIX) Last week/month values were overwritten with 0 on the first adapter start of a day
+* (FIX) Daily statistics reset now happens at midnight; before it only ran if the daily stats time was a multiple of 5 minutes
+* (FIX) Min/max SOC of the day are written immediately
+* (FIX) Weekly/monthly auto-save runs once in the window 23:55-23:59, so a delayed timer tick no longer skips it; monthly cycles roll over even when monthly statistics are disabled
+* (FIX) Sunset object may also contain a timestamp or ISO date; missing time settings no longer crash the scheduler
+* (FIX) 0 °C was not shown; numeric weather values no longer break the weather block
+* (FIX) Errors while processing state changes no longer stop the adapter; test button cannot get stuck
+
 ### 1.2.32 (2026-10-08)
 * (FIX) Daily, weekly and monthly statistics (cycles, min/max SOC) are no longer reset on every adapter restart
 * (FIX) Monthly statistics reported the daily cycle counters; there are now real monthly counters (`statistics.fullCyclesMonth`, `statistics.emptyCyclesMonth`)

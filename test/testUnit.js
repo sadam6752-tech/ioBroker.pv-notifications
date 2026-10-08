@@ -72,6 +72,25 @@ function make(config = {}) {
 }
 
 describe('PvNotifications unit tests', () => {
+    describe('lifecycle', () => {
+        it('registers ready, stateChange and unload handlers', () => {
+            const a = make();
+            expect(a.listenerCount('ready')).to.equal(1);
+            expect(a.listenerCount('stateChange')).to.equal(1);
+            expect(a.listenerCount('unload')).to.equal(1);
+        });
+
+        it('onStateChange swallows errors and resets the test button flag', async () => {
+            const a = make();
+            a.sendTestMessage = async () => {
+                throw new Error('boom');
+            };
+            await a.onStateChange(`${a.namespace}.testButton`, { val: true, ack: false });
+            expect(a.status.testMessageRunning).to.equal(false);
+            expect(a.states.testButton.val).to.equal(false);
+        });
+    });
+
     describe('round()', () => {
         const a = make();
         it('rounds to given decimals', () => {
@@ -170,8 +189,25 @@ describe('PvNotifications unit tests', () => {
             a.sendTelegram('hello');
             expect(a.sent).to.have.length(1);
             expect(a.sent[0].instance).to.equal('telegram.0');
-            expect(a.sent[0].payload.users).to.equal('alice, bob');
+            // telegram adapter reads "user" - "users" would be ignored and the message broadcast to everyone
+            expect(a.sent[0].payload.user).to.equal('alice,bob');
+            expect(a.sent[0].payload).to.not.have.property('users');
             expect(a.sent[0].payload.text).to.contain('hello');
+        });
+        it('sends HTML with bold text instead of literal asterisks', () => {
+            const a = make();
+            a.sendTelegram('📊 *Tagesstatistik PV-Anlage*\n🌤️ *Wetter heute:* Regen');
+            const { text, parse_mode } = a.sent[0].payload;
+            expect(parse_mode).to.equal('HTML');
+            expect(text).to.contain('<b>Tagesstatistik PV-Anlage</b>');
+            expect(text).to.contain('<b>Wetter heute:</b> Regen');
+            expect(text).to.not.contain('*');
+        });
+        it('escapes HTML from foreign values', () => {
+            const a = make();
+            expect(a.formatTelegramHtml('Wetter: <b>sun & rain</b> *x')).to.equal(
+                'Wetter: &lt;b&gt;sun &amp; rain&lt;/b&gt; *x',
+            );
         });
         it('does nothing without instance or users', () => {
             const a = make({ telegramInstance: '' });
@@ -235,6 +271,60 @@ describe('PvNotifications unit tests', () => {
             expect(a.status.intermediateNotified).to.deep.equal([]);
         });
 
+        it('detects intermediate steps when the SOC jumps over them (39 -> 41)', async () => {
+            const a = make();
+            await a.onBatterySOCChange(39);
+            expect(a.sent).to.have.length(0);
+            await a.onBatterySOCChange(41);
+            expect(a.sent).to.have.length(1);
+            expect(a.sent[0].payload.text).to.contain('41%');
+            expect(a.sent[0].payload.text).to.contain('⬆️');
+            expect(a.status.intermediateNotified).to.deep.equal([40]);
+        });
+
+        it('detects intermediate steps with decimal SOC values, also when discharging', async () => {
+            const a = make();
+            await a.onBatterySOCChange(60.4);
+            await a.onBatterySOCChange(59.8);
+            expect(a.sent).to.have.length(1);
+            expect(a.sent[0].payload.text).to.contain('⬇️');
+        });
+
+        it('sends one message when several steps are crossed at once', async () => {
+            const a = make();
+            await a.onBatterySOCChange(18);
+            await a.onBatterySOCChange(45);
+            expect(a.sent).to.have.length(1);
+            expect(a.status.intermediateNotified).to.have.members([20, 40]);
+        });
+
+        it('does not repeat a step while the SOC oscillates around it', async () => {
+            const a = make({ minIntervalIntermediate: 0.0001 });
+            await a.onBatterySOCChange(39.5);
+            await a.onBatterySOCChange(40.2);
+            await a.onBatterySOCChange(39.7);
+            await a.onBatterySOCChange(40.1);
+            expect(a.sent).to.have.length(1);
+        });
+
+        it('does not send intermediate messages on adapter start between steps', async () => {
+            const a = make();
+            await a.onBatterySOCChange(47);
+            expect(a.sent).to.have.length(0);
+        });
+
+        it('treats a SOC above/below the thresholds as full/empty', async () => {
+            const a = make({ thresholdFull: 98, thresholdEmpty: 5 });
+            await a.onBatterySOCChange(99);
+            expect(a.sent).to.have.length(1);
+            expect(a.sent[0].payload.text).to.contain('Battery FULL');
+
+            const b = make({ thresholdFull: 100, thresholdEmpty: 5 });
+            await b.onBatterySOCChange(4);
+            expect(b.sent).to.have.length(1);
+            expect(b.sent[0].payload.text).to.contain('Battery EMPTY');
+        });
+
         it('suppresses full notification during quiet time', async () => {
             const a = make({ quietModeEnabled: true });
             a.isQuietTime = () => true;
@@ -287,6 +377,28 @@ describe('PvNotifications unit tests', () => {
             expect(a.stats.monthFullCycles).to.equal(9);
         });
 
+        it('does not overwrite last week/month values with 0 on the first start of a new day', async () => {
+            const a = make();
+            const today = new Date().getDate();
+            a.states = {
+                'statistics.lastStatsReset': { val: today === 1 ? 2 : 1 },
+                'statistics.lastWeekProduction': { val: 123.4 },
+                'statistics.lastMonthFullCycles': { val: 17 },
+            };
+            await a.loadStatistics();
+            expect(a.stats.lastWeekProduction).to.equal(123.4);
+            expect(a.states['statistics.lastWeekProduction'].val).to.equal(123.4);
+            expect(a.states['statistics.lastMonthFullCycles'].val).to.equal(17);
+            expect(a.states['statistics.lastStatsReset'].val).to.equal(today);
+        });
+
+        it('persists min/max SOC immediately', async () => {
+            const a = make();
+            await a.onBatterySOCChange(55);
+            expect(a.states['statistics.maxSOCToday'].val).to.equal(55);
+            expect(a.states['statistics.minSOCToday'].val).to.equal(55);
+        });
+
         it('resets daily values on a new day but keeps week/month counters', async () => {
             const a = make();
             const today = new Date().getDate();
@@ -329,7 +441,83 @@ describe('PvNotifications unit tests', () => {
         });
     });
 
+    describe('scheduler', () => {
+        it('parses times and sunset values', () => {
+            const a = make();
+            expect(a.parseTime('22:03')).to.deep.equal({ hours: 22, minutes: 3 });
+            expect(a.parseTime('7:05')).to.deep.equal({ hours: 7, minutes: 5 });
+            expect(a.parseTime('')).to.equal(null);
+            expect(a.parseTime(undefined)).to.equal(null);
+            expect(a.parseTime('25:00')).to.equal(null);
+            expect(a.parseSunsetTime('18:42')).to.deep.equal({ hours: 18, minutes: 42 });
+            const ts = new Date(2026, 9, 8, 18, 42).getTime();
+            expect(a.parseSunsetTime(ts)).to.deep.equal({ hours: 18, minutes: 42 });
+            expect(a.parseSunsetTime(String(ts))).to.deep.equal({ hours: 18, minutes: 42 });
+            expect(a.parseSunsetTime(new Date(ts).toISOString())).to.deep.equal({ hours: 18, minutes: 42 });
+            expect(a.parseSunsetTime('n/a')).to.equal(null);
+        });
+
+        it('resets daily statistics at day change, independent of the stats time', () => {
+            const a = make({ statsDayTime: '22:03' });
+            a.stats.lastStatsReset = 7;
+            a.stats.fullCycles = 3;
+            a.resetDailyStats(new Date(2026, 9, 7, 23, 59));
+            expect(a.stats.fullCycles).to.equal(3);
+            a.resetDailyStats(new Date(2026, 9, 8, 0, 1));
+            expect(a.stats.fullCycles).to.equal(0);
+            expect(a.stats.lastStatsReset).to.equal(8);
+        });
+
+        it('sends daily stats at a time that is not a multiple of 5 minutes', async () => {
+            const a = make({ statsDayTime: '22:03', statsWeekTime: '10:00', statsWeekDay: 0 });
+            a.stats.lastStatsReset = 8;
+            await a.runScheduledTasks(new Date(2026, 9, 8, 22, 3));
+            expect(a.sent).to.have.length(1);
+            expect(a.sent[0].payload.text).to.contain('Daily Statistics');
+        });
+
+        it('does not crash with missing time configuration', async () => {
+            const a = make({ statsDayTime: undefined, statsWeekTime: undefined });
+            await a.runScheduledTasks(new Date(2026, 9, 8, 22, 0));
+            expect(a.sent).to.have.length(0);
+        });
+
+        it('saves the week once in the window 23:55-23:59 on Sunday (missed tick tolerated)', async () => {
+            const a = make({ weeklyProduction: 'sa.week.prod' });
+            a.foreign['sa.week.prod'] = { val: 88 };
+            a.stats.weekFullCycles = 4;
+            // 2026-10-11 is a Sunday; the 23:55 tick is "missed", 23:57 must still save
+            await a.resetWeeklyStats(new Date(2026, 9, 11, 23, 57));
+            expect(a.stats.lastWeekProduction).to.equal(88);
+            expect(a.stats.lastWeekFullCycles).to.equal(4);
+            expect(a.stats.weekFullCycles).to.equal(0);
+            // second tick in the window must not overwrite last week's cycles with 0
+            await a.resetWeeklyStats(new Date(2026, 9, 11, 23, 58));
+            expect(a.stats.lastWeekFullCycles).to.equal(4);
+        });
+
+        it('rolls over monthly cycles even when monthly statistics are disabled', async () => {
+            const a = make({ monthlyStatsEnabled: false });
+            a.stats.monthFullCycles = 9;
+            await a.resetMonthlyStats(new Date(2026, 9, 31, 23, 55));
+            expect(a.stats.lastMonthFullCycles).to.equal(9);
+            expect(a.stats.monthFullCycles).to.equal(0);
+        });
+    });
+
     describe('message builders', () => {
+        it('shows 0 °C (0 is a valid temperature)', async () => {
+            const a = make({ weatherTodayTemp: 'w.today' });
+            a.foreign['w.today'] = { val: 0 };
+            const msg = await a.buildDailyStatsMessage();
+            expect(msg).to.contain('0°C');
+        });
+        it('handles numeric weather values', () => {
+            const a = make();
+            expect(a.getWeatherDescription(800)).to.equal('🌡️ 800');
+            expect(a.isWeatherGood(800)).to.equal(false);
+            expect(a.isWeatherBad(500)).to.equal(false);
+        });
         it('full message shows live consumption power when configured', async () => {
             const a = make({ currentConsumptionPower: 'x.cons' });
             a.states['statistics.currentPower'] = { val: 3500 };

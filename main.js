@@ -75,6 +75,9 @@ class PvNotifications extends utils.Adapter {
 
         // StateChange-Handler registrieren (für js-controller 7+)
         this.on('stateChange', this.onStateChange);
+
+        // Unload handler (saves statistics, resets connection state)
+        this.on('unload', this.onUnload);
     }
 
     /**
@@ -564,14 +567,15 @@ class PvNotifications extends utils.Adapter {
                 this.stats.maxSOC = max && typeof max.val === 'number' ? max.val : 0;
                 this.stats.minSOC = min && typeof min.val === 'number' ? min.val : 100;
                 this.stats.lastStatsReset = today;
-            } else {
-                // New day - reset statistics
+            }
+            const isNewDay = !(lastReset && lastReset.val === today);
+            if (isNewDay) {
+                // New day - reset statistics (saved below, after last week/month values are loaded)
                 this.stats.fullCycles = 0;
                 this.stats.emptyCycles = 0;
                 this.stats.maxSOC = 0;
                 this.stats.minSOC = 100;
                 this.stats.lastStatsReset = today;
-                await this.saveStatistics();
             }
 
             // Load saved last week data from states
@@ -613,6 +617,11 @@ class PvNotifications extends utils.Adapter {
                 lastMonthFullCycles && lastMonthFullCycles.val !== null ? lastMonthFullCycles.val : 0;
             this.stats.lastMonthEmptyCycles =
                 lastMonthEmptyCycles && lastMonthEmptyCycles.val !== null ? lastMonthEmptyCycles.val : 0;
+
+            if (isNewDay) {
+                // Must run after loading last week/month values, otherwise they are overwritten with 0
+                await this.saveStatistics();
+            }
 
             this.log.debug('Statistics loaded from states');
         } catch (e) {
@@ -723,6 +732,21 @@ class PvNotifications extends utils.Adapter {
      * @param {ioBroker.State | null | undefined} state - State object
      */
     async onStateChange(id, state) {
+        // Errors in an async event handler would become unhandled rejections and stop the adapter
+        try {
+            await this.handleStateChange(id, state);
+        } catch (e) {
+            this.log.error(`Error processing state change of ${id}: ${e.message}`);
+        }
+    }
+
+    /**
+     * Process a state change (called by onStateChange)
+     *
+     * @param {string} id - State ID
+     * @param {ioBroker.State | null | undefined} state - State object
+     */
+    async handleStateChange(id, state) {
         if (state) {
             // Process test button (all states in own namespace)
             if (id.startsWith(`${this.namespace}.testButton`)) {
@@ -731,10 +755,13 @@ class PvNotifications extends utils.Adapter {
                     this.status.testMessageRunning = true; // Set flag
                     this.log.debug(`Test button state received: ${id}, val=${state.val}`);
                     this.log.debug('Test button was pressed');
-                    await this.sendTestMessage();
-                    // Reset state
-                    await this.setStateAsync('testButton', false, true);
-                    this.status.testMessageRunning = false; // Reset flag
+                    try {
+                        await this.sendTestMessage();
+                    } finally {
+                        // Reset state and flag even if sending failed
+                        this.status.testMessageRunning = false;
+                        await this.setStateAsync('testButton', false, true);
+                    }
                 }
                 return;
             }
@@ -794,12 +821,14 @@ class PvNotifications extends utils.Adapter {
         const currentKWh = this.round(((soc / 100) * this.config.batteryCapacityWh) / 1000, 1);
         await this.setStateAsync('statistics.currentEnergyKWh', currentKWh, true);
 
-        // Update statistics
+        // Update statistics (persist immediately, otherwise the states stay stale until the next full/empty event)
         if (soc > this.stats.maxSOC) {
             this.stats.maxSOC = soc;
+            await this.setStateAsync('statistics.maxSOCToday', soc, true);
         }
         if (soc < this.stats.minSOC) {
             this.stats.minSOC = soc;
+            await this.setStateAsync('statistics.minSOCToday', soc, true);
         }
 
         this.log.debug(`Battery SOC: ${soc}% | Status: full=${this.status.full}, empty=${this.status.empty}`);
@@ -813,7 +842,13 @@ class PvNotifications extends utils.Adapter {
                   : 'up';
 
         // Store previous SOC for next update
+        const previousSOC = this.status.previousSOC;
         this.status.previousSOC = soc;
+
+        // Thresholds are compared as "reached or crossed" - the SOC can jump (39 -> 41), be a decimal (40.3)
+        // or stop just below 100, so an exact comparison would miss notifications
+        const thresholdFull = Number(this.config.thresholdFull);
+        const thresholdEmpty = Number(this.config.thresholdEmpty);
 
         // === NIGHT-TIME check with configurable time ===
         const nightTime = this.isNightTime();
@@ -825,7 +860,7 @@ class PvNotifications extends utils.Adapter {
         const quietModeActive = this.config.quietModeEnabled !== false;
 
         // === Batterie VOLL (100%) - Nicht nachts (wenn Nachtmodus aktiv) und nicht in Ruhezeit ===
-        if (soc === this.config.thresholdFull) {
+        if (soc >= thresholdFull) {
             // Prüfen ob Benachrichtigung erlaubt ist (nicht in Nachtzeit oder Ruhezeit)
             const allowNotification = (!nightTime || !nightModeActive) && (!quietTime || !quietModeActive);
 
@@ -852,7 +887,7 @@ class PvNotifications extends utils.Adapter {
         }
 
         // === Battery EMPTY (0%) - Always allow if nightModeIgnoreEmpty is active ===
-        if (soc === this.config.thresholdEmpty) {
+        if (soc <= thresholdEmpty) {
             if (!this.status.empty && this.canNotify('empty')) {
                 // Always notify at 0% if nightModeIgnoreEmpty is active
                 // But still respect quiet time (unless nightModeIgnoreEmpty is active)
@@ -879,7 +914,7 @@ class PvNotifications extends utils.Adapter {
             }
         }
         // === Intermediate-Stufen (nur wenn nicht voll/leer und nicht nachts und nicht in Ruhezeit) ===
-        if (soc !== this.config.thresholdFull && soc !== this.config.thresholdEmpty) {
+        if (soc < thresholdFull && soc > thresholdEmpty) {
             const intermediateSteps = (this.config.intermediateSteps || '20,40,60,80')
                 .split(',')
                 .map(s => parseInt(s.trim()))
@@ -889,27 +924,35 @@ class PvNotifications extends utils.Adapter {
             const allowIntermediate = (!nightTime || !nightModeActive) && (!quietTime || !quietModeActive);
 
             if (allowIntermediate) {
+                // Reset Intermediate-Flags wenn Stufe verlassen (±2% Toleranz) - vor der Prüfung, damit eine
+                // gerade überschrittene Stufe ihr Flag bis zum nächsten Wert behält (verhindert Flattern um die Stufe)
                 for (const step of intermediateSteps) {
-                    if (soc === step && !this.status.intermediateNotified.includes(step)) {
-                        if (this.canNotify('intermediate')) {
-                            const message = await this.buildIntermediateMessage(soc, direction);
-                            this.sendTelegram(message);
-                            this.status.intermediateNotified.push(step);
-                            this.status.lastNotification.intermediate = Date.now();
-                            this.log.info(`Intermediate ${step}% - Telegram sent`);
-                        }
-                        break;
-                    }
-                }
-
-                // Reset Intermediate-Flags wenn Stufe verlassen (±2% Toleranz)
-                for (const step of intermediateSteps) {
-                    if (soc !== step && Math.abs(soc - step) >= 2) {
+                    if (Math.abs(soc - step) >= 2) {
                         const idx = this.status.intermediateNotified.indexOf(step);
                         if (idx > -1) {
                             this.status.intermediateNotified.splice(idx, 1);
                             this.log.debug(`Intermediate ${step}% flag reset (SOC=${soc}%)`);
                         }
+                    }
+                }
+
+                // Steps reached or crossed since the last value; the step closest to the current SOC comes first.
+                // Without a previous value (adapter start) only an exact hit counts, to avoid messages on every restart.
+                const crossed = intermediateSteps
+                    .filter(step => this.isStepCrossed(previousSOC, soc, step))
+                    .filter(step => !this.status.intermediateNotified.includes(step))
+                    .sort((a, b) => Math.abs(soc - a) - Math.abs(soc - b));
+
+                if (crossed.length > 0) {
+                    if (this.canNotify('intermediate')) {
+                        const message = await this.buildIntermediateMessage(soc, direction);
+                        this.sendTelegram(message);
+                        // A jump over several steps sends one message only
+                        this.status.intermediateNotified.push(...crossed);
+                        this.status.lastNotification.intermediate = Date.now();
+                        this.log.info(`Intermediate ${crossed[0]}% (SOC ${soc}%) - Telegram sent`);
+                    } else {
+                        this.log.debug(`Intermediate ${crossed[0]}% reached, but interval not yet elapsed`);
                     }
                 }
             } else {
@@ -928,6 +971,26 @@ class PvNotifications extends utils.Adapter {
             this.status.empty = false;
             this.log.debug('Status "empty" reset (SOC > 5%)');
         }
+    }
+
+    /**
+     * Prüfe ob eine Stufe seit dem letzten Wert erreicht oder überschritten wurde (in beide Richtungen)
+     *
+     * @param {number | null} previousSOC - Previous SOC (null after adapter start)
+     * @param {number} soc - Current SOC
+     * @param {number} step - Intermediate step in percent
+     */
+    isStepCrossed(previousSOC, soc, step) {
+        if (previousSOC === null || previousSOC === undefined) {
+            return soc === step;
+        }
+        if (soc > previousSOC) {
+            return previousSOC < step && step <= soc;
+        }
+        if (soc < previousSOC) {
+            return previousSOC > step && step >= soc;
+        }
+        return false;
     }
 
     /**
@@ -994,6 +1057,22 @@ class PvNotifications extends utils.Adapter {
     }
 
     /**
+     * Nachricht für Telegram parse_mode HTML aufbereiten
+     *
+     * @param {string} message - Nachrichtentext mit *fett*-Markierungen
+     * @returns {string} HTML-Text für Telegram
+     */
+    formatTelegramHtml(message) {
+        // Escape HTML first, so values from foreign states (weather texts etc.) can never break the message,
+        // then turn the *bold* markers of the message templates into <b> tags (per line, always balanced)
+        return String(message)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\*([^*\n]+)\*/g, '<b>$1</b>');
+    }
+
+    /**
      * Sende Telegram-Nachricht mit Zeitstempel
      *
      * @param {string} message - Nachrichtentext
@@ -1015,8 +1094,12 @@ class PvNotifications extends utils.Adapter {
                     this.config.telegramInstance,
                     'send',
                     {
-                        text: fullMessage,
-                        users: usersList.join(', '),
+                        text: this.formatTelegramHtml(fullMessage),
+                        // Without parse_mode Telegram shows the *bold* markers literally
+                        parse_mode: 'HTML',
+                        // The telegram adapter reads "user" (comma separated list) - without it the
+                        // message is broadcast to every user known to the bot
+                        user: usersList.join(','),
                     },
                     result => {
                         if (result && result.error) {
@@ -1114,9 +1197,9 @@ ${consumptionPowerLine}
                         weatherTodayTextState && weatherTodayTextState.val !== null ? weatherTodayTextState.val : null;
                     const weatherTodayTemp =
                         weatherTodayTempState && weatherTodayTempState.val !== null ? weatherTodayTempState.val : null;
-                    const todayTempText = weatherTodayTemp ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
+                    const todayTempText = weatherTodayTemp !== null ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
 
-                    if (weatherTodayText || weatherTodayTemp) {
+                    if (weatherTodayText || weatherTodayTemp !== null) {
                         const weatherDesc = weatherTodayText ? this.getWeatherDescription(weatherTodayText) : '🌡️';
                         message += `\n🌤️ Heute: ${weatherDesc}${todayTempText}`;
                     }
@@ -1142,7 +1225,7 @@ ${consumptionPowerLine}
                         weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
                     const tempTomorrow =
                         tempTomorrowState && tempTomorrowState.val !== null ? tempTomorrowState.val : null;
-                    const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                    const tempText = tempTomorrow !== null ? ` ${this.round(tempTomorrow, 1)}°C` : '';
 
                     const weatherText = weatherTomorrowText || weatherTomorrow;
                     if (weatherText) {
@@ -1211,9 +1294,9 @@ ${consumptionPowerLine}${separator}`;
                         weatherTodayTextState && weatherTodayTextState.val !== null ? weatherTodayTextState.val : null;
                     const weatherTodayTemp =
                         weatherTodayTempState && weatherTodayTempState.val !== null ? weatherTodayTempState.val : null;
-                    const todayTempText = weatherTodayTemp ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
+                    const todayTempText = weatherTodayTemp !== null ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
 
-                    if (weatherTodayText || weatherTodayTemp) {
+                    if (weatherTodayText || weatherTodayTemp !== null) {
                         const weatherDesc = weatherTodayText ? this.getWeatherDescription(weatherTodayText) : '🌡️';
                         message += `\n🌤️ Heute: ${weatherDesc}${todayTempText}`;
                     }
@@ -1239,7 +1322,7 @@ ${consumptionPowerLine}${separator}`;
                         weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
                     const tempTomorrow =
                         tempTomorrowState && tempTomorrowState.val !== null ? tempTomorrowState.val : null;
-                    const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                    const tempText = tempTomorrow !== null ? ` ${this.round(tempTomorrow, 1)}°C` : '';
 
                     const weatherText = weatherTomorrowText || weatherTomorrow;
                     if (weatherText) {
@@ -1336,9 +1419,9 @@ ${statusText}
                         weatherTodayTextState && weatherTodayTextState.val !== null ? weatherTodayTextState.val : null;
                     const weatherTodayTemp =
                         weatherTodayTempState && weatherTodayTempState.val !== null ? weatherTodayTempState.val : null;
-                    const todayTempText = weatherTodayTemp ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
+                    const todayTempText = weatherTodayTemp !== null ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
 
-                    if (weatherTodayText || weatherTodayTemp) {
+                    if (weatherTodayText || weatherTodayTemp !== null) {
                         const weatherDesc = weatherTodayText ? this.getWeatherDescription(weatherTodayText) : '🌡️';
                         message += `\n🌤️ ${this.translate('Weather today')}: ${weatherDesc}${todayTempText}`;
                         this.log.debug(`Weather today added to intermediate message: ${weatherDesc}${todayTempText}`);
@@ -1365,7 +1448,7 @@ ${statusText}
                         weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
                     const tempTomorrow =
                         tempTomorrowState && tempTomorrowState.val !== null ? tempTomorrowState.val : null;
-                    const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                    const tempText = tempTomorrow !== null ? ` ${this.round(tempTomorrow, 1)}°C` : '';
 
                     const weatherText = weatherTomorrowText || weatherTomorrow;
                     if (weatherText) {
@@ -1465,11 +1548,12 @@ ${statusText}
                     const weatherTodayTemp =
                         weatherTodayTempState && weatherTodayTempState.val !== null ? weatherTodayTempState.val : null;
 
-                    if (weatherTodayText || weatherTodayTemp) {
+                    if (weatherTodayText || weatherTodayTemp !== null) {
                         const weatherDesc = weatherTodayText ? this.getWeatherDescription(weatherTodayText) : '🌡️';
-                        const todayTempSuffix = weatherTodayTemp
-                            ? ` (${this.translate('Currently')}: ${this.round(weatherTodayTemp, 1)}°C)`
-                            : '';
+                        const todayTempSuffix =
+                            weatherTodayTemp !== null
+                                ? ` (${this.translate('Currently')}: ${this.round(weatherTodayTemp, 1)}°C)`
+                                : '';
                         message += `\n━━━━━━━━━━━━━━━━━━━━━━\n🌤️ *${this.translate('Weather today')}:* ${weatherDesc}${todayTempSuffix}`;
                         weatherAdded = true;
                     }
@@ -1495,7 +1579,7 @@ ${statusText}
                         weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
                     const tempTomorrow =
                         tempTomorrowState && tempTomorrowState.val !== null ? tempTomorrowState.val : null;
-                    const tempText = tempTomorrow ? ` ${this.round(tempTomorrow, 1)}°C` : '';
+                    const tempText = tempTomorrow !== null ? ` ${this.round(tempTomorrow, 1)}°C` : '';
 
                     const weatherText = weatherTomorrowText || weatherTomorrow;
                     if (weatherText) {
@@ -1592,7 +1676,7 @@ ${statusText}
             return '🌡️ unbekannt';
         }
 
-        const text = weatherText.toLowerCase();
+        const text = String(weatherText).toLowerCase();
 
         if (text.includes('sonnig') || text.includes('klar')) {
             return '☀️ sonnig';
@@ -1635,7 +1719,7 @@ ${statusText}
         if (!weatherText) {
             return false;
         }
-        const text = weatherText.toLowerCase();
+        const text = String(weatherText).toLowerCase();
         return (
             text.includes('sonnig') || text.includes('klar') || text.includes('clear') || text.includes('few clouds')
         );
@@ -1650,7 +1734,7 @@ ${statusText}
         if (!weatherText) {
             return false;
         }
-        const text = weatherText.toLowerCase();
+        const text = String(weatherText).toLowerCase();
         return (
             text.includes('regen') ||
             text.includes('rain') ||
@@ -1677,64 +1761,59 @@ ${statusText}
     }
 
     /**
+     * Parse a time string "HH:MM"
+     *
+     * @param {string} value - Time string
+     * @returns {{ hours: number, minutes: number } | null} Parsed time or null if invalid
+     */
+    parseTime(value) {
+        const match = String(value || '')
+            .trim()
+            .match(/^(\d{1,2}):(\d{2})/);
+        if (!match) {
+            return null;
+        }
+        const hours = parseInt(match[1], 10);
+        const minutes = parseInt(match[2], 10);
+        return hours < 24 && minutes < 60 ? { hours, minutes } : null;
+    }
+
+    /**
+     * Parse the value of the sunset object ("HH:MM", ISO date string or timestamp) into local hours/minutes
+     *
+     * @param {ioBroker.StateValue | undefined} value - State value
+     * @returns {{ hours: number, minutes: number } | null} Parsed time or null if invalid
+     */
+    parseSunsetTime(value) {
+        if (value === null || value === undefined || value === '') {
+            return null;
+        }
+        const time = typeof value === 'string' ? this.parseTime(value) : null;
+        if (time) {
+            return time;
+        }
+        const date = new Date(typeof value === 'string' && /^\d+$/.test(value) ? Number(value) : value);
+        return isNaN(date.getTime()) ? null : { hours: date.getHours(), minutes: date.getMinutes() };
+    }
+
+    /**
+     * Check whether the given time equals the configured time string
+     *
+     * @param {Date} now - Current time
+     * @param {string} configTime - Configured time "HH:MM"
+     */
+    isTime(now, configTime) {
+        const time = this.parseTime(configTime);
+        return !!time && now.getHours() === time.hours && now.getMinutes() === time.minutes;
+    }
+
+    /**
      * Start scheduled tasks
      */
     startScheduledTasks() {
         // Check every minute
         this.scheduledInterval = this.setInterval(() => {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const jsDay = now.getDay(); // JavaScript: 0=So, 1=Mo, ..., 6=Sa
-            // Umwandeln in ioBroker-Format: 0=Mo, 1=Di, ..., 6=So
-            const day = jsDay === 0 ? 6 : jsDay - 1;
-            const date = now.getDate();
-
-            // Alle 5 Minuten: Statistik prüfen (um :00, :05, :10, ...)
-            if (minutes % 5 === 0) {
-                this.resetDailyStats();
-                this.resetWeeklyStats().catch(e => this.log.error(`Weekly reset failed: ${e.message}`));
-                this.resetMonthlyStats().catch(e => this.log.error(`Monthly reset failed: ${e.message}`));
-            }
-
-            // Tägliche Statistik — entweder zur konfigurierten Zeit oder zum Sonnenuntergang
-            if (this.config.statsUseSunset && this.config.statsSunsetObject) {
-                // Sonnenuntergangszeit aus dem konfigurierten Objekt lesen
-                this.getForeignStateAsync(this.config.statsSunsetObject)
-                    .then(sunsetState => {
-                        if (sunsetState && sunsetState.val) {
-                            const sunsetTime = String(sunsetState.val).trim();
-                            const match = sunsetTime.match(/^(\d{1,2}):(\d{2})/);
-                            if (match) {
-                                const sunsetHours = parseInt(match[1], 10);
-                                const sunsetMinutes = parseInt(match[2], 10);
-                                if (hours === sunsetHours && minutes === sunsetMinutes) {
-                                    this.sendDailyStatsMessage();
-                                }
-                            }
-                        }
-                    })
-                    .catch(e => this.log.warn(`Could not read sunset object: ${e.message}`));
-            } else {
-                const [dayHours, dayMinutes] = this.config.statsDayTime.split(':').map(Number);
-                if (hours === dayHours && minutes === dayMinutes) {
-                    this.sendDailyStatsMessage();
-                }
-            }
-
-            // Wöchentliche Statistik am konfigurierten Tag und Zeit
-            const [weekHours, weekMinutes] = this.config.statsWeekTime.split(':').map(Number);
-            if (day === this.config.statsWeekDay && hours === weekHours && minutes === weekMinutes) {
-                this.sendTelegram(this.buildWeeklyStatsMessage());
-            }
-
-            // Monatsstatistik am konfigurierten Tag und Zeit
-            if (this.config.monthlyStatsEnabled) {
-                const [monthHours, monthMinutes] = this.config.monthlyStatsTime.split(':').map(Number);
-                if (date === this.config.monthlyStatsDay && hours === monthHours && minutes === monthMinutes) {
-                    this.sendTelegram(this.buildMonthlyStatsMessage());
-                }
-            }
+            this.runScheduledTasks(new Date()).catch(e => this.log.error(`Scheduled task failed: ${e.message}`));
         }, 60000); // Jede Minute ausführen
 
         this.log.info(
@@ -1743,19 +1822,61 @@ ${statusText}
     }
 
     /**
-     * Tägliche Statistik zurücksetzen (zur konfigurierten Zeit)
+     * Run the scheduled tasks for the given minute
+     *
+     * @param {Date} now - Current time
      */
-    resetDailyStats() {
-        const today = new Date().getDate();
-        const now = new Date();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
+    async runScheduledTasks(now) {
+        const jsDay = now.getDay(); // JavaScript: 0=So, 1=Mo, ..., 6=Sa
+        // Umwandeln in ioBroker-Format: 0=Mo, 1=Di, ..., 6=So
+        const day = jsDay === 0 ? 6 : jsDay - 1;
+        const date = now.getDate();
 
-        // Konfigurierte Zeit parsen
-        const [resetHours, resetMinutes] = this.config.statsDayTime.split(':').map(Number);
+        // Statistik-Resets bei jedem Durchlauf prüfen (jeweils nur einmal pro Tag/Woche/Monat)
+        this.resetDailyStats(now);
+        await this.resetWeeklyStats(now);
+        await this.resetMonthlyStats(now);
 
-        // Reset zur konfigurierten Zeit
-        if (today !== this.stats.lastStatsReset && hours === resetHours && minutes === resetMinutes) {
+        // Tägliche Statistik — entweder zur konfigurierten Zeit oder zum Sonnenuntergang
+        if (this.config.statsUseSunset && this.config.statsSunsetObject) {
+            // Sonnenuntergangszeit aus dem konfigurierten Objekt lesen
+            try {
+                const sunsetState = await this.getForeignStateAsync(this.config.statsSunsetObject);
+                const sunset = this.parseSunsetTime(sunsetState ? sunsetState.val : null);
+                if (sunset && now.getHours() === sunset.hours && now.getMinutes() === sunset.minutes) {
+                    await this.sendDailyStatsMessage();
+                }
+            } catch (e) {
+                this.log.warn(`Could not read sunset object: ${e.message}`);
+            }
+        } else if (this.isTime(now, this.config.statsDayTime)) {
+            await this.sendDailyStatsMessage();
+        }
+
+        // Wöchentliche Statistik am konfigurierten Tag und Zeit
+        if (day === Number(this.config.statsWeekDay) && this.isTime(now, this.config.statsWeekTime)) {
+            this.sendTelegram(this.buildWeeklyStatsMessage());
+        }
+
+        // Monatsstatistik am konfigurierten Tag und Zeit
+        if (
+            this.config.monthlyStatsEnabled &&
+            date === Number(this.config.monthlyStatsDay) &&
+            this.isTime(now, this.config.monthlyStatsTime)
+        ) {
+            this.sendTelegram(this.buildMonthlyStatsMessage());
+        }
+    }
+
+    /**
+     * Tägliche Statistik zurücksetzen (bei Tageswechsel, passend zu loadStatistics())
+     *
+     * @param {Date} [now] - Current time
+     */
+    resetDailyStats(now = new Date()) {
+        const today = now.getDate();
+
+        if (today !== this.stats.lastStatsReset) {
             this.log.info('Resetting daily statistics');
             this.stats.fullCycles = 0;
             this.stats.emptyCycles = 0;
@@ -1767,17 +1888,27 @@ ${statusText}
     }
 
     /**
-     * Reset weekly statistics - AUTOMATISCH am Sonntag um 23:55 (vor sourceanalytix Reset)
+     * Check whether the "before midnight" save window (23:55-23:59) is active
+     *
+     * @param {Date} now - Current time
      */
-    async resetWeeklyStats() {
-        const now = new Date();
-        const jsDay = now.getDay(); // JavaScript: 0=So, 1=Mo, ..., 6=Sa
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
+    isSaveWindow(now) {
+        return now.getHours() === 23 && now.getMinutes() >= 55;
+    }
 
-        // Automatische Speicherung: Jeden Sonntag um 23:55 (vor Mitternacht)
-        // JavaScript: 0 = Sonntag → genau das wollen wir!
-        if (jsDay === 0 && hours === 23 && minutes === 55) {
+    /**
+     * Reset weekly statistics - AUTOMATISCH am Sonntag ab 23:55 (vor sourceanalytix Reset)
+     *
+     * @param {Date} [now] - Current time
+     */
+    async resetWeeklyStats(now = new Date()) {
+        const jsDay = now.getDay(); // JavaScript: 0=So, 1=Mo, ..., 6=Sa
+        const dateKey = now.toDateString();
+
+        // Automatische Speicherung: Jeden Sonntag 23:55-23:59 (vor Mitternacht), einmal pro Woche.
+        // Ein Fenster statt einer exakten Minute, damit ein verzögerter Timer-Tick den Abschluss nicht verpasst.
+        if (jsDay === 0 && this.isSaveWindow(now) && this.status.lastWeekSave !== dateKey) {
+            this.status.lastWeekSave = dateKey;
             this.log.info('Auto-saving weekly statistics (Sunday 23:55, before sourceanalytix reset)');
 
             // Aktuelle Daten aus externen States lesen (direkter Zugriff)
@@ -1794,50 +1925,49 @@ ${statusText}
             this.stats.weekFullCycles = 0;
             this.stats.weekEmptyCycles = 0;
 
-            this.saveStatistics();
+            await this.saveStatistics();
             this.log.info(
                 `Weekly stats saved: Production=${this.stats.lastWeekProduction} kWh, FeedIn=${this.stats.lastWeekFeedIn} kWh`,
             );
-            // KEIN Senden hier - Senden erfolgt nur in startScheduledTasks() zur konfigurierten Zeit
+            // KEIN Senden hier - Senden erfolgt nur in runScheduledTasks() zur konfigurierten Zeit
         }
     }
 
     /**
-     * Monatsstatistik zurücksetzen - AUTOMATISCH am letzten Tag des Monats um 23:55 (vor sourceanalytix Reset)
+     * Monatsstatistik zurücksetzen - AUTOMATISCH am letzten Tag des Monats ab 23:55 (vor sourceanalytix Reset).
+     * Die Monatszyklen werden auch bei deaktivierter Monatsstatistik zurückgesetzt.
+     *
+     * @param {Date} [now] - Current time
      */
-    async resetMonthlyStats() {
-        if (!this.config.monthlyStatsEnabled) {
-            return;
-        }
-
-        const now = new Date();
+    async resetMonthlyStats(now = new Date()) {
         const today = now.getDate();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
+        const dateKey = now.toDateString();
 
         // Letzten Tag des aktuellen Monats berechnen
         // new Date(Jahr, Monat+1, 0) gibt den letzten Tag des aktuellen Monats zurück
         const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
 
-        // Automatische Speicherung: Letzter Tag des Monats um 23:55 (vor Mitternacht)
-        if (today === lastDayOfMonth && hours === 23 && minutes === 55) {
+        // Automatische Speicherung: Letzter Tag des Monats 23:55-23:59 (vor Mitternacht), einmal pro Monat
+        if (today === lastDayOfMonth && this.isSaveWindow(now) && this.status.lastMonthSave !== dateKey) {
+            this.status.lastMonthSave = dateKey;
             this.log.info(
                 `Auto-saving monthly statistics (last day of month ${today}. ${now.getMonth() + 1}.${now.getFullYear()} 23:55, before sourceanalytix reset)`,
             );
 
             // Aktuelle Daten aus externen States lesen (direkter Zugriff)
-            this.stats.lastMonthProduction = await this.readForeignNumber(this.config.monthlyProduction);
-            this.stats.lastMonthConsumption = await this.readForeignNumber(this.config.monthlyConsumption);
-            this.stats.lastMonthFeedIn = await this.readForeignNumber(this.config.monthlyFeedIn);
-            this.stats.lastMonthGridPower = await this.readForeignNumber(this.config.monthlyGridPower);
-            // Monthly cycle counters (previously the daily counters were stored by mistake)
+            if (this.config.monthlyStatsEnabled) {
+                this.stats.lastMonthProduction = await this.readForeignNumber(this.config.monthlyProduction);
+                this.stats.lastMonthConsumption = await this.readForeignNumber(this.config.monthlyConsumption);
+                this.stats.lastMonthFeedIn = await this.readForeignNumber(this.config.monthlyFeedIn);
+                this.stats.lastMonthGridPower = await this.readForeignNumber(this.config.monthlyGridPower);
+            }
             this.stats.lastMonthFullCycles = this.stats.monthFullCycles;
             this.stats.lastMonthEmptyCycles = this.stats.monthEmptyCycles;
             this.stats.monthFullCycles = 0;
             this.stats.monthEmptyCycles = 0;
 
             this.stats.lastMonthReset = today;
-            this.saveStatistics();
+            await this.saveStatistics();
             this.log.info(
                 `Monthly stats saved: Production=${this.stats.lastMonthProduction} kWh, FeedIn=${this.stats.lastMonthFeedIn} kWh`,
             );
@@ -2120,9 +2250,9 @@ ${statusText}
                         weatherTodayTextState && weatherTodayTextState.val !== null ? weatherTodayTextState.val : null;
                     const weatherTodayTemp =
                         weatherTodayState && weatherTodayState.val !== null ? weatherTodayState.val : null;
-                    const tempText = weatherTodayTemp ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
+                    const tempText = weatherTodayTemp !== null ? ` ${this.round(weatherTodayTemp, 1)}°C` : '';
 
-                    if (weatherTodayText || weatherTodayTemp) {
+                    if (weatherTodayText || weatherTodayTemp !== null) {
                         const weatherDesc = weatherTodayText ? this.getWeatherDescription(weatherTodayText) : '🌡️';
                         message += `\n\n🌤️ *${this.translate('Weather today')}:* ${weatherDesc}${tempText}`;
                     }
@@ -2143,9 +2273,9 @@ ${statusText}
                             : null;
                     const weatherTomorrowTemp =
                         weatherTomorrowState && weatherTomorrowState.val !== null ? weatherTomorrowState.val : null;
-                    const tempText = weatherTomorrowTemp ? ` ${this.round(weatherTomorrowTemp, 1)}°C` : '';
+                    const tempText = weatherTomorrowTemp !== null ? ` ${this.round(weatherTomorrowTemp, 1)}°C` : '';
 
-                    if (weatherTomorrowText || weatherTomorrowTemp) {
+                    if (weatherTomorrowText || weatherTomorrowTemp !== null) {
                         const weatherDesc = weatherTomorrowText
                             ? this.getWeatherDescription(weatherTomorrowText)
                             : '🌡️';
