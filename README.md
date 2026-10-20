@@ -337,6 +337,9 @@ sadam6752@gmail.com
 	### **WORK IN PROGRESS**
 -->
 
+### 1.2.35 (2026-10-21)
+* (FIX) The footer of the test message ("Test Notification") is now translated like the rest of the message
+
 ### 1.2.34 (2026-10-21)
 * (ADD) Optional data point for the expected PV production of tomorrow (e.g. pvforecast or open-meteo-weather), shown in the daily statistics, the battery full/empty messages and the test message; unit taken from the data point (Wh/kWh/MWh) or set explicitly
 * (FIX) Settings: the sunset object and the two weather checkboxes are now disabled correctly (`disabled` expressions use `data.<field>`)

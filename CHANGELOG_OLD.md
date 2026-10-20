@@ -1,5 +1,8 @@
 # Old Changelog
 
+### 1.2.28
+* (FIX) Migrate i18n to short format ({lang}.json); trim news to 7 entries
+
 ### 1.2.27
 * (FIX) CI: update package-lock.json to include all eslint peer dependencies
 

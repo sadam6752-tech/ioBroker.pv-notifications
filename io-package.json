@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.34",
+    "version": "1.2.35",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.35": {
+        "en": "The footer of the test message is now translated (German, Russian).",
+        "de": "Die Fußzeile der Testnachricht wird jetzt übersetzt (Deutsch, Russisch).",
+        "ru": "Нижняя строка тестового сообщения теперь переводится (немецкий, русский).",
+        "pt": "O rodapé da mensagem de teste agora é traduzido (alemão, russo).",
+        "nl": "De voettekst van het testbericht wordt nu vertaald (Duits, Russisch).",
+        "fr": "Le pied du message de test est désormais traduit (allemand, russe).",
+        "it": "Il piè di pagina del messaggio di test ora viene tradotto (tedesco, russo).",
+        "es": "El pie del mensaje de prueba ahora se traduce (alemán, ruso).",
+        "pl": "Stopka wiadomości testowej jest teraz tłumaczona (niemiecki, rosyjski).",
+        "uk": "Нижній рядок тестового повідомлення тепер перекладається (німецька, російська).",
+        "zh-cn": "测试消息的页脚现已翻译（德语、俄语）。"
+      },
       "1.2.34": {
         "en": "New optional data point for the expected PV production of tomorrow (e.g. pvforecast or open-meteo-weather), shown in the daily statistics, the battery full/empty messages and the test message; the unit is taken from the data point (Wh/kWh/MWh) or can be set. Fix: the sunset object and the weather checkboxes in the settings were not disabled correctly.",
         "de": "Neuer optionaler Datenpunkt für die erwartete PV-Erzeugung von morgen (z. B. pvforecast oder open-meteo-weather), angezeigt in der Tagesstatistik, den Meldungen Batterie voll/leer und der Testnachricht; die Einheit wird vom Datenpunkt übernommen (Wh/kWh/MWh) oder kann eingestellt werden. Fix: Sonnenuntergangs-Objekt und Wetter-Optionen wurden in den Einstellungen nicht korrekt deaktiviert.",
@@ -106,19 +119,6 @@
         "nl": "Beschadigde UTF-8-scheidingsregels in het maandstatistiekbericht gecorrigeerd (werden weergegeven als vraagtekens in Telegram). Beschadigde Russische vertalingen gecorrigeerd. Het weer van vandaag in de dagstatistieken toont de temperatuur nu als \"(momenteel: X deg C)\" in plaats van een dagwaarde te suggereren.",
         "uk": "Виправлено пошкоджені UTF-8 роздільники в повідомленні місячної статистики (відображалися як знаки питання в Telegram). Виправлено пошкоджені російські переклади. Погода на сьогодні в денній статистиці тепер показує температуру як \"(наразі: X deg C)\" замість того, щоб натякати на денне значення.",
         "zh-cn": "修复了月度统计消息中损坏的UTF-8分隔线（在Telegram中显示为问号）。修复了损坏的俄语翻译。"
-      },
-      "1.2.28": {
-        "en": "Migrate i18n to short format ({lang}.json); trim news to 7 entries",
-        "de": "i18n auf Kurzformat ({lang}.json) migriert; News auf 7 Einträge gekürzt",
-        "ru": "Миграция i18n на короткий формат ({lang}.json); news сокращены до 7 записей",
-        "fr": "Migration i18n vers format court ({lang}.json); news réduit à 7 entrées",
-        "it": "Migrazione i18n a formato breve ({lang}.json); news ridotte a 7 voci",
-        "es": "Migración i18n a formato corto ({lang}.json); news reducidas a 7 entradas",
-        "pl": "Migracja i18n do krótkiego formatu ({lang}.json); news skrócone do 7 wpisów",
-        "pt": "Migração i18n para formato curto ({lang}.json); news reduzidas a 7 entradas",
-        "nl": "i18n gemigreerd naar kort formaat ({lang}.json); news ingekort tot 7 items",
-        "uk": "Міграція i18n на короткий формат ({lang}.json); news скорочено до 7 записів",
-        "zh-cn": "将i18n迁移到短格式（{lang}.json）；news缩减至7条"
       }
     },
     "authors": [

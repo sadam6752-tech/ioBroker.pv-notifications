@@ -592,6 +592,13 @@ describe('PvNotifications unit tests', () => {
             a.states['statistics.currentConsumption'] = { val: 12.34 };
             expect(await a.buildFullMessage(100)).to.contain('Consumption today: 12.3 kWh');
         });
+        it('test message footer is translated', async () => {
+            const a = make();
+            a.systemLang = 'de';
+            expect(await a.buildTestMessage()).to.contain('*Testbenachrichtigung - pv-notifications v');
+            a.systemLang = 'ru';
+            expect(await a.buildTestMessage()).to.contain('*Тестовое уведомление - pv-notifications v');
+        });
         it('test message works when only the tomorrow temperature is configured', async () => {
             const a = make({ weatherTomorrowTemp: 'w.temp' });
             a.foreign['w.temp'] = { val: 18 };

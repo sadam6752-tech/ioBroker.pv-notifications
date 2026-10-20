@@ -2242,6 +2242,11 @@ ${statusText}
                 en: '⚠️ Battery discharging',
                 ru: '⚠️ Батарея разряжается',
             },
+            'Test Notification': {
+                de: 'Testbenachrichtigung',
+                en: 'Test Notification',
+                ru: 'Тестовое уведомление',
+            },
             'PV forecast tomorrow': {
                 de: 'PV-Prognose morgen',
                 en: 'PV forecast tomorrow',
