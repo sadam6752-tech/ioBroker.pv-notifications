@@ -32,6 +32,9 @@ class FakeAdapter extends EventEmitter {
         }
         return this.foreign[id] || null;
     }
+    async getForeignObjectAsync(id) {
+        return (this.foreignObjects && this.foreignObjects[id]) || null;
+    }
     sendTo(instance, cmd, payload) {
         this.sent.push({ instance, cmd, payload });
     }
@@ -502,6 +505,61 @@ describe('PvNotifications unit tests', () => {
             await a.resetMonthlyStats(new Date(2026, 9, 31, 23, 55));
             expect(a.stats.lastMonthFullCycles).to.equal(9);
             expect(a.stats.monthFullCycles).to.equal(0);
+        });
+    });
+
+    describe('PV forecast tomorrow', () => {
+        function withForecast(config, val, unit) {
+            const a = make({ pvForecastTomorrow: 'fc.tomorrow', ...config });
+            a.foreign['fc.tomorrow'] = { val };
+            a.foreignObjects = { 'fc.tomorrow': { common: unit === undefined ? {} : { unit } } };
+            return a;
+        }
+
+        it('is empty when not configured or without value', async () => {
+            expect(await make().buildPvForecastLine()).to.equal('');
+            expect(await withForecast({}, null, 'kWh').buildPvForecastLine()).to.equal('');
+            expect(await withForecast({}, 'n/a', 'kWh').buildPvForecastLine()).to.equal('');
+        });
+
+        it('takes the unit of the data point (pvforecast kWh, open-meteo Wh)', async () => {
+            expect(await withForecast({}, 23.456, 'kWh').readPvForecastTomorrowKWh()).to.equal(23.456);
+            expect(await withForecast({}, 18250, 'Wh').readPvForecastTomorrowKWh()).to.equal(18.25);
+            expect(await withForecast({}, 0.03, 'MWh').readPvForecastTomorrowKWh()).to.equal(30);
+            // no unit -> kWh
+            expect(await withForecast({}, 12, undefined).readPvForecastTomorrowKWh()).to.equal(12);
+        });
+
+        it('a configured unit overrides the unit of the data point', async () => {
+            // pvforecast with "W/Wh" option writes Wh into an object that says kWh
+            const a = withForecast({ pvForecastUnit: 'Wh' }, 21500, 'kWh');
+            expect(await a.readPvForecastTomorrowKWh()).to.equal(21.5);
+        });
+
+        it('shows 0 kWh (a valid forecast)', async () => {
+            expect(await withForecast({}, 0, 'kWh').buildPvForecastLine()).to.equal('🔆 PV forecast tomorrow: 0 kWh');
+        });
+
+        it('appears in the daily statistics, also without weather', async () => {
+            const a = withForecast({}, 18250, 'Wh');
+            const msg = await a.buildDailyStatsMessage();
+            expect(msg).to.contain('━━━━━━━━━━━━━━━━━━━━━━\n🔆 PV forecast tomorrow: 18.3 kWh');
+            expect(msg.endsWith('kWh')).to.equal(true);
+        });
+
+        it('appears directly below the weather in the daily statistics', async () => {
+            const a = withForecast({ weatherTomorrowText: 'w.text' }, 30, 'kWh');
+            a.foreign['w.text'] = { val: 'sonnig' };
+            const msg = await a.buildDailyStatsMessage();
+            expect(msg).to.match(/Good PV production expected\n🔆 PV forecast tomorrow: 30 kWh$/);
+        });
+
+        it('appears in the full, empty and test messages (German)', async () => {
+            const a = withForecast({}, 30, 'kWh');
+            a.systemLang = 'de';
+            expect(await a.buildFullMessage(100)).to.contain('🔆 PV-Prognose morgen: 30 kWh');
+            expect(await a.buildEmptyMessage(0)).to.contain('🔆 PV-Prognose morgen: 30 kWh');
+            expect(await a.buildTestMessage()).to.contain('🔆 PV-Prognose morgen: 30 kWh');
         });
     });
 

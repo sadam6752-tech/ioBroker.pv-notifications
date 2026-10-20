@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "pv-notifications",
-    "version": "1.2.33",
+    "version": "1.2.34",
     "titleLang": {
       "en": "PV Notifications",
       "de": "PV-Benachrichtigungen",
@@ -29,6 +29,19 @@
       "zh-cn": "发送 Telegram 通知用于 PV 电池状态"
     },
     "news": {
+      "1.2.34": {
+        "en": "New optional data point for the expected PV production of tomorrow (e.g. pvforecast or open-meteo-weather), shown in the daily statistics, the battery full/empty messages and the test message; the unit is taken from the data point (Wh/kWh/MWh) or can be set. Fix: the sunset object and the weather checkboxes in the settings were not disabled correctly.",
+        "de": "Neuer optionaler Datenpunkt für die erwartete PV-Erzeugung von morgen (z. B. pvforecast oder open-meteo-weather), angezeigt in der Tagesstatistik, den Meldungen Batterie voll/leer und der Testnachricht; die Einheit wird vom Datenpunkt übernommen (Wh/kWh/MWh) oder kann eingestellt werden. Fix: Sonnenuntergangs-Objekt und Wetter-Optionen wurden in den Einstellungen nicht korrekt deaktiviert.",
+        "ru": "Новая необязательная точка данных для ожидаемой выработки PV на завтра (например, pvforecast или open-meteo-weather), отображается в дневной статистике, сообщениях о полной/пустой батарее и тестовом сообщении; единица берётся из точки данных (Wh/kWh/MWh) или задаётся вручную. Исправлено: объект заката и параметры погоды в настройках неправильно блокировались.",
+        "pt": "Novo ponto de dados opcional para a produção FV esperada de amanhã (p. ex. pvforecast ou open-meteo-weather), mostrado nas estatísticas diárias, nas mensagens de bateria cheia/vazia e na mensagem de teste; a unidade é obtida do ponto de dados (Wh/kWh/MWh) ou pode ser definida. Correção: o objeto do pôr do sol e as opções de meteorologia não eram desativados corretamente nas definições.",
+        "nl": "Nieuw optioneel datapunt voor de verwachte PV-opbrengst van morgen (bijv. pvforecast of open-meteo-weather), getoond in de dagstatistiek, de meldingen batterij vol/leeg en het testbericht; de eenheid wordt van het datapunt overgenomen (Wh/kWh/MWh) of kan worden ingesteld. Fix: het zonsondergangobject en de weeropties werden in de instellingen niet correct uitgeschakeld.",
+        "fr": "Nouveau point de données optionnel pour la production PV attendue demain (p. ex. pvforecast ou open-meteo-weather), affiché dans les statistiques quotidiennes, les messages batterie pleine/vide et le message de test ; l'unité est reprise du point de données (Wh/kWh/MWh) ou peut être définie. Correction : l'objet du coucher du soleil et les options météo n'étaient pas désactivés correctement dans les paramètres.",
+        "it": "Nuovo punto dati opzionale per la produzione FV prevista di domani (ad es. pvforecast o open-meteo-weather), mostrato nelle statistiche giornaliere, nei messaggi batteria piena/vuota e nel messaggio di test; l'unità viene presa dal punto dati (Wh/kWh/MWh) o può essere impostata. Correzione: l'oggetto del tramonto e le opzioni meteo non venivano disattivati correttamente nelle impostazioni.",
+        "es": "Nuevo punto de datos opcional para la producción FV prevista de mañana (p. ej. pvforecast u open-meteo-weather), mostrado en las estadísticas diarias, los mensajes de batería llena/vacía y el mensaje de prueba; la unidad se toma del punto de datos (Wh/kWh/MWh) o puede configurarse. Corrección: el objeto de la puesta de sol y las opciones meteorológicas no se desactivaban correctamente en la configuración.",
+        "pl": "Nowy opcjonalny punkt danych dla oczekiwanej produkcji PV na jutro (np. pvforecast lub open-meteo-weather), pokazywany w statystyce dziennej, komunikatach bateria pełna/pusta i wiadomości testowej; jednostka jest pobierana z punktu danych (Wh/kWh/MWh) lub można ją ustawić. Poprawka: obiekt zachodu słońca i opcje pogody nie były poprawnie wyłączane w ustawieniach.",
+        "uk": "Нова необовʼязкова точка даних для очікуваного виробництва PV на завтра (напр. pvforecast або open-meteo-weather), показується в денній статистиці, повідомленнях про повну/порожню батарею та тестовому повідомленні; одиниця береться з точки даних (Wh/kWh/MWh) або задається вручну. Виправлено: обʼєкт заходу сонця та параметри погоди в налаштуваннях неправильно блокувалися.",
+        "zh-cn": "新增可选数据点：明日预计光伏发电量（例如 pvforecast 或 open-meteo-weather），显示在每日统计、电池满/空消息和测试消息中；单位取自数据点（Wh/kWh/MWh），也可手动设置。修复：设置中的日落对象和天气选项未能正确禁用。"
+      },
       "1.2.33": {
         "en": "Fix: Telegram messages were sent to all users of the bot instead of only the configured users. Fix: bold text was shown with literal asterisks (messages now use HTML formatting). Thresholds and intermediate steps are now detected when reached or crossed (e.g. SOC jumps 39 -> 41 or decimal values). Fix: statistics were not saved on adapter stop; last week/month values were reset on the first start of a day; daily reset now happens at midnight; weekly/monthly saving is more robust. Fix: 0 °C was not shown.",
         "de": "Fix: Telegram-Nachrichten gingen an alle Benutzer des Bots statt nur an die konfigurierten Benutzer. Fix: Fettschrift wurde mit sichtbaren Sternchen angezeigt (Nachrichten nutzen jetzt HTML-Formatierung). Schwellwerte und Zwischenstufen werden jetzt erkannt, wenn sie erreicht oder ueberschritten werden (z. B. SOC springt von 39 auf 41 oder Dezimalwerte). Fix: Statistik wurde beim Stoppen nicht gespeichert; Werte der letzten Woche/des letzten Monats wurden beim ersten Start eines Tages zurueckgesetzt; Tagesreset jetzt um Mitternacht; Wochen-/Monatsspeicherung robuster. Fix: 0 °C wurde nicht angezeigt.",
@@ -106,19 +119,6 @@
         "nl": "i18n gemigreerd naar kort formaat ({lang}.json); news ingekort tot 7 items",
         "uk": "Міграція i18n на короткий формат ({lang}.json); news скорочено до 7 записів",
         "zh-cn": "将i18n迁移到短格式（{lang}.json）；news缩减至7条"
-      },
-      "1.2.27": {
-        "en": "Fix CI: update package-lock.json to include all eslint peer dependencies",
-        "de": "CI behoben: package-lock.json aktualisiert um alle eslint Peer-Dependencies einzuschließen",
-        "ru": "Исправлен CI: обновлён package-lock.json для включения всех peer-зависимостей eslint",
-        "fr": "Fix CI: package-lock.json mis à jour pour inclure toutes les peer dependencies eslint",
-        "it": "Fix CI: package-lock.json aggiornato per includere tutte le peer dependencies eslint",
-        "es": "Fix CI: package-lock.json actualizado para incluir todas las peer dependencies de eslint",
-        "pl": "Naprawa CI: zaktualizowano package-lock.json aby zawierał wszystkie peer dependencies eslint",
-        "pt": "Fix CI: package-lock.json atualizado para incluir todas as peer dependencies do eslint",
-        "nl": "Fix CI: package-lock.json bijgewerkt om alle eslint peer dependencies op te nemen",
-        "uk": "Виправлено CI: оновлено package-lock.json для включення всіх peer-залежностей eslint",
-        "zh-cn": "修复CI：更新package-lock.json以包含所有eslint对等依赖项"
       }
     },
     "authors": [
@@ -193,6 +193,8 @@
     "weatherTodayTemp": "",
     "weatherTomorrowText": "",
     "weatherTomorrowTemp": "",
+    "pvForecastTomorrow": "",
+    "pvForecastUnit": "auto",
     "highProduction": 5000,
     "highConsumption": 3000,
     "monthlyStatsEnabled": false,

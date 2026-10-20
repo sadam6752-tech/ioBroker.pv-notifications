@@ -1149,6 +1149,53 @@ class PvNotifications extends utils.Adapter {
     }
 
     /**
+     * PV-Prognose für morgen in kWh lesen (optionaler Datenpunkt, z. B. pvforecast oder open-meteo-weather)
+     *
+     * @returns {Promise<number | null>} Prognose in kWh oder null, wenn nicht konfiguriert / kein Wert
+     */
+    async readPvForecastTomorrowKWh() {
+        const id = this.config.pvForecastTomorrow;
+        if (!id) {
+            return null;
+        }
+        try {
+            const state = await this.getForeignStateAsync(id);
+            const value = state ? Number(state.val) : NaN;
+            if (!state || state.val === null || state.val === '' || isNaN(value)) {
+                this.log.debug(`PV forecast "${id}" has no value`);
+                return null;
+            }
+            // "auto" takes the unit of the object (pvforecast: kWh, open-meteo-weather: Wh); it can be set
+            // explicitly because some adapters write Wh into an object that says kWh
+            let unit = this.config.pvForecastUnit || 'auto';
+            if (unit === 'auto') {
+                const obj = await this.getForeignObjectAsync(id);
+                unit = obj && obj.common && typeof obj.common.unit === 'string' ? obj.common.unit : 'kWh';
+            }
+            const factors = { wh: 0.001, kwh: 1, mwh: 1000 };
+            const factor = factors[String(unit).trim().toLowerCase()];
+            if (factor === undefined) {
+                this.log.debug(`PV forecast "${id}": unknown unit "${unit}", value is used as kWh`);
+                return value;
+            }
+            return value * factor;
+        } catch (e) {
+            this.log.warn(`Could not read PV forecast "${id}": ${e.message}`);
+            return null;
+        }
+    }
+
+    /**
+     * Zeile mit der PV-Prognose für morgen (leer, wenn nicht konfiguriert)
+     *
+     * @returns {Promise<string>} Zeile ohne Zeilenumbruch oder ''
+     */
+    async buildPvForecastLine() {
+        const kWh = await this.readPvForecastTomorrowKWh();
+        return kWh === null ? '' : `🔆 ${this.translate('PV forecast tomorrow')}: ${this.round(kWh, 1)} kWh`;
+    }
+
+    /**
      * Baue detaillierte Status-Nachricht bei vollem Akku
      *
      * @param {number} soc - Battery state of charge in percent
@@ -1240,6 +1287,12 @@ ${consumptionPowerLine}
             } catch (e) {
                 this.log.debug(`Weather data not available: ${e.message}`);
             }
+        }
+
+        // PV-Prognose für morgen (optional)
+        const forecastLine = await this.buildPvForecastLine();
+        if (forecastLine) {
+            message += `\n${forecastLine}`;
         }
 
         // Empfehlungen bei hoher Produktion
@@ -1337,6 +1390,12 @@ ${consumptionPowerLine}${separator}`;
             } catch (e) {
                 this.log.debug(`Weather data not available: ${e.message}`);
             }
+        }
+
+        // PV-Prognose für morgen (optional)
+        const forecastLine = await this.buildPvForecastLine();
+        if (forecastLine) {
+            message += `\n${forecastLine}`;
         }
 
         // Spartipps
@@ -1613,6 +1672,13 @@ ${statusText}
             if (!weatherTodayConfigured && !weatherTomorrowConfigured) {
                 this.log.debug('No weather data points configured for daily stats');
             }
+        }
+
+        // PV-Prognose für morgen (optional) - direkt unter dem Wetter bzw. in einem eigenen Abschnitt
+        const forecastLine = await this.buildPvForecastLine();
+        if (forecastLine) {
+            const separator = message.includes('🌤️') ? '' : '\n━━━━━━━━━━━━━━━━━━━━━━';
+            message = `${message.replace(/\n+$/, '')}${separator}\n${forecastLine}`;
         }
 
         return message;
@@ -2176,6 +2242,11 @@ ${statusText}
                 en: '⚠️ Battery discharging',
                 ru: '⚠️ Батарея разряжается',
             },
+            'PV forecast tomorrow': {
+                de: 'PV-Prognose morgen',
+                en: 'PV forecast tomorrow',
+                ru: 'Прогноз PV на завтра',
+            },
             'Production last week': {
                 de: 'Produktion letzte Woche',
                 en: 'Production last week',
@@ -2285,6 +2356,12 @@ ${statusText}
             } catch (e) {
                 this.log.debug(`Weather data for test not available: ${e.message}`);
             }
+        }
+
+        // PV-Prognose für morgen (optional)
+        const forecastLine = await this.buildPvForecastLine();
+        if (forecastLine) {
+            message += `\n${forecastLine}`;
         }
 
         message += `\n\n*${this.translate('Test Notification')} - pv-notifications v${this.version}*`;

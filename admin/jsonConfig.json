@@ -414,7 +414,7 @@
       "lg": 6,
       "xl": 6,
       "tooltip": "tooltip_statsSunsetObject",
-      "disabled": "!statsUseSunset"
+      "disabled": "!data.statsUseSunset"
     },
     "statsWeekDay": {
       "type": "number",
@@ -511,7 +511,7 @@
       "xl": 6,
       "default": true,
       "tooltip": "tooltip_weatherInIntermediate",
-      "disabled": "!weatherEnabled"
+      "disabled": "!data.weatherEnabled"
     },
     "weatherInDailyStats": {
       "type": "checkbox",
@@ -523,7 +523,7 @@
       "xl": 6,
       "default": true,
       "tooltip": "tooltip_weatherInDailyStats",
-      "disabled": "!weatherEnabled"
+      "disabled": "!data.weatherEnabled"
     },
     "weatherTodayText": {
       "type": "objectId",
@@ -564,6 +564,42 @@
       "lg": 6,
       "xl": 6,
       "tooltip": "tooltip_weatherTomorrowTemp"
+    },
+    "pvForecastTomorrow": {
+      "type": "objectId",
+      "label": "label_pvForecastTomorrow",
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "xl": 6,
+      "tooltip": "tooltip_pvForecastTomorrow"
+    },
+    "pvForecastUnit": {
+      "type": "select",
+      "label": "label_pvForecastUnit",
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "lg": 6,
+      "xl": 6,
+      "options": [
+        {
+          "label": "option_pvForecastUnit_auto",
+          "value": "auto"
+        },
+        {
+          "label": "option_pvForecastUnit_kwh",
+          "value": "kWh"
+        },
+        {
+          "label": "option_pvForecastUnit_wh",
+          "value": "Wh"
+        }
+      ],
+      "default": "auto",
+      "disabled": "!data.pvForecastTomorrow",
+      "tooltip": "tooltip_pvForecastUnit"
     },
     "_header_thresholds": {
       "type": "header",
